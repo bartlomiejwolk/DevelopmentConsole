@@ -8,7 +8,7 @@ namespace Assets.Extensions.DevelopmentConsole {
     public class DevelopmentConsole : MonoBehaviour {
 
         [SerializeField]
-        private InputField commandLine;
+        private CustomInputField commandLine;
 
         private const string prompt = "> ";
 
@@ -16,6 +16,8 @@ namespace Assets.Extensions.DevelopmentConsole {
             Assert.IsNotNull(commandLine);
 
             commandLine.text = prompt;
+            commandLine.ActivateInputField();
+            //commandLine.MoveTextEnd(false);
         }
     }
 }
