@@ -40,17 +40,12 @@ namespace Assets.Extensions.DevelopmentConsole {
             }
         }
 
-        private void OnEndEdit(string text)
-        {
-        }
-
         private void CreateNewInputLine()
         {
             // instantiate
             var cmdLine = Instantiate(commandLineTemplate);
             cmdLine.gameObject.SetActive(true);
             cmdLine.transform.SetParent(commandLineTemplate.transform.parent, false);
-            cmdLine.onEndEdit.AddListener(OnEndEdit);
 
             lines.Add(cmdLine);
 
