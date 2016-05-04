@@ -1,9 +1,5 @@
 ﻿using UnityEngine;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine.Assertions;
-using UnityEngine.UI;
-#pragma warning disable 649
 
 namespace Assets.Extensions.DevelopmentConsole {
 
@@ -14,6 +10,7 @@ namespace Assets.Extensions.DevelopmentConsole {
         private LineManager lineManager;
 
         private void Awake() {
+            Assert.IsNotNull(lineManager);
         }
 
     }

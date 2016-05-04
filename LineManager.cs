@@ -18,6 +18,7 @@ namespace Assets.Extensions.DevelopmentConsole {
         {
             Assert.IsNotNull(commandLineTemplate);
 
+            lines = new List<InputField>();
             commandLineTemplate.text = prompt;
         }
 
@@ -33,6 +34,7 @@ namespace Assets.Extensions.DevelopmentConsole {
 
         private void CreateNewInputLine()
         {
+            // instantiate
             var cmdLine = Instantiate(commandLineTemplate);
             cmdLine.gameObject.SetActive(true);
             cmdLine.transform.SetParent(commandLineTemplate.transform.parent, false);
@@ -40,6 +42,7 @@ namespace Assets.Extensions.DevelopmentConsole {
 
             lines.Add(cmdLine);
 
+            // set vertical position
             var cmdLineRect = cmdLine.GetComponent<RectTransform>();
             if (cmdLineRect != null) {
                 var verticalPos = CalculatePositionForNewLine();
@@ -48,7 +51,8 @@ namespace Assets.Extensions.DevelopmentConsole {
         }
 
         private int CalculatePositionForNewLine() {
-            throw new System.NotImplementedException();
+            var verticalOffset = (lines.Count * 30) - 15;
+            return -verticalOffset;
         }
 
     }
