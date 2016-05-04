@@ -16,22 +16,21 @@ namespace Assets.Extensions.DevelopmentConsole {
             Assert.IsNotNull(commandLine);
 
             commandLine.text = prompt;
-            //commandLine.MoveTextEnd(false);
         }
 
         private void Start() {
-            commandLine.onEndEdit.AddListener(OnEndEdit);
             CreateNewInputLine();
         }
 
         private void OnEndEdit(string text) {
-            Debug.Log("End edit.");
+            CreateNewInputLine();
         }
 
         private void CreateNewInputLine() {
             var cmdLine = Instantiate(commandLine);
             cmdLine.gameObject.SetActive(true);
             cmdLine.transform.SetParent(commandLine.transform.parent, false);
+            cmdLine.onEndEdit.AddListener(OnEndEdit);
         }
     }
 }
