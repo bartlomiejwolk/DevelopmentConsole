@@ -64,6 +64,8 @@ namespace Assets.Extensions.DevelopmentConsole {
 
         private int CalculatePositionForNewLine() {
             // todo get input field height instead of using hardcoded values
+            // todo create lineHeight variable
+            // todo create existingLinesTotalHeight
             var verticalOffset = (lines.Count * 30) - 15;
             return -verticalOffset;
         }
