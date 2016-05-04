@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Assertions;
 using UnityEngine.UI;
@@ -10,6 +11,8 @@ namespace Assets.Extensions.DevelopmentConsole {
         [SerializeField]
         private CustomInputField commandLineTemplate;
 
+        private Action returnKeyPressed;
+
         private const string prompt = "> ";
 
         private List<InputField> lines;
@@ -20,16 +23,25 @@ namespace Assets.Extensions.DevelopmentConsole {
 
             lines = new List<InputField>();
             commandLineTemplate.text = prompt;
+            returnKeyPressed += CreateNewInputLine;
         }
 
-        private void Start()
-        {
+        private void Start() {
             CreateNewInputLine();
+        }
+
+        private void Update() {
+            CheckForReturnKey();
+        }
+
+        private void CheckForReturnKey() {
+            if (Input.GetKeyDown(KeyCode.Return)) {
+                returnKeyPressed();
+            }
         }
 
         private void OnEndEdit(string text)
         {
-            CreateNewInputLine();
         }
 
         private void CreateNewInputLine()
@@ -44,7 +56,8 @@ namespace Assets.Extensions.DevelopmentConsole {
 
             // set vertical position
             var cmdLineRect = cmdLine.GetComponent<RectTransform>();
-            if (cmdLineRect != null) {
+            if (cmdLineRect != null)
+            {
                 var verticalPos = CalculatePositionForNewLine();
                 cmdLineRect.anchoredPosition = new Vector2(cmdLineRect.anchoredPosition.x, verticalPos);
             }
