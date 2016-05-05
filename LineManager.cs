@@ -54,10 +54,13 @@ namespace Assets.Extensions.DevelopmentConsole {
         // todo rename to CreateNewCmdLine
         private void CreateNewInputLine() {
             var inputFieldGo = InstantiateNewInputField();
-            var inputField = inputFieldGo.GetComponent<InputField>();
-            var cmdLine = new CommandLine(inputField);
+
+            var inputFieldCo = inputFieldGo.GetComponent<InputField>();
+            var cmdLine = new CommandLine(inputFieldCo);
+
             lines.Add(cmdLine);
-            activeLine = inputField;
+            activeLine = inputFieldCo;
+
             SetActiveLineVerticalPosition();
         }
 
