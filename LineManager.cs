@@ -34,11 +34,11 @@ namespace Assets.Extensions.DevelopmentConsole {
             lines = new List<CommandLine>();
         
             inputFieldComponent.text = prompt;
-            returnKeyPressed += CreateNewInputLine;
+            returnKeyPressed += CreateNewCommandLine;
         }
 
         private void Start() {
-            CreateNewInputLine();
+            CreateNewCommandLine();
         }
 
         private void Update() {
@@ -51,8 +51,7 @@ namespace Assets.Extensions.DevelopmentConsole {
             }
         }
 
-        // todo rename to CreateNewCmdLine
-        private void CreateNewInputLine() {
+        private void CreateNewCommandLine() {
             var inputFieldGo = InstantiateNewInputField();
 
             var inputFieldCo = inputFieldGo.GetComponent<InputField>();
