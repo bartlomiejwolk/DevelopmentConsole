@@ -1,27 +1,39 @@
 ﻿using System;
 using System.Collections.Generic;
+using JetBrains.Annotations;
 using UnityEngine;
 using UnityEngine.Assertions;
 using UnityEngine.UI;
+#pragma warning disable 169
+#pragma warning disable 649
 
 namespace Assets.Extensions.DevelopmentConsole {
 
     public class LineManager : MonoBehaviour {
 
         [SerializeField]
-        private CustomInputField commandLineTemplate;
+        [CanBeNull]
+        private GameObject commandLineTemplate;
+
+        [SerializeField]
+        private Transform container;
 
         private const string prompt = "> ";
 
         private Action returnKeyPressed;
-        private List<InputField> lines;
+        private List<CommandLine> lines;
         private InputField activeLine;
 
         private void Awake() {
+            // todo extract
             Assert.IsNotNull(commandLineTemplate);
+            // ReSharper disable once PossibleNullReferenceException
+            var inputFieldComponent = commandLineTemplate.GetComponent<CustomInputField>(); 
+            Assert.IsNotNull(inputFieldComponent);
 
-            lines = new List<InputField>();
-            commandLineTemplate.text = prompt;
+            lines = new List<CommandLine>();
+        
+            inputFieldComponent.text = prompt;
             returnKeyPressed += CreateNewInputLine;
         }
 
@@ -41,16 +53,18 @@ namespace Assets.Extensions.DevelopmentConsole {
 
         // todo rename to CreateNewCmdLine
         private void CreateNewInputLine() {
-            var cmdLine = InstantiateNewLine();
+            var inputFieldGo = InstantiateNewInputField();
+            var inputField = inputFieldGo.GetComponent<InputField>();
+            var cmdLine = new CommandLine(inputField);
             lines.Add(cmdLine);
-            activeLine = cmdLine;
+            activeLine = inputField;
             SetActiveLineVerticalPosition();
         }
 
-        private CustomInputField InstantiateNewLine() {
+        private GameObject InstantiateNewInputField() {
             var cmdLine = Instantiate(commandLineTemplate);
             cmdLine.gameObject.SetActive(true);
-            cmdLine.transform.SetParent(commandLineTemplate.transform.parent, false);
+            cmdLine.transform.SetParent(container, false);
             return cmdLine;
         }
 
