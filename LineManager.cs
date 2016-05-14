@@ -9,6 +9,9 @@ using UnityEngine.UI;
 
 namespace DevelopmentConsole {
 
+    /// <summary>
+    /// Class responsible for visual handling of the command lines.
+    /// </summary>
     public class LineManager : MonoBehaviour {
 
         [SerializeField]
@@ -41,7 +44,7 @@ namespace DevelopmentConsole {
         private void Update() {
         }
 
-        public void CreateNewCommandLine() {
+        public void AddNewLine() {
             var inputFieldGo = InstantiateNewInputField();
 
             var inputFieldCo = inputFieldGo.GetComponent<InputField>();

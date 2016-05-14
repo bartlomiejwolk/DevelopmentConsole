@@ -15,11 +15,11 @@ namespace DevelopmentConsole {
 
         private void Awake() {
             Assert.IsNotNull(lineManager);
-            returnKeyPressed += lineManager.CreateNewCommandLine;
+            returnKeyPressed += lineManager.AddNewLine;
         }
 
         private void Start() {
-            lineManager.CreateNewCommandLine();
+            lineManager.AddNewLine();
         }
 
         private void Update() {
