@@ -32,6 +32,7 @@ namespace DevelopmentConsole {
         private void Awake() {
             // todo extract
             Assert.IsNotNull(commandLineTemplate);
+            LineInstantiated += OnLineInstantiated;
             // ReSharper disable once PossibleNullReferenceException
             var inputFieldComponent = commandLineTemplate.GetComponent<CustomInputField>(); 
             Assert.IsNotNull(inputFieldComponent);
@@ -39,6 +40,10 @@ namespace DevelopmentConsole {
             lines = new List<CommandLine>();
         
             inputFieldComponent.text = Prompt;
+        }
+
+        private void OnLineInstantiated(object sender, EventArgs eventArgs) {
+            
         }
 
         private void Start() {
@@ -76,11 +81,12 @@ namespace DevelopmentConsole {
             throw new System.NotImplementedException();
         }
         
+        // todo remove return value
         private GameObject InstantiateInputField() {
             var cmdLine = Instantiate(commandLineTemplate);
             cmdLine.gameObject.SetActive(true);
             cmdLine.transform.SetParent(container, false);
-            OnLineInstantiated();
+            OnLineInstantiated(cmdLine);
             return cmdLine;
         }
 
@@ -109,12 +115,21 @@ namespace DevelopmentConsole {
 
         #region EVENT INVOCATORS
 
-        protected virtual void OnLineInstantiated() {
+        protected virtual void OnLineInstantiated(GameObject instantiatedGo) {
             var handler = LineInstantiated;
-            if (handler != null) handler(this, EventArgs.Empty);
+            var args = new LineInstantiatedEventArgs(instantiatedGo);
+            if (handler != null) handler(this, args);
         }
 
         #endregion
+    }
+
+    public class LineInstantiatedEventArgs : EventArgs {
+        public GameObject InstantiatedGo { get; private set; }
+
+        public LineInstantiatedEventArgs(GameObject instantiatedGo) {
+            this.InstantiatedGo = instantiatedGo;
+        }
     }
 
 }
