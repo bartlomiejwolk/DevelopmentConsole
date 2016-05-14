@@ -21,6 +21,17 @@ namespace DevelopmentConsole {
             get { return lines.LastOrDefault(); }
         }
 
+        public CommandLine PenultimateLine
+        {
+            get {
+                if (lines != null && lines.Count > 1) {
+                    var penultimate = lines[lines.Count - 1];
+                    return penultimate;
+                }
+                return null;
+            }
+        }
+
         [SerializeField]
         [CanBeNull]
         private GameObject commandLineTemplate;
@@ -30,6 +41,7 @@ namespace DevelopmentConsole {
 
         private const string Prompt = "> ";
 
+        // new lines will be added here right after being instantiated
         private List<CommandLine> lines;
 
         private void Awake() {
@@ -43,13 +55,6 @@ namespace DevelopmentConsole {
             lines = new List<CommandLine>();
         
             inputFieldComponent.text = Prompt;
-        }
-
-        private void OnLineInstantiated(object sender, LineInstantiatedEventArgs eventArgs) {
-            // update active line
-            var go = eventArgs.InstantiatedGo;
-            var cmdLine = go.GetComponent<CommandLine>();
-            lines.Add(cmdLine);
         }
 
         private void Start() {
@@ -72,32 +77,31 @@ namespace DevelopmentConsole {
             var cmdLineGo = Instantiate(commandLineTemplate);
             cmdLineGo.gameObject.SetActive(true);
             cmdLineGo.transform.SetParent(container, false);
-            var commandLineCo = cmdLineGo.GetComponent<CommandLine>();
-            PositionLine(commandLineCo);
+
             OnLineInstantiated(cmdLineGo);
         }
 
-        private void PositionLine(CommandLine commandLineCo) {
-            var newLineRectTransform = commandLineCo.GetComponent<RectTransform>();
-            var targetPos = CalculateLinePosition(commandLineCo);
+        private void PositionLine() {
+            var newLineRectTransform = LastLine.GetComponent<RectTransform>();
+            var targetPos = CalculateLinePosition();
 
             newLineRectTransform.anchoredPosition = targetPos;
         }
 
-        private Vector2 CalculateLinePosition(CommandLine newLine) {
+        private Vector2 CalculateLinePosition() {
             // first line case
             if (LastLine == null) {
-                var pos = CalculatePositionForFirstLine(newLine);
+                var pos = CalculatePositionForFirstLine();
                 return pos;
             }
 
-            var newPos = CalculatePositionForNonFirstLine(newLine);
+            var newPos = CalculatePositionForNonFirstLine();
 
             return newPos;
         }
 
-        private Vector2 CalculatePositionForFirstLine(CommandLine newLine) {
-            var rectTransform = newLine.GetComponent<RectTransform>();
+        private Vector2 CalculatePositionForFirstLine() {
+            var rectTransform = LastLine.GetComponent<RectTransform>();
             var newLineHeight = rectTransform.sizeDelta.y;
             var verticalPos = newLineHeight/2;
 
@@ -108,14 +112,14 @@ namespace DevelopmentConsole {
             return pos;
         }
 
-        private Vector2 CalculatePositionForNonFirstLine(CommandLine newLine) {
-            // active line height
-            var activeLineRectTransform = LastLine.RectTransform;
+        private Vector2 CalculatePositionForNonFirstLine() {
+            // previous line height
+            var activeLineRectTransform = PenultimateLine.RectTransform;
             var activeLinePos = activeLineRectTransform.anchoredPosition;
             var activeLineHeight = activeLineRectTransform.sizeDelta.y;
 
             // new line height
-            var newLineRectTransform = newLine.GetComponent<RectTransform>();
+            var newLineRectTransform = LastLine.GetComponent<RectTransform>();
             var newLineHeight = newLineRectTransform.sizeDelta.y;
 
             // calculate position
@@ -134,6 +138,18 @@ namespace DevelopmentConsole {
             var handler = LineInstantiated;
             var args = new LineInstantiatedEventArgs(instantiatedGo);
             if (handler != null) handler(this, args);
+        }
+
+        #endregion
+
+        #region EVENT HANDLERS
+
+        private void OnLineInstantiated(object sender, LineInstantiatedEventArgs eventArgs) {
+            var go = eventArgs.InstantiatedGo;
+            var cmdLine = go.GetComponent<CommandLine>();
+
+            lines.Add(cmdLine);
+            PositionLine();
         }
 
         #endregion
