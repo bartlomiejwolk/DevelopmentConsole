@@ -18,7 +18,7 @@ namespace Assets.Extensions.DevelopmentConsole {
         [SerializeField]
         private Transform container;
 
-        private const string prompt = "> ";
+        private const string Prompt = "> ";
 
         private Action returnKeyPressed;
         private List<CommandLine> lines;
@@ -33,7 +33,7 @@ namespace Assets.Extensions.DevelopmentConsole {
 
             lines = new List<CommandLine>();
         
-            inputFieldComponent.text = prompt;
+            inputFieldComponent.text = Prompt;
             returnKeyPressed += CreateNewCommandLine;
         }
 
