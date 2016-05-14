@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using JetBrains.Annotations;
 using UnityEngine;
@@ -13,6 +14,8 @@ namespace DevelopmentConsole {
     /// Class responsible for visual handling of the command lines.
     /// </summary>
     public class LineManager : MonoBehaviour {
+
+        public event EventHandler LineInstantiated;
 
         [SerializeField]
         [CanBeNull]
@@ -44,7 +47,19 @@ namespace DevelopmentConsole {
         private void Update() {
         }
 
+        /// <summary>
+        /// Handles all the stuff related to creation of a new command line
+        /// </summary>
         public void AddNewLine() {
+            // Instantiate new line from prefab
+            InstantiateNewInputField();
+
+            // Position line after the last line
+            PositionCurrentLineAtEnd();
+
+            // Reposition all lines
+
+            // todo delete
             var inputFieldGo = InstantiateNewInputField();
 
             var inputFieldCo = inputFieldGo.GetComponent<InputField>();
@@ -57,10 +72,16 @@ namespace DevelopmentConsole {
             SetActiveLineVerticalPosition();
         }
 
+        private void PositionCurrentLineAtEnd() {
+            throw new System.NotImplementedException();
+        }
+        
+        // todo rename to InstantiateInputField
         private GameObject InstantiateNewInputField() {
             var cmdLine = Instantiate(commandLineTemplate);
             cmdLine.gameObject.SetActive(true);
             cmdLine.transform.SetParent(container, false);
+            OnLineInstantiated();
             return cmdLine;
         }
 
@@ -87,6 +108,14 @@ namespace DevelopmentConsole {
             return -verticalOffset;
         }
 
+        #region EVENT INVOCATORS
+
+        protected virtual void OnLineInstantiated() {
+            var handler = LineInstantiated;
+            if (handler != null) handler(this, EventArgs.Empty);
+        }
+
+        #endregion
     }
 
 }
