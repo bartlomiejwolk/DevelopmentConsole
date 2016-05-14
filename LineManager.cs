@@ -87,7 +87,7 @@ namespace DevelopmentConsole {
         private Vector2 CalculateLinePosition(CommandLine newLine) {
             // first line case
             if (LastLine == null) {
-                var pos = GetPositionForFirstLine(newLine);
+                var pos = CalculatePositionForFirstLine(newLine);
                 return pos;
             }
 
@@ -96,7 +96,7 @@ namespace DevelopmentConsole {
             return newPos;
         }
 
-        private Vector2 GetPositionForFirstLine(CommandLine newLine) {
+        private Vector2 CalculatePositionForFirstLine(CommandLine newLine) {
             var rectTransform = newLine.GetComponent<RectTransform>();
             var newLineHeight = rectTransform.sizeDelta.y;
             var verticalPos = newLineHeight/2;
