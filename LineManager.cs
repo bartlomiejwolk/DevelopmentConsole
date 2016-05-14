@@ -1,5 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
+using System.Linq;
 using JetBrains.Annotations;
 using UnityEngine;
 using UnityEngine.Assertions;
@@ -7,7 +7,7 @@ using UnityEngine.UI;
 #pragma warning disable 169
 #pragma warning disable 649
 
-namespace Assets.Extensions.DevelopmentConsole {
+namespace DevelopmentConsole {
 
     public class LineManager : MonoBehaviour {
 
@@ -20,7 +20,6 @@ namespace Assets.Extensions.DevelopmentConsole {
 
         private const string Prompt = "> ";
 
-        private Action returnKeyPressed;
         private List<CommandLine> lines;
         private InputField activeLine;
 
@@ -34,24 +33,15 @@ namespace Assets.Extensions.DevelopmentConsole {
             lines = new List<CommandLine>();
         
             inputFieldComponent.text = Prompt;
-            returnKeyPressed += CreateNewCommandLine;
         }
 
         private void Start() {
-            CreateNewCommandLine();
         }
 
         private void Update() {
-            CheckForReturnKey();
         }
 
-        private void CheckForReturnKey() {
-            if (Input.GetKeyDown(KeyCode.Return)) {
-                returnKeyPressed();
-            }
-        }
-
-        private void CreateNewCommandLine() {
+        public void CreateNewCommandLine() {
             var inputFieldGo = InstantiateNewInputField();
 
             var inputFieldCo = inputFieldGo.GetComponent<InputField>();
@@ -60,6 +50,7 @@ namespace Assets.Extensions.DevelopmentConsole {
             lines.Add(cmdLine);
             activeLine = inputFieldCo;
 
+            // todo should accept line as arg.
             SetActiveLineVerticalPosition();
         }
 
@@ -79,9 +70,16 @@ namespace Assets.Extensions.DevelopmentConsole {
         }
 
         private int CalculatePositionForNewLine() {
+            // calculate new position below the current line
+
+            // check if new line fits inside the screen
+
+            // if not, move all other lines up
+
             // todo get input field height instead of using hardcoded values
             // todo create lineHeight variable
             // todo create existingLinesTotalHeight
+            var lastLine = lines.Last();
             var verticalOffset = (lines.Count * 30) - 15;
             return -verticalOffset;
         }

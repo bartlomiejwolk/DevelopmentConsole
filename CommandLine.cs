@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
 
-namespace Assets.Extensions.DevelopmentConsole {
+namespace DevelopmentConsole {
 
     public class CommandLine {
 
