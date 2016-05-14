@@ -63,12 +63,12 @@ namespace DevelopmentConsole {
         /// </summary>
         public void AddNewLine() {
             // Instantiate new line from prefab
-            InstantiateInputField();
+            InstantiateLine();
 
             // Reposition all lines
         }
 
-        private void InstantiateInputField() {
+        private void InstantiateLine() {
             var cmdLineGo = Instantiate(commandLineTemplate);
             cmdLineGo.gameObject.SetActive(true);
             cmdLineGo.transform.SetParent(container, false);
