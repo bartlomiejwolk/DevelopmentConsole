@@ -48,7 +48,7 @@ namespace DevelopmentConsole {
             var inputFieldGo = InstantiateNewInputField();
 
             var inputFieldCo = inputFieldGo.GetComponent<InputField>();
-            var cmdLine = new CommandLine(inputFieldCo);
+            var cmdLine = new CommandLine();
 
             lines.Add(cmdLine);
             activeLine = inputFieldCo;

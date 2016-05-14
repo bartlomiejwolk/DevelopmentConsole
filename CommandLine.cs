@@ -3,25 +3,25 @@ using UnityEngine.UI;
 
 namespace DevelopmentConsole {
 
-    public class CommandLine {
+    /// <summary>
+    /// Class attached to a line prefab.
+    /// </summary>
+    [RequireComponent(typeof(InputField))]
+    public class CommandLine : MonoBehaviour {
 
-        private readonly InputField inputField;
         private RectTransform rectTransform;
 
         public float Height {
             get { return rectTransform.rect.height; }
         }
 
-        public CommandLine(InputField inputField) {
-            this.inputField = inputField;
-
+        private void Awake() {
             Init();
         }
 
         private void Init() {
-            if (inputField != null) {
-                rectTransform = inputField.GetComponent<RectTransform>();
-            }
+            var inputField = GetComponent<InputField>();
+            rectTransform = inputField.GetComponent<RectTransform>();
         }
 
     }
