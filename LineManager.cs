@@ -81,6 +81,7 @@ namespace DevelopmentConsole {
             OnLineInstantiated(cmdLineGo);
         }
 
+        // moves line to correct place on the screen
         private void PositionLine() {
             var newLineRectTransform = LastLine.GetComponent<RectTransform>();
             var targetPos = CalculateLinePosition();
@@ -88,9 +89,10 @@ namespace DevelopmentConsole {
             newLineRectTransform.anchoredPosition = targetPos;
         }
 
+        // calculates position to place line on the screen
         private Vector2 CalculateLinePosition() {
             // first line case
-            if (LastLine == null) {
+            if (lines.Count == 1) {
                 var pos = CalculatePositionForFirstLine();
                 return pos;
             }
@@ -102,8 +104,8 @@ namespace DevelopmentConsole {
 
         private Vector2 CalculatePositionForFirstLine() {
             var rectTransform = LastLine.GetComponent<RectTransform>();
-            var newLineHeight = rectTransform.sizeDelta.y;
-            var verticalPos = newLineHeight/2;
+            var lineHeight = rectTransform.sizeDelta.y;
+            var verticalPos = -(lineHeight/2);
 
             var pos = new Vector2(
                 rectTransform.anchoredPosition.x,
