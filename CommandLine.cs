@@ -9,10 +9,10 @@ namespace DevelopmentConsole {
     [RequireComponent(typeof(InputField))]
     public class CommandLine : MonoBehaviour {
 
-        private RectTransform rectTransform;
+        public RectTransform RectTransform { get; private set; }
 
         public float Height {
-            get { return rectTransform.rect.height; }
+            get { return RectTransform.rect.height; }
         }
 
         private void Awake() {
@@ -21,7 +21,7 @@ namespace DevelopmentConsole {
 
         private void Init() {
             var inputField = GetComponent<InputField>();
-            rectTransform = inputField.GetComponent<RectTransform>();
+            RectTransform = inputField.GetComponent<RectTransform>();
         }
 
     }

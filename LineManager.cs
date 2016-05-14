@@ -17,6 +17,10 @@ namespace DevelopmentConsole {
 
         public event EventHandler<LineInstantiatedEventArgs> LineInstantiated;
 
+        public CommandLine LastLine {
+            get { return lines.LastOrDefault(); }
+        }
+
         [SerializeField]
         [CanBeNull]
         private GameObject commandLineTemplate;
@@ -27,9 +31,6 @@ namespace DevelopmentConsole {
         private const string Prompt = "> ";
 
         private List<CommandLine> lines;
-        private InputField activeLine;
-        // todo rename
-        private CommandLine activeLine2;
 
         private void Awake() {
             // todo extract
@@ -47,7 +48,8 @@ namespace DevelopmentConsole {
         private void OnLineInstantiated(object sender, LineInstantiatedEventArgs eventArgs) {
             // update active line
             var go = eventArgs.InstantiatedGo;
-            activeLine2 = go.GetComponent<CommandLine>();
+            var cmdLine = go.GetComponent<CommandLine>();
+            lines.Add(cmdLine);
         }
 
         private void Start() {
@@ -63,58 +65,67 @@ namespace DevelopmentConsole {
             // Instantiate new line from prefab
             InstantiateInputField();
 
-            // Position line after the last line
-            PositionCurrentLine();
-
             // Reposition all lines
-
-            // todo delete
-            var inputFieldGo = InstantiateInputField();
-
-            var inputFieldCo = inputFieldGo.GetComponent<InputField>();
-            var cmdLine = new CommandLine();
-
-            lines.Add(cmdLine);
-            activeLine = inputFieldCo;
-
-            // todo should accept line as arg.
-            SetActiveLineVerticalPosition();
         }
 
-        private void PositionCurrentLine() {
-            throw new System.NotImplementedException();
-        }
-        
-        // todo remove return value
-        private GameObject InstantiateInputField() {
-            var cmdLine = Instantiate(commandLineTemplate);
-            cmdLine.gameObject.SetActive(true);
-            cmdLine.transform.SetParent(container, false);
-            OnLineInstantiated(cmdLine);
-            return cmdLine;
+        private void InstantiateInputField() {
+            var cmdLineGo = Instantiate(commandLineTemplate);
+            cmdLineGo.gameObject.SetActive(true);
+            cmdLineGo.transform.SetParent(container, false);
+            var commandLineCo = cmdLineGo.GetComponent<CommandLine>();
+            PositionLine(commandLineCo);
+            OnLineInstantiated(cmdLineGo);
         }
 
-        private void SetActiveLineVerticalPosition() {
-            var cmdLineRect = activeLine.GetComponent<RectTransform>();
-            if (cmdLineRect != null) {
-                var verticalPos = CalculatePositionForNewLine();
-                cmdLineRect.anchoredPosition = new Vector2(cmdLineRect.anchoredPosition.x, verticalPos);
+        private void PositionLine(CommandLine commandLineCo) {
+            var newLineRectTransform = commandLineCo.GetComponent<RectTransform>();
+            var targetPos = CalculateLinePosition(commandLineCo);
+
+            newLineRectTransform.anchoredPosition = targetPos;
+        }
+
+        private Vector2 CalculateLinePosition(CommandLine newLine) {
+            // first line case
+            if (LastLine == null) {
+                var pos = GetPositionForFirstLine(newLine);
+                return pos;
             }
+
+            var newPos = CalculatePositionForNonFirstLine(newLine);
+
+            return newPos;
         }
 
-        private int CalculatePositionForNewLine() {
-            // calculate new position below the current line
+        private Vector2 GetPositionForFirstLine(CommandLine newLine) {
+            var rectTransform = newLine.GetComponent<RectTransform>();
+            var newLineHeight = rectTransform.sizeDelta.y;
+            var verticalPos = newLineHeight/2;
 
-            // check if new line fits inside the screen
+            var pos = new Vector2(
+                rectTransform.anchoredPosition.x,
+                verticalPos);
 
-            // if not, move all other lines up
+            return pos;
+        }
 
-            // todo get input field height instead of using hardcoded values
-            // todo create lineHeight variable
-            // todo create existingLinesTotalHeight
-            var lastLine = lines.Last();
-            var verticalOffset = (lines.Count * 30) - 15;
-            return -verticalOffset;
+        private Vector2 CalculatePositionForNonFirstLine(CommandLine newLine) {
+            // active line height
+            var activeLineRectTransform = LastLine.RectTransform;
+            var activeLinePos = activeLineRectTransform.anchoredPosition;
+            var activeLineHeight = activeLineRectTransform.sizeDelta.y;
+
+            // new line height
+            var newLineRectTransform = newLine.GetComponent<RectTransform>();
+            var newLineHeight = newLineRectTransform.sizeDelta.y;
+
+            // calculate position
+            var verticalOffset = (activeLineHeight/2) + (newLineHeight/2);
+            var verticalPos = activeLinePos.y + verticalOffset;
+            var newPos = new Vector2(
+                activeLineRectTransform.anchoredPosition.x,
+                verticalPos);
+
+            return newPos;
         }
 
         #region EVENT INVOCATORS
