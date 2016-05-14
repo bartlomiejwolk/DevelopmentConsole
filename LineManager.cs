@@ -15,7 +15,7 @@ namespace DevelopmentConsole {
     /// </summary>
     public class LineManager : MonoBehaviour {
 
-        public event EventHandler LineInstantiated;
+        public event EventHandler<LineInstantiatedEventArgs> LineInstantiated;
 
         [SerializeField]
         [CanBeNull]
@@ -28,6 +28,8 @@ namespace DevelopmentConsole {
 
         private List<CommandLine> lines;
         private InputField activeLine;
+        // todo rename
+        private CommandLine activeLine2;
 
         private void Awake() {
             // todo extract
@@ -42,8 +44,10 @@ namespace DevelopmentConsole {
             inputFieldComponent.text = Prompt;
         }
 
-        private void OnLineInstantiated(object sender, EventArgs eventArgs) {
-            
+        private void OnLineInstantiated(object sender, LineInstantiatedEventArgs eventArgs) {
+            // update active line
+            var go = eventArgs.InstantiatedGo;
+            activeLine2 = go.GetComponent<CommandLine>();
         }
 
         private void Start() {
@@ -60,7 +64,7 @@ namespace DevelopmentConsole {
             InstantiateInputField();
 
             // Position line after the last line
-            PositionCurrentLineAtEnd();
+            PositionCurrentLine();
 
             // Reposition all lines
 
@@ -77,7 +81,7 @@ namespace DevelopmentConsole {
             SetActiveLineVerticalPosition();
         }
 
-        private void PositionCurrentLineAtEnd() {
+        private void PositionCurrentLine() {
             throw new System.NotImplementedException();
         }
         
