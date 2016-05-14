@@ -52,7 +52,7 @@ namespace DevelopmentConsole {
         /// </summary>
         public void AddNewLine() {
             // Instantiate new line from prefab
-            InstantiateNewInputField();
+            InstantiateInputField();
 
             // Position line after the last line
             PositionCurrentLineAtEnd();
@@ -60,7 +60,7 @@ namespace DevelopmentConsole {
             // Reposition all lines
 
             // todo delete
-            var inputFieldGo = InstantiateNewInputField();
+            var inputFieldGo = InstantiateInputField();
 
             var inputFieldCo = inputFieldGo.GetComponent<InputField>();
             var cmdLine = new CommandLine();
@@ -76,8 +76,7 @@ namespace DevelopmentConsole {
             throw new System.NotImplementedException();
         }
         
-        // todo rename to InstantiateInputField
-        private GameObject InstantiateNewInputField() {
+        private GameObject InstantiateInputField() {
             var cmdLine = Instantiate(commandLineTemplate);
             cmdLine.gameObject.SetActive(true);
             cmdLine.transform.SetParent(container, false);
