@@ -25,7 +25,7 @@ namespace DevelopmentConsole {
         {
             get {
                 if (lines != null && lines.Count > 1) {
-                    var penultimate = lines[lines.Count - 1];
+                    var penultimate = lines[lines.Count - 2];
                     return penultimate;
                 }
                 return null;
@@ -116,19 +116,19 @@ namespace DevelopmentConsole {
 
         private Vector2 CalculatePositionForNonFirstLine() {
             // previous line height
-            var activeLineRectTransform = PenultimateLine.RectTransform;
-            var activeLinePos = activeLineRectTransform.anchoredPosition;
-            var activeLineHeight = activeLineRectTransform.sizeDelta.y;
+            var prevLineRect = PenultimateLine.RectTransform;
+            var prevLinePos = prevLineRect.anchoredPosition;
+            var prevLineHeight = prevLineRect.sizeDelta.y;
 
             // new line height
-            var newLineRectTransform = LastLine.GetComponent<RectTransform>();
-            var newLineHeight = newLineRectTransform.sizeDelta.y;
+            var currentLineRect = LastLine.GetComponent<RectTransform>();
+            var currentLineHeight = currentLineRect.sizeDelta.y;
 
             // calculate position
-            var verticalOffset = (activeLineHeight/2) + (newLineHeight/2);
-            var verticalPos = activeLinePos.y + verticalOffset;
+            var verticalOffset = (prevLineHeight/2) + (currentLineHeight/2);
+            var verticalPos = prevLinePos.y - verticalOffset;
             var newPos = new Vector2(
-                activeLineRectTransform.anchoredPosition.x,
+                prevLineRect.anchoredPosition.x,
                 verticalPos);
 
             return newPos;
