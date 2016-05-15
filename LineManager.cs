@@ -8,7 +8,7 @@ using UnityEngine.UI;
 #pragma warning disable 169
 #pragma warning disable 649
 
-namespace DevelopmentConsole {
+namespace DevelopmentConsoleTool {
 
     /// <summary>
     /// Class responsible for visual handling of the command lines.
@@ -51,7 +51,6 @@ namespace DevelopmentConsole {
             
 
             lines = new List<CommandLine>();
-        
         }
 
         private void Start() {

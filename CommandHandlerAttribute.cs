@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace DevelopmentConsole {
+namespace DevelopmentConsoleTool {
     [AttributeUsage(AttributeTargets.Method | AttributeTargets.Property)]
     public class CommandHandlerAttribute : Attribute
     {

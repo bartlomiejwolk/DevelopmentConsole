@@ -3,7 +3,7 @@ using UnityEngine;
 using UnityEngine.Assertions;
 #pragma warning disable 649
 
-namespace DevelopmentConsole {
+namespace DevelopmentConsoleTool {
 
     [RequireComponent(typeof(LineManager))]
     public class DevelopmentConsole : MonoBehaviour {
@@ -41,6 +41,7 @@ namespace DevelopmentConsole {
 
             CommandHandlers.HandlerTypes.Add(type);
             CommandHandlers.RegisterMethodHandlers(type, obj);
+
         }
 
     }

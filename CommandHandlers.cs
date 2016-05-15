@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Reflection;
 
-namespace DevelopmentConsole {
+namespace DevelopmentConsoleTool {
 
     public static class CommandHandlers {
 

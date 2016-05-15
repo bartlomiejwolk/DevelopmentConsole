@@ -2,7 +2,7 @@
 using UnityEngine.Assertions;
 using UnityEngine.UI;
 
-namespace DevelopmentConsole {
+namespace DevelopmentConsoleTool {
 
     /// <summary>
     /// Class attached to a line prefab.

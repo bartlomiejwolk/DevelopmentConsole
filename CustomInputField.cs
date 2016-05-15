@@ -1,7 +1,7 @@
 ﻿using System.Collections;
 using UnityEngine.UI;
 
-namespace DevelopmentConsole {
+namespace DevelopmentConsoleTool {
 
     public class CustomInputField : InputField {
 
