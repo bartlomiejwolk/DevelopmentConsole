@@ -67,10 +67,23 @@ namespace DevelopmentConsole {
         /// Handles all the stuff related to creation of a new command line
         /// </summary>
         public void AddNewLine() {
-            // Instantiate new line from prefab
             InstantiateLine();
+            RepositionLines();
+        }
 
-            // Reposition all lines
+        private void RepositionLines() {
+            // calculate offset
+            var correctPos = LastLine.Height/2;
+            var pos = LastLine.transform.position.y;
+            var offset = pos - correctPos;
+            if (offset > 0) {
+                return;
+            }
+
+            // update lines container position
+            var currentVerticalPos = container.position.y;
+            var newVerticalPos = currentVerticalPos + Mathf.Abs(offset);
+            container.position = new Vector3(container.position.x, newVerticalPos, container.position.z);
         }
 
         private void InstantiateLine() {

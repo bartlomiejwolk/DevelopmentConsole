@@ -24,6 +24,9 @@ namespace DevelopmentConsole {
             RectTransform = inputField.GetComponent<RectTransform>();
         }
 
+        private void Update() {
+        }
+
     }
 
 }
