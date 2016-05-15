@@ -60,6 +60,9 @@ namespace DevelopmentConsoleTool {
 		    if (string.IsNullOrEmpty(commandName)) {
 			    commandName = method.Name;
 		    }
+
+			var handler = new MethodCommandHandler();
+			CommandHandlers.Add(commandName.ToLower(), handler);
 		}
     }
 }
