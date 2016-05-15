@@ -7,7 +7,7 @@ namespace DevelopmentConsoleTool {
     public static class CommandHandlerManager {
 
         public static readonly HashSet<Type> HandlerTypes = new HashSet<Type>();
-        private static readonly Dictionary<string, CommandHandler> Handlers = new Dictionary<string, CommandHandler>();
+        private static readonly Dictionary<string, CommandHandler> CommandHandlers = new Dictionary<string, CommandHandler>();
 
         public static void RegisterMethodHandlers(Type type, object obj) {
             var methods = GetMethodsFromType(type, obj);
