@@ -66,7 +66,11 @@ namespace DevelopmentConsoleTool {
 		}
 
 	    public void HandleCommand(string commandString) {
-		    throw new NotImplementedException();
+		    CommandHandler commandHandler;
+		    CommandHandlers.TryGetValue(commandString, out commandHandler);
+		    if (commandHandler != null) {
+			    commandHandler.Invoke();
+		    }
 	    }
     }
 }

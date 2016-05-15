@@ -1,23 +1,26 @@
 ﻿using System;
+#pragma warning disable 414
 
 namespace DevelopmentConsoleTool {
 
     public abstract class CommandHandler {
 
-	    private readonly string commandName;
-	    private readonly string description;
-	    private readonly WeakReference objectReference;
-	    private readonly Type type;
+	    protected readonly string CommandName;
+	    protected readonly string Description;
+	    protected readonly WeakReference ObjectReference;
+	    protected readonly Type Type;
 	    private readonly bool isStatic;
 
 	    protected CommandHandler(string commandName, string description, object obj, Type type) {
-		    this.commandName = commandName;
-		    this.description = description;
-		    this.type = type;
+		    CommandName = commandName;
+		    Description = description;
+		    Type = type;
 			if (obj != null)
-				objectReference = new WeakReference(obj);
+				ObjectReference = new WeakReference(obj);
 			else
 				isStatic = true;
 		}
-    }
+
+		public abstract void Invoke(params string[] arguments);
+	}
 }

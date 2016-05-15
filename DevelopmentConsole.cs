@@ -25,9 +25,8 @@ namespace DevelopmentConsoleTool {
 		}
 
 	    private void OnReturnKeyPressed() {
+			commandHandlerManager.HandleCommand(lineManager.CommandString);
 			lineManager.AddNewLine();
-
-		    commandHandlerManager.HandleCommand(lineManager.CommandString);
 	    }
 
 	    private void Start() {

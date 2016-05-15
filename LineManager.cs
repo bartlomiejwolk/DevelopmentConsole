@@ -33,6 +33,7 @@ namespace DevelopmentConsoleTool {
         }
 
 	    public string CommandString {
+			// todo remove prompt
 		    get { return LastLine.Text; }
 	    }
 

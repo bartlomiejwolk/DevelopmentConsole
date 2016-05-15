@@ -16,5 +16,9 @@ namespace DevelopmentConsoleTool {
 
 			this.methodInfo = methodInfo;
 		}
+
+		public override void Invoke(params string[] arguments) {
+			methodInfo.Invoke(ObjectReference.Target, null);
+		}
 	}
 }
