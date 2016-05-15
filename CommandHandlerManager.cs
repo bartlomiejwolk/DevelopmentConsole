@@ -65,7 +65,7 @@ namespace DevelopmentConsoleTool {
 			CommandHandlers.Add(commandName.ToLower(), handler);
 		}
 
-	    public void HandleCommand() {
+	    public void HandleCommand(string commandString) {
 		    throw new NotImplementedException();
 	    }
     }

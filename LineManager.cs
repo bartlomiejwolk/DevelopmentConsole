@@ -32,7 +32,11 @@ namespace DevelopmentConsoleTool {
             }
         }
 
-        [SerializeField]
+	    public string CommandString {
+		    get { return LastLine.Text; }
+	    }
+
+	    [SerializeField]
         [CanBeNull]
         private GameObject commandLineTemplate;
 

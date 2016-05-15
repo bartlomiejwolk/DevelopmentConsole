@@ -21,6 +21,10 @@ namespace DevelopmentConsoleTool {
             get { return RectTransform.rect.height; }
         }
 
+	    public string Text {
+		    get { return InputField.text; }
+	    }
+
         private void Awake() {
             Init();
         }
