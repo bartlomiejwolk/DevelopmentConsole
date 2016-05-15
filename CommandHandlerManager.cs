@@ -54,10 +54,12 @@ namespace DevelopmentConsoleTool {
 			Type type,
 			object obj,
 			MethodInfo method,
-			string name,
+			string commandName,
 			string description) {
 
-			throw new NotImplementedException();
-        }
+		    if (string.IsNullOrEmpty(commandName)) {
+			    commandName = method.Name;
+		    }
+		}
     }
 }
