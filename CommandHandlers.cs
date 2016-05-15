@@ -12,11 +12,11 @@ namespace DevelopmentConsoleTool {
         public static void RegisterMethodHandlers(Type type, object obj) {
             var methods = GetMethodsFromType(type, obj);
 
-            foreach (var methodInfo in methods) {
-                var customAttributes = methodInfo.GetCustomAttributes(typeof (CommandHandlerAttribute), true);
+            foreach (var method in methods) {
+                var customAttributes = method.GetCustomAttributes(typeof (CommandHandlerAttribute), true);
                 if (customAttributes.Length > 0) {
                     var attribute = (CommandHandlerAttribute) customAttributes[0];
-                    RegisterMethodCommandHandler(type, obj, methodInfo, attribute.Name, attribute.Description);
+                    RegisterMethodCommandHandler(type, obj, method, attribute.Name, attribute.Description);
                 }
             }
         }

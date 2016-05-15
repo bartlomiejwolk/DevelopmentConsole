@@ -41,7 +41,6 @@ namespace DevelopmentConsoleTool {
 
             CommandHandlers.HandlerTypes.Add(type);
             CommandHandlers.RegisterMethodHandlers(type, obj);
-
         }
 
     }
