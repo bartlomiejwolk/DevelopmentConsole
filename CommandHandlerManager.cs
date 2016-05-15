@@ -14,10 +14,11 @@ namespace DevelopmentConsoleTool {
 
             foreach (var method in methods) {
                 var customAttributes = method.GetCustomAttributes(typeof (CommandHandlerAttribute), true);
-                if (customAttributes.Length > 0) {
-                    var attribute = (CommandHandlerAttribute) customAttributes[0];
-                    RegisterMethodCommandHandler(type, obj, method, attribute.Name, attribute.Description);
-                }
+	            if (customAttributes.Length <= 0) {
+		            continue;
+	            }
+	            var attribute = (CommandHandlerAttribute) customAttributes[0];
+	            RegisterMethodCommandHandler(type, obj, method, attribute.Name, attribute.Description);
             }
         }
 
