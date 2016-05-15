@@ -7,23 +7,33 @@ namespace DevelopmentConsoleTool {
     public static class CommandHandlerManager {
 
         public static readonly HashSet<Type> HandlerTypes = new HashSet<Type>();
-        private static readonly Dictionary<string, CommandHandler> CommandHandlers = new Dictionary<string, CommandHandler>();
+        private static readonly Dictionary<string, CommandHandler> CommandHandlers =
+			new Dictionary<string, CommandHandler>();
 
         public static void RegisterMethodHandlers(Type type, object obj) {
             var methods = GetMethodsFromType(type, obj);
 
             foreach (var method in methods) {
-                var customAttributes = method.GetCustomAttributes(typeof (CommandHandlerAttribute), true);
+                var customAttributes = method.GetCustomAttributes(
+					typeof (CommandHandlerAttribute), true);
 	            if (customAttributes.Length <= 0) {
 		            continue;
 	            }
 	            var attribute = (CommandHandlerAttribute) customAttributes[0];
-	            RegisterMethodCommandHandler(type, obj, method, attribute.Name, attribute.Description);
+	            RegisterMethodCommandHandler(
+					type,
+					obj,
+					method,
+					attribute.Name,
+					attribute.Description);
             }
         }
 
-	    private static IEnumerable<MethodInfo> GetMethodsFromType(Type type, object obj) {
-		    MethodInfo[] methods;
+	    private static IEnumerable<MethodInfo> GetMethodsFromType(
+			Type type,
+			object obj) {
+
+			MethodInfo[] methods;
 		    if (obj != null) {
 			    methods = type.GetMethods(
 				    BindingFlags.Instance |
@@ -40,8 +50,14 @@ namespace DevelopmentConsoleTool {
 		    return methods;
 	    }
 
-	    private static void RegisterMethodCommandHandler(Type type, object obj, MethodInfo method, string name, string description) {
-            throw new NotImplementedException();
+	    private static void RegisterMethodCommandHandler(
+			Type type,
+			object obj,
+			MethodInfo method,
+			string name,
+			string description) {
+
+			throw new NotImplementedException();
         }
     }
 }
