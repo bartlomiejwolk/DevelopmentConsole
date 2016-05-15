@@ -48,13 +48,10 @@ namespace DevelopmentConsole {
             // todo extract
             Assert.IsNotNull(commandLineTemplate);
             LineInstantiated += OnLineInstantiated;
-            // ReSharper disable once PossibleNullReferenceException
-            var inputFieldComponent = commandLineTemplate.GetComponent<CustomInputField>(); 
-            Assert.IsNotNull(inputFieldComponent);
+            
 
             lines = new List<CommandLine>();
         
-            inputFieldComponent.text = Prompt;
         }
 
         private void Start() {
