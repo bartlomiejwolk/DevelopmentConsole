@@ -13,7 +13,7 @@ namespace DevelopmentConsoleTool {
         [SerializeField]
         private LineManager lineManager;
         private Action returnKeyPressed;
-	    private CommandHandlerManager commandHandlerManager =
+	    private readonly CommandHandlerManager commandHandlerManager =
 			new CommandHandlerManager();
 
         private void Awake() {
@@ -21,10 +21,16 @@ namespace DevelopmentConsoleTool {
 			Instance = this;
 
             Assert.IsNotNull(lineManager);
-            returnKeyPressed += lineManager.AddNewLine;
-        }
+			returnKeyPressed += OnReturnKeyPressed;
+		}
 
-        private void Start() {
+	    private void OnReturnKeyPressed() {
+			lineManager.AddNewLine();
+		    commandHandlerManager.HandleCommand();
+	    }
+
+	    private void Start() {
+			// todo remove. The first line should be already in the hierarchy
             lineManager.AddNewLine();
         }
 

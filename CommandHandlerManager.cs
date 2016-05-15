@@ -64,5 +64,9 @@ namespace DevelopmentConsoleTool {
 			var handler = new MethodCommandHandler(commandName, description, obj, type, method);
 			CommandHandlers.Add(commandName.ToLower(), handler);
 		}
+
+	    public void HandleCommand() {
+		    throw new NotImplementedException();
+	    }
     }
 }
