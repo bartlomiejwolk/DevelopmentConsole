@@ -22,7 +22,7 @@ namespace DevelopmentConsoleTool {
             }
         }
 
-	    private static MethodInfo[] GetMethodsFromType(Type type, object obj) {
+	    private static IEnumerable<MethodInfo> GetMethodsFromType(Type type, object obj) {
 		    MethodInfo[] methods;
 		    if (obj != null) {
 			    methods = type.GetMethods(
