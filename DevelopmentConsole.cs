@@ -34,5 +34,13 @@ namespace DevelopmentConsole {
             }
         }
 
+        public static void RegisterCommandHandlers(Type type) {
+            if (CommandHandlers.HandlerTypes.Contains(type)) {
+                return;
+            }
+
+            CommandHandlers.HandlerTypes.Add(type);
+        }
+
     }
 }
