@@ -35,12 +35,12 @@ namespace DevelopmentConsoleTool {
         }
 
         public static void RegisterCommandHandlers(Type type, object obj) {
-            if (CommandHandlers.HandlerTypes.Contains(type)) {
+            if (CommandHandlerManager.HandlerTypes.Contains(type)) {
                 return;
             }
 
-            CommandHandlers.HandlerTypes.Add(type);
-            CommandHandlers.RegisterMethodHandlers(type, obj);
+            CommandHandlerManager.HandlerTypes.Add(type);
+            CommandHandlerManager.RegisterMethodHandlers(type, obj);
         }
 
     }
