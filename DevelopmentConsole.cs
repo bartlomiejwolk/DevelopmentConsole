@@ -8,12 +8,18 @@ namespace DevelopmentConsoleTool {
     [RequireComponent(typeof(LineManager))]
     public class DevelopmentConsole : MonoBehaviour {
 
+	    public static DevelopmentConsole Instance { get; private set; }
+
         [SerializeField]
         private LineManager lineManager;
         private Action returnKeyPressed;
-
+	    private CommandHandlerManager commandHandlerManager =
+			new CommandHandlerManager();
 
         private void Awake() {
+			// todo implement proper singleton
+			Instance = this;
+
             Assert.IsNotNull(lineManager);
             returnKeyPressed += lineManager.AddNewLine;
         }
@@ -35,12 +41,14 @@ namespace DevelopmentConsoleTool {
         }
 
         public static void RegisterCommandHandlers(Type type, object obj) {
-            if (CommandHandlerManager.HandlerTypes.Contains(type)) {
+	        var manager = Instance.commandHandlerManager;
+
+			if (manager.HandlerTypes.Contains(type)) {
                 return;
             }
 
-            CommandHandlerManager.HandlerTypes.Add(type);
-            CommandHandlerManager.RegisterMethodHandlers(type, obj);
+			manager.HandlerTypes.Add(type);
+			manager.RegisterMethodHandlers(type, obj);
         }
 
     }

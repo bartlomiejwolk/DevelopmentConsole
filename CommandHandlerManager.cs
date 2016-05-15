@@ -4,13 +4,13 @@ using System.Reflection;
 
 namespace DevelopmentConsoleTool {
 
-    public static class CommandHandlerManager {
+    public class CommandHandlerManager {
 
-        public static readonly HashSet<Type> HandlerTypes = new HashSet<Type>();
-        private static readonly Dictionary<string, CommandHandler> CommandHandlers =
+        public readonly HashSet<Type> HandlerTypes = new HashSet<Type>();
+        private readonly Dictionary<string, CommandHandler> CommandHandlers =
 			new Dictionary<string, CommandHandler>();
 
-        public static void RegisterMethodHandlers(Type type, object obj) {
+        public void RegisterMethodHandlers(Type type, object obj) {
             var methods = GetMethodsFromType(type, obj);
 
             foreach (var method in methods) {
@@ -29,7 +29,7 @@ namespace DevelopmentConsoleTool {
             }
         }
 
-	    private static IEnumerable<MethodInfo> GetMethodsFromType(
+	    private IEnumerable<MethodInfo> GetMethodsFromType(
 			Type type,
 			object obj) {
 
@@ -50,7 +50,7 @@ namespace DevelopmentConsoleTool {
 		    return methods;
 	    }
 
-	    private static void RegisterMethodCommandHandler(
+	    private void RegisterMethodCommandHandler(
 			Type type,
 			object obj,
 			MethodInfo method,
