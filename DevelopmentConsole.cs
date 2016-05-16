@@ -7,6 +7,9 @@ using UnityEngine.Networking;
 
 namespace DevelopmentConsoleTool {
 
+	/// <summary>
+	/// The main class of the DevelopmentConsole tool.
+	/// </summary>
     [RequireComponent(typeof(LineManager))]
     public class DevelopmentConsole : MonoBehaviour {
 

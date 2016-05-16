@@ -11,23 +11,34 @@ using UnityEngine.UI;
 namespace DevelopmentConsoleTool {
 
     /// <summary>
-    /// Class responsible for visual handling of the command lines.
+    /// Class responsible for handling command lines displayed on the screen.
     /// </summary>
     public class LineManager : MonoBehaviour {
 
         public event EventHandler<LineInstantiatedEventArgs> LineInstantiated;
 
+	    private const string Prompt = "> ";
+
 	    [SerializeField]
 		private CommandLine firstLine;
 
-        public CommandLine LastLine {
+	    [SerializeField]
+	    [CanBeNull]
+	    private GameObject commandLineTemplate;
+
+	    [SerializeField]
+	    private Transform container;
+
+	    private readonly List<CommandLine> lines = new List<CommandLine>();
+
+	    public CommandLine LastLine {
             get { return lines.LastOrDefault(); }
         }
 
         public CommandLine PenultimateLine
         {
             get {
-                if (lines != null && lines.Count > 1) {
+                if (lines.Count > 1) {
                     var penultimate = lines[lines.Count - 2];
                     return penultimate;
                 }
@@ -42,19 +53,9 @@ namespace DevelopmentConsoleTool {
 		    }
 	    }
 
-	    [SerializeField]
-        [CanBeNull]
-        private GameObject commandLineTemplate;
+	    // new lines will be added here right after being instantiated
 
-        [SerializeField]
-        private Transform container;
-
-        private const string Prompt = "> ";
-
-        // new lines will be added here right after being instantiated
-        private readonly List<CommandLine> lines = new List<CommandLine>();
-
-        private void Awake() {
+	    private void Awake() {
             Assert.IsNotNull(commandLineTemplate);
 			Assert.IsNotNull(firstLine);
 
