@@ -17,10 +17,12 @@ namespace DevelopmentConsoleTool {
             foreach (var method in methods) {
                 var customAttributes = method.GetCustomAttributes(
 					typeof (CommandHandlerAttribute), true);
+
 	            if (customAttributes.Length <= 0) {
 		            continue;
 	            }
-	            var attribute = (CommandHandlerAttribute) customAttributes[0];
+
+				var attribute = (CommandHandlerAttribute) customAttributes[0];
 	            RegisterMethodCommandHandler(
 					type,
 					obj,
@@ -41,6 +43,7 @@ namespace DevelopmentConsoleTool {
 				    BindingFlags.Public |
 				    BindingFlags.NonPublic);
 		    }
+			// static class
 		    else {
 			    methods = type.GetMethods(
 				    BindingFlags.Static |
