@@ -21,12 +21,31 @@ namespace DevelopmentConsoleTool {
 
 	    private Action returnKeyPressed;
 
+	    #region UNITY MESSAGES
+
 	    private void Awake() {
 	        InitializeSingleton();
 			returnKeyPressed += OnReturnKeyPressed;
 
 		    lineManager = GetComponent<LineManager>();
 		    Assert.IsNotNull(lineManager);
+	    }
+
+	    private void Update() {
+		    CheckForReturnKey();
+	    }
+
+	    #endregion
+
+	    public static void RegisterCommandHandlers(Type type, object obj) {
+		    var manager = Instance.commandHandlerManager;
+
+		    if (manager.HandlerTypes.Contains(type)) {
+			    return;
+		    }
+
+		    manager.HandlerTypes.Add(type);
+		    manager.RegisterMethodHandlers(type, obj);
 	    }
 
 	    private void InitializeSingleton() {
@@ -50,32 +69,12 @@ namespace DevelopmentConsoleTool {
 			lineManager.AddNewLine();
 	    }
 
-	    private void Start() {
-			
-		}
-
-        private void Update() {
-            CheckForReturnKey();
-        }
-
-        private void CheckForReturnKey()
+	    private void CheckForReturnKey()
         {
             if (Input.GetKeyDown(KeyCode.Return))
             {
                 returnKeyPressed();
             }
         }
-
-        public static void RegisterCommandHandlers(Type type, object obj) {
-	        var manager = Instance.commandHandlerManager;
-
-			if (manager.HandlerTypes.Contains(type)) {
-                return;
-            }
-
-			manager.HandlerTypes.Add(type);
-			manager.RegisterMethodHandlers(type, obj);
-        }
-
     }
 }
