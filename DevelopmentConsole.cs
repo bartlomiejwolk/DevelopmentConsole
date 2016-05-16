@@ -15,18 +15,19 @@ namespace DevelopmentConsoleTool {
 	    [SerializeField]
 	    private bool dontDestroyOnLoad = true;
 
-        [SerializeField]
         private LineManager lineManager;
-        private Action returnKeyPressed;
 	    private readonly CommandHandlerManager commandHandlerManager =
 			new CommandHandlerManager();
 
-        private void Awake() {
-	        InitializeSingleton();
+	    private Action returnKeyPressed;
 
-            Assert.IsNotNull(lineManager);
+	    private void Awake() {
+	        InitializeSingleton();
 			returnKeyPressed += OnReturnKeyPressed;
-		}
+
+		    lineManager = GetComponent<LineManager>();
+		    Assert.IsNotNull(lineManager);
+	    }
 
 	    private void InitializeSingleton() {
 		    if (Instance != null) {
@@ -50,7 +51,8 @@ namespace DevelopmentConsoleTool {
 	    }
 
 	    private void Start() {
-        }
+			
+		}
 
         private void Update() {
             CheckForReturnKey();
