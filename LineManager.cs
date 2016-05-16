@@ -89,31 +89,18 @@ namespace DevelopmentConsoleTool {
             OnLineInstantiated(cmdLineGo);
         }
 
-        // moves line to correct place on the screen
         private void PositionLine() {
             var newLineRectTransform = LastLine.GetComponent<RectTransform>();
             var targetPos = CalculateLinePosition();
-
             newLineRectTransform.anchoredPosition = targetPos;
         }
 
         // calculates position to place line on the screen
         private Vector2 CalculateLinePosition() {
-			// previous line height
-			// todo create property in the CommandLine
-			var prevLineRect = PenultimateLine.RectTransform;
-			var prevLinePos = prevLineRect.anchoredPosition;
-			var prevLineHeight = prevLineRect.sizeDelta.y;
-
-			// new line height
-			var currentLineRect = LastLine.GetComponent<RectTransform>();
-			var currentLineHeight = currentLineRect.sizeDelta.y;
-
-			// calculate position
-			var verticalOffset = (prevLineHeight / 2) + (currentLineHeight / 2);
-			var verticalPos = prevLinePos.y - verticalOffset;
+			var verticalOffset = (PenultimateLine.Height / 2) + (LastLine.Height / 2);
+			var verticalPos = PenultimateLine.RectTransform.anchoredPosition.y - verticalOffset;
 			var newPos = new Vector2(
-				prevLineRect.anchoredPosition.x,
+				PenultimateLine.RectTransform.anchoredPosition.x,
 				verticalPos);
 
 			return newPos;
