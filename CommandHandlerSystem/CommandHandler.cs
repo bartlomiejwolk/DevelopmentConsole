@@ -1,7 +1,8 @@
-﻿using System;
+using System;
+
 #pragma warning disable 414
 
-namespace DevelopmentConsoleTool {
+namespace DevelopmentConsoleTool.CommandHandlerSystem {
 
     public abstract class CommandHandler {
 

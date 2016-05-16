@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Reflection;
 
-namespace DevelopmentConsoleTool {
+namespace DevelopmentConsoleTool.CommandHandlerSystem {
 
 	public class MethodCommandHandler : CommandHandler {
 

@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Reflection;
 
-namespace DevelopmentConsoleTool {
+namespace DevelopmentConsoleTool.CommandHandlerSystem {
 
     public class CommandHandlerManager {
 
