@@ -24,10 +24,6 @@ namespace DevelopmentConsoleTool {
 	    [SerializeField]
 	    private GameObject commandLineTemplate;
 
-		// todo not needed anymore
-	    [SerializeField]
-	    private Transform container;
-
 	    private readonly List<CommandLine> lines = new List<CommandLine>();
 
 	    public CommandLine LastLine {
@@ -87,14 +83,14 @@ namespace DevelopmentConsoleTool {
             }
 
             // update lines container position
-            var verticalPos = container.position.y + Mathf.Abs(offset);
-            container.position = new Vector3(container.position.x, verticalPos, container.position.z);
+            var verticalPos = transform.position.y + Mathf.Abs(offset);
+            transform.position = new Vector3(transform.position.x, verticalPos, transform.position.z);
         }
 
         private void InstantiateLine() {
             var cmdLineGo = Instantiate(commandLineTemplate);
             cmdLineGo.gameObject.SetActive(true);
-            cmdLineGo.transform.SetParent(container, false);
+            cmdLineGo.transform.SetParent(transform, false);
 
             OnLineInstantiated(cmdLineGo);
         }
