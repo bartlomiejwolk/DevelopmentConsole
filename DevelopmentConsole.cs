@@ -18,6 +18,9 @@ namespace DevelopmentConsoleTool {
 	    [SerializeField]
 	    private bool dontDestroyOnLoad = true;
 
+		[SerializeField]
+		private Canvas canvas;
+
         private LineManager lineManager;
 	    private readonly CommandHandlerManager commandHandlerManager =
 			new CommandHandlerManager();
@@ -32,6 +35,7 @@ namespace DevelopmentConsoleTool {
 
 		    lineManager = GetComponent<LineManager>();
 		    Assert.IsNotNull(lineManager);
+			Assert.IsNotNull(canvas);
 	    }
 
 	    private void Update() {
@@ -73,5 +77,13 @@ namespace DevelopmentConsoleTool {
                 returnKeyPressed();
             }
         }
+
+		private void OpenConsoleWindow() {
+			canvas.enabled = true;
+		}
+
+		private void CloseConsoleWindow() {
+			canvas.enabled = false;
+		}
     }
 }
