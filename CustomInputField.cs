@@ -5,14 +5,6 @@ namespace DevelopmentConsoleTool {
 
     public class CustomInputField : InputField {
 
-        protected override void LateUpdate() {
-            base.LateUpdate();
-        }
-
-        protected override void OnEnable() {
-            base.OnEnable();
-        }
-
         protected override void Start() {
             base.Start();
 
@@ -20,8 +12,7 @@ namespace DevelopmentConsoleTool {
             StartCoroutine(MoveTextEnd_NextFrame());
         }
 
-        IEnumerator MoveTextEnd_NextFrame()
-        {
+        IEnumerator MoveTextEnd_NextFrame() {
             yield return 0; 
             MoveTextEnd(false);
         }
