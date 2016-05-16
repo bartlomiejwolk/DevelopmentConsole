@@ -21,25 +21,35 @@ namespace DevelopmentConsoleTool {
 		[SerializeField]
 		private Canvas canvas;
 
+		[SerializeField]
+		private KeyCode toggleConsoleWindowKey = KeyCode.BackQuote;
+
         private LineManager lineManager;
 	    private readonly CommandHandlerManager commandHandlerManager =
 			new CommandHandlerManager();
 
 	    private Action returnKeyPressed;
+		private Action toggleConsoleWindowKeyPressed;
+
+		private bool IsConsoleWindowOpen {
+			get { return canvas.gameObject.activeSelf; }
+		}
 
 	    #region UNITY MESSAGES
 
 	    private void Awake() {
 	        InitializeSingleton();
 			returnKeyPressed += OnReturnKeyPressed;
+		    toggleConsoleWindowKeyPressed += OnToggleConsoleWindowKeyPressed;
 
 		    lineManager = GetComponent<LineManager>();
 		    Assert.IsNotNull(lineManager);
 			Assert.IsNotNull(canvas);
 	    }
 
-	    private void Update() {
+		private void Update() {
 		    CheckForReturnKey();
+			CheckForToggleConsoleWindowKey();
 	    }
 
 	    #endregion
@@ -65,12 +75,24 @@ namespace DevelopmentConsoleTool {
 		    }
 	    }
 
-	    private void OnReturnKeyPressed() {
+		#region INPUT HANDLERS
+
+		private void OnReturnKeyPressed() {
 			commandHandlerManager.HandleCommand(lineManager.CommandString);
 			lineManager.AddNewLine();
 	    }
 
-	    private void CheckForReturnKey()
+		private void OnToggleConsoleWindowKeyPressed() {
+			if (IsConsoleWindowOpen) {
+				CloseConsoleWindow();
+				return;
+			}
+			OpenConsoleWindow();
+		}
+
+		#endregion
+
+		private void CheckForReturnKey()
         {
             if (Input.GetKeyDown(KeyCode.Return))
             {
@@ -78,12 +100,18 @@ namespace DevelopmentConsoleTool {
             }
         }
 
+		private void CheckForToggleConsoleWindowKey() {
+			if (Input.GetKeyDown(toggleConsoleWindowKey)) {
+				toggleConsoleWindowKeyPressed();
+			}
+		}
+
 		private void OpenConsoleWindow() {
-			canvas.enabled = true;
+			canvas.gameObject.SetActive(true);
 		}
 
 		private void CloseConsoleWindow() {
-			canvas.enabled = false;
+			canvas.gameObject.SetActive(false);
 		}
     }
 }
