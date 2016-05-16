@@ -33,8 +33,10 @@ namespace DevelopmentConsoleTool {
         }
 
 	    public string CommandString {
-			// todo remove prompt
-		    get { return LastLine.Text; }
+		    get {
+			    var cmd = LastLine.Text.Substring(Prompt.Length);
+			    return cmd;
+		    }
 	    }
 
 	    [SerializeField]
