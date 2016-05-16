@@ -51,6 +51,8 @@ namespace DevelopmentConsoleTool {
 		    }
 	    }
 
+	    #region UNITY MESSAGES
+
 	    private void Awake() {
             Assert.IsNotNull(commandLineTemplate);
 			Assert.IsNotNull(firstLine);
@@ -59,7 +61,9 @@ namespace DevelopmentConsoleTool {
 			lines.Add(firstLine);
         }
 
-        /// <summary>
+	    #endregion
+
+	    /// <summary>
         /// Handles all the stuff related to creation of a new command line
         /// </summary>
         public void AddNewLine() {
@@ -127,6 +131,10 @@ namespace DevelopmentConsoleTool {
         }
 
         #endregion
+
+	    public void GetFocus() {
+		    LastLine.GetFocus();
+	    }
     }
 
     public class LineInstantiatedEventArgs : EventArgs {

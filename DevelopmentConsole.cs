@@ -108,6 +108,7 @@ namespace DevelopmentConsoleTool {
 
 		private void OpenConsoleWindow() {
 			canvas.gameObject.SetActive(true);
+			lineManager.LastLine.GetFocus();
 		}
 
 		private void CloseConsoleWindow() {

@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
-using UnityEngine.Assertions;
 using UnityEngine.UI;
+#pragma warning disable 649
 
 namespace DevelopmentConsoleTool {
 
@@ -15,9 +15,19 @@ namespace DevelopmentConsoleTool {
 
         // cache
         public RectTransform RectTransform { get; private set; }
-        private InputField InputField { get; set; }
-        
-        public float Height {
+	    private InputField inputField;
+
+		private InputField InputField {
+		    get {
+			    if (inputField != null) {
+				    return inputField;
+			    }
+			    var component = GetComponent<InputField>();
+			    return component;
+		    }
+	    }
+
+	    public float Height {
             get { return RectTransform.rect.height; }
         }
 
@@ -29,8 +39,11 @@ namespace DevelopmentConsoleTool {
             Init();
         }
 
+	    public void GetFocus() {
+		    InputField.ActivateInputField();
+	    }
+
         private void Init() {
-            InputField = GetComponent<InputField>();
             InputField.text = prompt;
             RectTransform = GetComponent<RectTransform>();
         }

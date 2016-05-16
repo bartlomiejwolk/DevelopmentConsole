@@ -5,14 +5,18 @@ namespace DevelopmentConsoleTool {
 
     public class CustomInputField : InputField {
 
-        protected override void Start() {
-            base.Start();
+	    protected override void OnEnable() {
+		    base.OnEnable();
 
-            ActivateInputField();
-            StartCoroutine(MoveTextEnd_NextFrame());
+			ActivateInputField();
+			StartCoroutine(MoveTextEnd_NextFrame());
+		}
+
+		protected override void Start() {
+		    base.Start();
         }
 
-        IEnumerator MoveTextEnd_NextFrame() {
+	    IEnumerator MoveTextEnd_NextFrame() {
             yield return 0; 
             MoveTextEnd(false);
         }
