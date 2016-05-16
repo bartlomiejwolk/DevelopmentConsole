@@ -1,10 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using JetBrains.Annotations;
 using UnityEngine;
 using UnityEngine.Assertions;
-using UnityEngine.UI;
+
 #pragma warning disable 169
 #pragma warning disable 649
 
@@ -23,7 +22,6 @@ namespace DevelopmentConsoleTool {
 		private CommandLine firstLine;
 
 	    [SerializeField]
-	    [CanBeNull]
 	    private GameObject commandLineTemplate;
 
 	    [SerializeField]
@@ -53,20 +51,12 @@ namespace DevelopmentConsoleTool {
 		    }
 	    }
 
-	    // new lines will be added here right after being instantiated
-
 	    private void Awake() {
             Assert.IsNotNull(commandLineTemplate);
 			Assert.IsNotNull(firstLine);
 
 			LineInstantiated += OnLineInstantiated;
 			lines.Add(firstLine);
-        }
-
-        private void Start() {
-        }
-
-        private void Update() {
         }
 
         /// <summary>
@@ -78,7 +68,7 @@ namespace DevelopmentConsoleTool {
         }
 
         private void RepositionLines() {
-            // calculate offset
+            // calculate offset (relative to global (0; 0))
             var correctPos = LastLine.Height/2;
             var pos = LastLine.transform.position.y;
             var offset = pos - correctPos;
@@ -87,9 +77,8 @@ namespace DevelopmentConsoleTool {
             }
 
             // update lines container position
-            var currentVerticalPos = container.position.y;
-            var newVerticalPos = currentVerticalPos + Mathf.Abs(offset);
-            container.position = new Vector3(container.position.x, newVerticalPos, container.position.z);
+            var verticalPos = container.position.y + Mathf.Abs(offset);
+            container.position = new Vector3(container.position.x, verticalPos, container.position.z);
         }
 
         private void InstantiateLine() {
