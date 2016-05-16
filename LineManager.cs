@@ -55,7 +55,7 @@ namespace DevelopmentConsoleTool {
             Assert.IsNotNull(commandLineTemplate);
 			Assert.IsNotNull(firstLine);
 
-			LineInstantiated += OnLineInstantiated;
+			LineInstantiated += LineInstantiatedHandler;
 			lines.Add(firstLine);
         }
 
@@ -118,7 +118,7 @@ namespace DevelopmentConsoleTool {
 
         #region EVENT HANDLERS
 
-        private void OnLineInstantiated(object sender, LineInstantiatedEventArgs eventArgs) {
+        private void LineInstantiatedHandler(object sender, LineInstantiatedEventArgs eventArgs) {
             var go = eventArgs.InstantiatedGo;
             var cmdLine = go.GetComponent<CommandLine>();
 
@@ -130,10 +130,11 @@ namespace DevelopmentConsoleTool {
     }
 
     public class LineInstantiatedEventArgs : EventArgs {
+
         public GameObject InstantiatedGo { get; private set; }
 
         public LineInstantiatedEventArgs(GameObject instantiatedGo) {
-            this.InstantiatedGo = instantiatedGo;
+            InstantiatedGo = instantiatedGo;
         }
     }
 
