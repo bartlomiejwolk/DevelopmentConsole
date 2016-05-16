@@ -5,7 +5,7 @@ using UnityEngine.UI;
 namespace DevelopmentConsoleTool {
 
     /// <summary>
-    /// Class attached to a line prefab.
+    /// Class to be attached to a line prefab.
     /// </summary>
     [RequireComponent(typeof(InputField))]
     public class CommandLine : MonoBehaviour {
@@ -30,16 +30,10 @@ namespace DevelopmentConsoleTool {
         }
 
         private void Init() {
-            // ReSharper disable once PossibleNullReferenceException
             InputField = GetComponent<InputField>();
-            Assert.IsNotNull(InputField);
             InputField.text = prompt;
             RectTransform = GetComponent<RectTransform>();
         }
-
-        private void Update() {
-        }
-
     }
 
 }
