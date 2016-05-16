@@ -17,6 +17,9 @@ namespace DevelopmentConsoleTool {
 
         public event EventHandler<LineInstantiatedEventArgs> LineInstantiated;
 
+	    [SerializeField]
+		private CommandLine firstLine;
+
         public CommandLine LastLine {
             get { return lines.LastOrDefault(); }
         }
@@ -49,15 +52,14 @@ namespace DevelopmentConsoleTool {
         private const string Prompt = "> ";
 
         // new lines will be added here right after being instantiated
-        private List<CommandLine> lines;
+        private readonly List<CommandLine> lines = new List<CommandLine>();
 
         private void Awake() {
-            // todo extract
             Assert.IsNotNull(commandLineTemplate);
-            LineInstantiated += OnLineInstantiated;
-            
+			Assert.IsNotNull(firstLine);
 
-            lines = new List<CommandLine>();
+			LineInstantiated += OnLineInstantiated;
+			lines.Add(firstLine);
         }
 
         private void Start() {
@@ -107,47 +109,24 @@ namespace DevelopmentConsoleTool {
 
         // calculates position to place line on the screen
         private Vector2 CalculateLinePosition() {
-            // first line case
-            if (lines.Count == 1) {
-                var pos = CalculatePositionForFirstLine();
-                return pos;
-            }
+			// previous line height
+			// todo create property in the CommandLine
+			var prevLineRect = PenultimateLine.RectTransform;
+			var prevLinePos = prevLineRect.anchoredPosition;
+			var prevLineHeight = prevLineRect.sizeDelta.y;
 
-            var newPos = CalculatePositionForNonFirstLine();
+			// new line height
+			var currentLineRect = LastLine.GetComponent<RectTransform>();
+			var currentLineHeight = currentLineRect.sizeDelta.y;
 
-            return newPos;
-        }
+			// calculate position
+			var verticalOffset = (prevLineHeight / 2) + (currentLineHeight / 2);
+			var verticalPos = prevLinePos.y - verticalOffset;
+			var newPos = new Vector2(
+				prevLineRect.anchoredPosition.x,
+				verticalPos);
 
-        private Vector2 CalculatePositionForFirstLine() {
-            var rectTransform = LastLine.GetComponent<RectTransform>();
-            var lineHeight = rectTransform.sizeDelta.y;
-            var verticalPos = -(lineHeight/2);
-
-            var pos = new Vector2(
-                rectTransform.anchoredPosition.x,
-                verticalPos);
-
-            return pos;
-        }
-
-        private Vector2 CalculatePositionForNonFirstLine() {
-            // previous line height
-            var prevLineRect = PenultimateLine.RectTransform;
-            var prevLinePos = prevLineRect.anchoredPosition;
-            var prevLineHeight = prevLineRect.sizeDelta.y;
-
-            // new line height
-            var currentLineRect = LastLine.GetComponent<RectTransform>();
-            var currentLineHeight = currentLineRect.sizeDelta.y;
-
-            // calculate position
-            var verticalOffset = (prevLineHeight/2) + (currentLineHeight/2);
-            var verticalPos = prevLinePos.y - verticalOffset;
-            var newPos = new Vector2(
-                prevLineRect.anchoredPosition.x,
-                verticalPos);
-
-            return newPos;
+			return newPos;
         }
 
         #region EVENT INVOCATORS

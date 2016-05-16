@@ -30,8 +30,6 @@ namespace DevelopmentConsoleTool {
 	    }
 
 	    private void Start() {
-			// todo remove. The first line should be already in the hierarchy
-            lineManager.AddNewLine();
         }
 
         private void Update() {
