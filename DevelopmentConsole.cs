@@ -10,7 +10,6 @@ namespace DevelopmentConsoleTool {
 	/// <summary>
 	/// The main class of the DevelopmentConsole tool.
 	/// </summary>
-    [RequireComponent(typeof(LineManager))]
     public class DevelopmentConsole : MonoBehaviour {
 
 	    public static DevelopmentConsole Instance;
@@ -19,12 +18,14 @@ namespace DevelopmentConsoleTool {
 	    private bool dontDestroyOnLoad = true;
 
 		[SerializeField]
+		private LineManager lineManager;
+
+		[SerializeField]
 		private Canvas canvas;
 
 		[SerializeField]
 		private KeyCode toggleConsoleWindowKey = KeyCode.BackQuote;
 
-        private LineManager lineManager;
 	    private readonly CommandHandlerManager commandHandlerManager =
 			new CommandHandlerManager();
 
@@ -42,7 +43,6 @@ namespace DevelopmentConsoleTool {
 			returnKeyPressed += OnReturnKeyPressed;
 		    toggleConsoleWindowKeyPressed += OnToggleConsoleWindowKeyPressed;
 
-		    lineManager = GetComponent<LineManager>();
 		    Assert.IsNotNull(lineManager);
 			Assert.IsNotNull(canvas);
 	    }
@@ -108,7 +108,7 @@ namespace DevelopmentConsoleTool {
 
 		private void OpenConsoleWindow() {
 			canvas.gameObject.SetActive(true);
-			lineManager.LastLine.GetFocus();
+			lineManager.GetFocus();
 		}
 
 		private void CloseConsoleWindow() {

@@ -24,6 +24,7 @@ namespace DevelopmentConsoleTool {
 	    [SerializeField]
 	    private GameObject commandLineTemplate;
 
+		// todo not needed anymore
 	    [SerializeField]
 	    private Transform container;
 
@@ -60,6 +61,11 @@ namespace DevelopmentConsoleTool {
 			LineInstantiated += LineInstantiatedHandler;
 			lines.Add(firstLine);
         }
+
+	    private void OnEnable() {
+		    LastLine.GetFocus();
+			LastLine.MoveCarretToEnd();
+	    }
 
 	    #endregion
 

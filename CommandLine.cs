@@ -15,14 +15,14 @@ namespace DevelopmentConsoleTool {
 
         // cache
         public RectTransform RectTransform { get; private set; }
-	    private InputField inputField;
+	    private CustomInputField inputField;
 
-		private InputField InputField {
+		private CustomInputField InputField {
 		    get {
 			    if (inputField != null) {
 				    return inputField;
 			    }
-			    var component = GetComponent<InputField>();
+			    var component = GetComponent<CustomInputField>();
 			    return component;
 		    }
 	    }
@@ -41,6 +41,10 @@ namespace DevelopmentConsoleTool {
 
 	    public void GetFocus() {
 		    InputField.ActivateInputField();
+	    }
+
+	    public void MoveCarretToEnd() {
+		    InputField.MoveCarretToEnd();
 	    }
 
         private void Init() {

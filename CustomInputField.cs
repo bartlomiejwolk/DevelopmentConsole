@@ -7,16 +7,18 @@ namespace DevelopmentConsoleTool {
 
 	    protected override void OnEnable() {
 		    base.OnEnable();
+		}
 
+	    protected override void Start() {
 			ActivateInputField();
 			StartCoroutine(MoveTextEnd_NextFrame());
 		}
 
-		protected override void Start() {
-		    base.Start();
-        }
+	    public void MoveCarretToEnd() {
+			StartCoroutine(MoveTextEnd_NextFrame());
+		}
 
-	    IEnumerator MoveTextEnd_NextFrame() {
+		IEnumerator MoveTextEnd_NextFrame() {
             yield return 0; 
             MoveTextEnd(false);
         }
