@@ -7,7 +7,7 @@ namespace DevelopmentConsoleTool {
     public class CommandHandlerManager {
 
         public readonly HashSet<Type> HandlerTypes = new HashSet<Type>();
-        private readonly Dictionary<string, CommandHandler> CommandHandlers =
+        private readonly Dictionary<string, CommandHandler> commandHandlers =
 			new Dictionary<string, CommandHandler>();
 
         public void RegisterMethodHandlers(Type type, object obj) {
@@ -62,12 +62,12 @@ namespace DevelopmentConsoleTool {
 		    }
 
 			var handler = new MethodCommandHandler(commandName, description, obj, type, method);
-			CommandHandlers.Add(commandName.ToLower(), handler);
+			commandHandlers.Add(commandName.ToLower(), handler);
 		}
 
 	    public void HandleCommand(string commandString) {
 		    CommandHandler commandHandler;
-		    CommandHandlers.TryGetValue(commandString, out commandHandler);
+		    commandHandlers.TryGetValue(commandString, out commandHandler);
 		    if (commandHandler != null) {
 			    commandHandler.Invoke();
 		    }
