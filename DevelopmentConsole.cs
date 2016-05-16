@@ -42,13 +42,7 @@ namespace DevelopmentConsoleTool {
 
 	    public static void RegisterCommandHandlers(Type type, object obj) {
 		    var manager = Instance.commandHandlerManager;
-
-		    if (manager.HandlerTypes.Contains(type)) {
-			    return;
-		    }
-
-		    manager.HandlerTypes.Add(type);
-		    manager.RegisterMethodHandlers(type, obj);
+			manager.RegisterCommandHandlers(type, obj);
 	    }
 
 	    private void InitializeSingleton() {

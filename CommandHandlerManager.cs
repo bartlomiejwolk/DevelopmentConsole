@@ -6,7 +6,8 @@ namespace DevelopmentConsoleTool {
 
     public class CommandHandlerManager {
 
-        public readonly HashSet<Type> HandlerTypes = new HashSet<Type>();
+        private readonly HashSet<Type> handlerTypes = new HashSet<Type>();
+
         private readonly Dictionary<string, CommandHandler> commandHandlers =
 			new Dictionary<string, CommandHandler>();
 
@@ -72,5 +73,14 @@ namespace DevelopmentConsoleTool {
 			    commandHandler.Invoke();
 		    }
 	    }
+
+	    public void RegisterCommandHandlers(Type type, object obj) {
+			if (handlerTypes.Contains(type)) {
+				return;
+			}
+
+			handlerTypes.Add(type);
+			RegisterMethodHandlers(type, obj);
+		}
     }
 }
