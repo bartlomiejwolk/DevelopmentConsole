@@ -26,9 +26,6 @@ namespace DevelopmentConsoleTool {
 		[SerializeField]
 		private KeyCode toggleConsoleWindowKey = KeyCode.BackQuote;
 
-	    private readonly CommandHandlerManager commandHandlerManager =
-			new CommandHandlerManager();
-
 	    private Action returnKeyPressed;
 		private Action toggleConsoleWindowKeyPressed;
 
@@ -61,11 +58,6 @@ namespace DevelopmentConsoleTool {
 
 	    #endregion
 
-	    public static void RegisterCommandHandlers(Type type, object obj) {
-		    var manager = Instance.commandHandlerManager;
-			manager.RegisterCommandHandlers(type, obj);
-	    }
-
 	    private void InitializeSingleton() {
 		    if (Instance != null) {
 			    if (Instance == this) {
@@ -85,7 +77,7 @@ namespace DevelopmentConsoleTool {
 		#region INPUT HANDLERS
 
 		private void OnReturnKeyPressed() {
-			commandHandlerManager.HandleCommand(lineManager.CommandString);
+			CommandHandlerManager.HandleCommand(lineManager.CommandString);
 			lineManager.AddNewLine();
 	    }
 

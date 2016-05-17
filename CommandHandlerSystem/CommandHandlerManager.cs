@@ -4,14 +4,14 @@ using System.Reflection;
 
 namespace DevelopmentConsoleTool.CommandHandlerSystem {
 
-    public class CommandHandlerManager {
+    public static class CommandHandlerManager {
 
-        private readonly HashSet<Type> handlerTypes = new HashSet<Type>();
+        private static readonly HashSet<Type> handlerTypes = new HashSet<Type>();
 
-        private readonly Dictionary<string, CommandHandler> commandHandlers =
+		private static readonly Dictionary<string, CommandHandler> commandHandlers =
 			new Dictionary<string, CommandHandler>();
 
-        public void RegisterMethodHandlers(Type type, object obj) {
+		public static void RegisterMethodHandlers(Type type, object obj) {
             var methods = GetMethodsFromType(type, obj);
 
             foreach (var method in methods) {
@@ -32,7 +32,7 @@ namespace DevelopmentConsoleTool.CommandHandlerSystem {
             }
         }
 
-	    private IEnumerable<MethodInfo> GetMethodsFromType(
+		private static IEnumerable<MethodInfo> GetMethodsFromType(
 			Type type,
 			object obj) {
 
@@ -54,7 +54,7 @@ namespace DevelopmentConsoleTool.CommandHandlerSystem {
 		    return methods;
 	    }
 
-	    private void RegisterMethodCommandHandler(
+		private static void RegisterMethodCommandHandler(
 			Type type,
 			object obj,
 			MethodInfo method,
@@ -69,7 +69,7 @@ namespace DevelopmentConsoleTool.CommandHandlerSystem {
 			commandHandlers.Add(commandName.ToLower(), handler);
 		}
 
-	    public void HandleCommand(string commandString) {
+		public static void HandleCommand(string commandString) {
 		    CommandHandler commandHandler;
 		    commandHandlers.TryGetValue(commandString, out commandHandler);
 		    if (commandHandler != null) {
@@ -77,7 +77,7 @@ namespace DevelopmentConsoleTool.CommandHandlerSystem {
 		    }
 	    }
 
-	    public void RegisterCommandHandlers(Type type, object obj) {
+		public static void RegisterCommandHandlers(Type type, object obj) {
 			if (handlerTypes.Contains(type)) {
 				return;
 			}
