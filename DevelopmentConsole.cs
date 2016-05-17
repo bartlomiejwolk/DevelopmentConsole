@@ -91,10 +91,8 @@ namespace DevelopmentConsoleTool {
 
         #endregion
 
-        private void CheckForReturnKey()
-        {
-            if (Input.GetKeyDown(KeyCode.Return))
-            {
+        private void CheckForReturnKey(){
+            if (Input.GetKeyDown(KeyCode.Return)) {
                 returnKeyPressed();
             }
         }
