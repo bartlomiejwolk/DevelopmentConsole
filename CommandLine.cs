@@ -55,6 +55,10 @@ namespace DevelopmentConsoleTool {
 	    public void SetIgnoredChars(string chars) {
 		    InputField.IgnoredChars = chars;
 	    }
+
+	    public void SetReadOnly() {
+		    InputField.readOnly = true;
+	    }
     }
 
 }

@@ -136,6 +136,7 @@ namespace DevelopmentConsoleTool {
             lines.Add(cmdLine);
 			cmdLine.SetIgnoredChars(IgnoredChars);
             PositionLine();
+	        PenultimateLine.SetReadOnly();
         }
 
         #endregion
