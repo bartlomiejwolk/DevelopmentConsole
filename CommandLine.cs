@@ -15,50 +15,50 @@ namespace DevelopmentConsoleTool {
 
         // cache
         public RectTransform RectTransform { get; private set; }
-	    private CustomInputField inputField;
+        private CustomInputField inputField;
 
-		private CustomInputField InputField {
-		    get {
-			    if (inputField != null) {
-				    return inputField;
-			    }
-			    var component = GetComponent<CustomInputField>();
-			    return component;
-		    }
-	    }
+        private CustomInputField InputField {
+            get {
+                if (inputField != null) {
+                    return inputField;
+                }
+                var component = GetComponent<CustomInputField>();
+                return component;
+            }
+        }
 
-	    public float Height {
+        public float Height {
             get { return RectTransform.rect.height; }
         }
 
-	    public string Text {
-		    get { return InputField.text; }
-	    }
+        public string Text {
+            get { return InputField.text; }
+        }
 
         private void Awake() {
             Init();
         }
 
-	    public void GetFocus() {
-		    InputField.ActivateInputField();
-	    }
+        public void GetFocus() {
+            InputField.ActivateInputField();
+        }
 
-	    public void MoveCaretToEnd() {
-		    InputField.MoveCaretToEnd();
-	    }
+        public void MoveCaretToEnd() {
+            InputField.MoveCaretToEnd();
+        }
 
         private void Init() {
             InputField.Prompt = prompt;
             RectTransform = GetComponent<RectTransform>();
         }
 
-	    public void SetIgnoredChars(string chars) {
-		    InputField.IgnoredChars = chars;
-	    }
+        public void SetIgnoredChars(string chars) {
+            InputField.IgnoredChars = chars;
+        }
 
-	    public void SetReadOnly() {
-		    InputField.readOnly = true;
-	    }
+        public void SetReadOnly() {
+            InputField.readOnly = true;
+        }
     }
 
 }

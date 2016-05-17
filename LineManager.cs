@@ -15,19 +15,19 @@ namespace DevelopmentConsoleTool {
     public class LineManager : MonoBehaviour {
 
         public event EventHandler<LineInstantiatedEventArgs> LineInstantiated;
-		public string IgnoredChars { get; set; }
+        public string IgnoredChars { get; set; }
 
-		private const string Prompt = "> ";
+        private const string Prompt = "> ";
 
-	    [SerializeField]
-		private CommandLine firstLine;
+        [SerializeField]
+        private CommandLine firstLine;
 
-	    [SerializeField]
-	    private GameObject commandLineTemplate;
+        [SerializeField]
+        private GameObject commandLineTemplate;
 
-	    private readonly List<CommandLine> lines = new List<CommandLine>();
+        private readonly List<CommandLine> lines = new List<CommandLine>();
 
-	    public CommandLine LastLine {
+        public CommandLine LastLine {
             get { return lines.LastOrDefault(); }
         }
 
@@ -42,38 +42,38 @@ namespace DevelopmentConsoleTool {
             }
         }
 
-	    public string CommandString {
-		    get {
-			    var cmd = LastLine.Text.Substring(Prompt.Length);
-			    return cmd;
-		    }
-	    }
-
-	    #region UNITY MESSAGES
-
-	    private void Awake() {
-            Assert.IsNotNull(commandLineTemplate);
-			Assert.IsNotNull(firstLine);
-
-			LineInstantiated += LineInstantiatedHandler;
-			lines.Add(firstLine);
+        public string CommandString {
+            get {
+                var cmd = LastLine.Text.Substring(Prompt.Length);
+                return cmd;
+            }
         }
 
-	    private void OnEnable() {
-		    LastLine.GetFocus();
-			LastLine.MoveCaretToEnd();
-	    }
+        #region UNITY MESSAGES
 
-	    private void Start() {
-			firstLine.SetIgnoredChars(IgnoredChars);
-		}
+        private void Awake() {
+            Assert.IsNotNull(commandLineTemplate);
+            Assert.IsNotNull(firstLine);
 
-		#endregion
+            LineInstantiated += LineInstantiatedHandler;
+            lines.Add(firstLine);
+        }
 
-		/// <summary>
-		/// Handles all the stuff related to creation of a new command line
-		/// </summary>
-		public void AddNewLine() {
+        private void OnEnable() {
+            LastLine.GetFocus();
+            LastLine.MoveCaretToEnd();
+        }
+
+        private void Start() {
+            firstLine.SetIgnoredChars(IgnoredChars);
+        }
+
+        #endregion
+
+        /// <summary>
+        /// Handles all the stuff related to creation of a new command line
+        /// </summary>
+        public void AddNewLine() {
             InstantiateLine();
             RepositionLines();
         }
@@ -108,13 +108,13 @@ namespace DevelopmentConsoleTool {
 
         // calculates position to place line on the screen
         private Vector2 CalculateLinePosition() {
-			var verticalOffset = (PenultimateLine.Height / 2) + (LastLine.Height / 2);
-			var verticalPos = PenultimateLine.RectTransform.anchoredPosition.y - verticalOffset;
-			var newPos = new Vector2(
-				PenultimateLine.RectTransform.anchoredPosition.x,
-				verticalPos);
+            var verticalOffset = (PenultimateLine.Height / 2) + (LastLine.Height / 2);
+            var verticalPos = PenultimateLine.RectTransform.anchoredPosition.y - verticalOffset;
+            var newPos = new Vector2(
+                PenultimateLine.RectTransform.anchoredPosition.x,
+                verticalPos);
 
-			return newPos;
+            return newPos;
         }
 
         #region EVENT INVOCATORS
@@ -134,16 +134,16 @@ namespace DevelopmentConsoleTool {
             var cmdLine = go.GetComponent<CommandLine>();
 
             lines.Add(cmdLine);
-			cmdLine.SetIgnoredChars(IgnoredChars);
+            cmdLine.SetIgnoredChars(IgnoredChars);
             PositionLine();
-	        PenultimateLine.SetReadOnly();
+            PenultimateLine.SetReadOnly();
         }
 
         #endregion
 
-	    public void GetFocus() {
-		    LastLine.GetFocus();
-	    }
+        public void GetFocus() {
+            LastLine.GetFocus();
+        }
     }
 
     public class LineInstantiatedEventArgs : EventArgs {
