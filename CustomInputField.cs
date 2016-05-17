@@ -1,5 +1,5 @@
-﻿using System;
-using System.Collections;
+﻿using System.Collections;
+using UnityEngine;
 using UnityEngine.UI;
 
 namespace DevelopmentConsoleTool {
@@ -7,11 +7,13 @@ namespace DevelopmentConsoleTool {
     public class CustomInputField : InputField {
 
 		public string IgnoredChars { get; set; }
+		public string Prompt { get; set; }
 
 	    protected override void Awake() {
 		    base.Awake();
 
 			onValidateInput += ValidateInputHandler;
+		    onValueChanged.AddListener(ValueChangedHandler);
 	    }
 
 		private char ValidateInputHandler(string text, int charIndex, char addedChar)
@@ -22,11 +24,18 @@ namespace DevelopmentConsoleTool {
 			return addedChar;
 		}
 
+	    private void ValueChangedHandler(string value) {
+		    if (value.Length < Prompt.Length) {
+			    text = Prompt;
+		    }
+	    }
+
 		protected override void OnEnable() {
 		    base.OnEnable();
 		}
 
 	    protected override void Start() {
+			text = Prompt;
 			ActivateInputField();
 			StartCoroutine(MoveTextEnd_NextFrame());
 		}

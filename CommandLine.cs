@@ -48,7 +48,7 @@ namespace DevelopmentConsoleTool {
 	    }
 
         private void Init() {
-            InputField.text = prompt;
+            InputField.Prompt = prompt;
             RectTransform = GetComponent<RectTransform>();
         }
 
