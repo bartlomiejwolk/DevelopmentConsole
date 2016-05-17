@@ -25,8 +25,14 @@ namespace DevelopmentConsoleTool {
 		}
 
 	    private void ValueChangedHandler(string value) {
+			// prevent prompt to be deleted
 		    if (value.Length < Prompt.Length) {
 			    text = Prompt;
+		    }
+
+			// prevent caret from going onto the prompt
+		    if (caretPosition < Prompt.Length) {
+			    MoveTextEnd(false);
 		    }
 	    }
 
