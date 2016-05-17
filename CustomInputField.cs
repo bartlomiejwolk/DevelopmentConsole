@@ -11,10 +11,10 @@ namespace DevelopmentConsoleTool {
 	    protected override void Awake() {
 		    base.Awake();
 
-			onValidateInput += OnValidateInput;
+			onValidateInput += ValidateInputHandler;
 	    }
 
-		private char OnValidateInput(string text, int charIndex, char addedChar)
+		private char ValidateInputHandler(string text, int charIndex, char addedChar)
 		{
 			if (IgnoredChars.Contains(addedChar.ToString())) {
 				return '\0';
