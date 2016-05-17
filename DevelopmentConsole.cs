@@ -40,12 +40,19 @@ namespace DevelopmentConsoleTool {
 
 	    private void Awake() {
 	        InitializeSingleton();
+
 			returnKeyPressed += OnReturnKeyPressed;
 		    toggleConsoleWindowKeyPressed += OnToggleConsoleWindowKeyPressed;
 
-		    Assert.IsNotNull(lineManager);
+			var keyChar = (char)toggleConsoleWindowKey;
+			lineManager.IgnoredChars = keyChar.ToString();
+
+			Assert.IsNotNull(lineManager);
 			Assert.IsNotNull(canvas);
 	    }
+
+		private void Start() {
+		}
 
 		private void Update() {
 		    CheckForReturnKey();

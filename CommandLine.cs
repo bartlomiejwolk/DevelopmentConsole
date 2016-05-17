@@ -51,6 +51,10 @@ namespace DevelopmentConsoleTool {
             InputField.text = prompt;
             RectTransform = GetComponent<RectTransform>();
         }
+
+	    public void SetIgnoredChars(string chars) {
+		    InputField.IgnoredChars = chars;
+	    }
     }
 
 }

@@ -1,11 +1,28 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using UnityEngine.UI;
 
 namespace DevelopmentConsoleTool {
 
     public class CustomInputField : InputField {
 
-	    protected override void OnEnable() {
+		public string IgnoredChars { get; set; }
+
+	    protected override void Awake() {
+		    base.Awake();
+
+			onValidateInput += OnValidateInput;
+	    }
+
+		private char OnValidateInput(string text, int charIndex, char addedChar)
+		{
+			if (IgnoredChars.Contains(addedChar.ToString())) {
+				return '\0';
+			}
+			return addedChar;
+		}
+
+		protected override void OnEnable() {
 		    base.OnEnable();
 		}
 

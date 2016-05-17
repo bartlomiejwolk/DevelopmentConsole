@@ -15,8 +15,9 @@ namespace DevelopmentConsoleTool {
     public class LineManager : MonoBehaviour {
 
         public event EventHandler<LineInstantiatedEventArgs> LineInstantiated;
+		public string IgnoredChars { get; set; }
 
-	    private const string Prompt = "> ";
+		private const string Prompt = "> ";
 
 	    [SerializeField]
 		private CommandLine firstLine;
@@ -63,12 +64,16 @@ namespace DevelopmentConsoleTool {
 			LastLine.MoveCarretToEnd();
 	    }
 
-	    #endregion
+	    private void Start() {
+			firstLine.SetIgnoredChars(IgnoredChars);
+		}
 
-	    /// <summary>
-        /// Handles all the stuff related to creation of a new command line
-        /// </summary>
-        public void AddNewLine() {
+		#endregion
+
+		/// <summary>
+		/// Handles all the stuff related to creation of a new command line
+		/// </summary>
+		public void AddNewLine() {
             InstantiateLine();
             RepositionLines();
         }
@@ -129,6 +134,7 @@ namespace DevelopmentConsoleTool {
             var cmdLine = go.GetComponent<CommandLine>();
 
             lines.Add(cmdLine);
+			cmdLine.SetIgnoredChars(IgnoredChars);
             PositionLine();
         }
 
