@@ -46,7 +46,7 @@ namespace DevelopmentConsoleTool {
 			StartCoroutine(MoveTextEnd_NextFrame());
 		}
 
-	    public void MoveCarretToEnd() {
+	    public void MoveCaretToEnd() {
 			StartCoroutine(MoveTextEnd_NextFrame());
 		}
 

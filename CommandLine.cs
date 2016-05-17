@@ -43,8 +43,8 @@ namespace DevelopmentConsoleTool {
 		    InputField.ActivateInputField();
 	    }
 
-	    public void MoveCarretToEnd() {
-		    InputField.MoveCarretToEnd();
+	    public void MoveCaretToEnd() {
+		    InputField.MoveCaretToEnd();
 	    }
 
         private void Init() {

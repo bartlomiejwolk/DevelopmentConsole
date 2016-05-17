@@ -61,7 +61,7 @@ namespace DevelopmentConsoleTool {
 
 	    private void OnEnable() {
 		    LastLine.GetFocus();
-			LastLine.MoveCarretToEnd();
+			LastLine.MoveCaretToEnd();
 	    }
 
 	    private void Start() {
