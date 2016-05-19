@@ -17,8 +17,6 @@ namespace DevelopmentConsoleTool {
         public event EventHandler<LineInstantiatedEventArgs> LineInstantiated;
         public string IgnoredChars { get; set; }
 
-        private const string Prompt = "> ";
-
         [SerializeField]
         private CommandLine firstLine;
 
@@ -43,8 +41,9 @@ namespace DevelopmentConsoleTool {
         }
 
         public string CommandString {
-            get {
-                var cmd = LastLine.Text.Substring(Prompt.Length);
+            get
+            {
+                var cmd = LastLine.GetCommandString();
                 return cmd;
             }
         }

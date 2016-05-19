@@ -59,6 +59,12 @@ namespace DevelopmentConsoleTool {
         public void SetReadOnly() {
             InputField.readOnly = true;
         }
+
+        public string GetCommandString()
+        {
+            var cmdString = Text.Substring(prompt.Length);
+            return cmdString;
+        }
     }
 
 }
