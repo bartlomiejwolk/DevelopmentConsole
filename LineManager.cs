@@ -82,11 +82,13 @@ namespace DevelopmentConsoleTool {
             var correctPos = LastLine.Height/2;
             var pos = LastLine.transform.position.y;
             var offset = pos - correctPos;
+            
+            // line is fully within the canvas
             if (offset > 0) {
                 return;
             }
 
-            // update lines container position
+            // update line container position
             var verticalPos = transform.position.y + Mathf.Abs(offset);
             transform.position = new Vector3(transform.position.x, verticalPos, transform.position.z);
         }
