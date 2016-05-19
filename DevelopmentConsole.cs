@@ -62,11 +62,14 @@ namespace DevelopmentConsoleTool {
         }
 
         private void OnToggleConsoleWindowKeyPressed() {
-            if (IsConsoleWindowOpen) {
+            if (IsConsoleWindowOpen)
+            {
                 CloseConsoleWindow();
-                return;
             }
-            OpenConsoleWindow();
+            else
+            {
+                OpenConsoleWindow();
+            }
         }
 
         #endregion
