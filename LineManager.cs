@@ -97,7 +97,7 @@ namespace DevelopmentConsoleTool {
             cmdLineGo.gameObject.SetActive(true);
             cmdLineGo.transform.SetParent(transform, false);
 
-            OnLineInstantiated(cmdLineGo);
+            RaiseLineInstantiatedEvent(cmdLineGo);
         }
 
         private void PositionLine() {
@@ -119,7 +119,7 @@ namespace DevelopmentConsoleTool {
 
         #region EVENT INVOCATORS
 
-        protected virtual void OnLineInstantiated(GameObject instantiatedGo) {
+        protected virtual void RaiseLineInstantiatedEvent(GameObject instantiatedGo) {
             var handler = LineInstantiated;
             var args = new LineInstantiatedEventArgs(instantiatedGo);
             if (handler != null) handler(this, args);
