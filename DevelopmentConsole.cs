@@ -12,8 +12,6 @@ namespace DevelopmentConsoleTool {
     /// </summary>
     public class DevelopmentConsole : MonoBehaviour {
 
-        public static DevelopmentConsole Instance;
-
         [SerializeField]
         private bool dontDestroyOnLoad = true;
 
@@ -36,8 +34,6 @@ namespace DevelopmentConsoleTool {
         #region UNITY MESSAGES
 
         private void Awake() {
-            InitializeSingleton();
-
             returnKeyPressed += OnReturnKeyPressed;
             toggleConsoleWindowKeyPressed += OnToggleConsoleWindowKeyPressed;
 
@@ -57,22 +53,6 @@ namespace DevelopmentConsoleTool {
         }
 
         #endregion
-
-        private void InitializeSingleton() {
-            if (Instance != null) {
-                if (Instance == this) {
-                    return;
-                }
-                Debug.Log("Multiple DevelopmentConsole instances detected in the scene. Only one DevelopmentConsole can exist at a time. The duplicate DevelopmentConsole will not be used.");
-                Destroy(gameObject);
-                return;
-            }
-            Instance = this;
-
-            if (dontDestroyOnLoad) {
-                DontDestroyOnLoad(this);
-            }
-        }
 
         #region INPUT HANDLERS
 
