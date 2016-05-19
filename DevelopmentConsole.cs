@@ -4,6 +4,7 @@ using UnityEngine;
 using UnityEngine.Assertions;
 
 #pragma warning disable 649
+#pragma warning disable 0414
 
 namespace DevelopmentConsoleTool {
 
@@ -58,7 +59,7 @@ namespace DevelopmentConsoleTool {
 
         private void OnReturnKeyPressed() {
             CommandHandlerManager.HandleCommand(lineManager.CommandString);
-            lineManager.AddNewLine();
+            lineManager.InstantiateLine();
         }
 
         private void OnToggleConsoleWindowKeyPressed() {

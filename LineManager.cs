@@ -69,14 +69,6 @@ namespace DevelopmentConsoleTool {
 
         #endregion
 
-        /// <summary>
-        /// Handles all the stuff related to creation of a new command line
-        /// </summary>
-        public void AddNewLine() {
-            InstantiateLine();
-            RepositionLines();
-        }
-
         private void RepositionLines() {
             // calculate offset (relative to global (0; 0))
             var correctPos = LastLine.Height/2;
@@ -93,7 +85,7 @@ namespace DevelopmentConsoleTool {
             transform.position = new Vector3(transform.position.x, verticalPos, transform.position.z);
         }
 
-        private void InstantiateLine() {
+        public void InstantiateLine() {
             var cmdLineGo = Instantiate(commandLineTemplate);
             cmdLineGo.gameObject.SetActive(true);
             cmdLineGo.transform.SetParent(transform, false);
@@ -138,6 +130,7 @@ namespace DevelopmentConsoleTool {
             cmdLine.SetIgnoredChars(IgnoredChars);
             PositionLine();
             PenultimateLine.SetReadOnly();
+            RepositionLines();
         }
 
         #endregion
