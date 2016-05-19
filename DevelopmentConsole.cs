@@ -58,7 +58,7 @@ namespace DevelopmentConsoleTool {
         #region INPUT HANDLERS
 
         private void OnReturnKeyPressed() {
-            CommandHandlerManager.HandleCommand(lineManager.CommandString);
+            CommandHandlerManager.Instance.HandleCommand(lineManager.CommandString);
             lineManager.InstantiateLine();
         }
 

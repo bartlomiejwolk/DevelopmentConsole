@@ -4,14 +4,25 @@ using System.Reflection;
 
 namespace DevelopmentConsoleTool.CommandHandlerSystem {
 
-    public static class CommandHandlerManager {
+    public sealed class CommandHandlerManager {
 
-        private static readonly HashSet<Type> handlerTypes = new HashSet<Type>();
+        private static readonly CommandHandlerManager instance 
+            = new CommandHandlerManager();
 
-        private static readonly Dictionary<string, CommandHandler> CommandHandlers =
+        private readonly HashSet<Type> handlerTypes = new HashSet<Type>();
+
+        private readonly Dictionary<string, CommandHandler> CommandHandlers =
             new Dictionary<string, CommandHandler>();
 
-        public static void RegisterMethodHandlers(Type type, object obj) {
+        public static CommandHandlerManager Instance {
+            get {
+                return instance;
+            }
+        }
+
+        private CommandHandlerManager() {}
+
+        public void RegisterMethodHandlers(Type type, object obj) {
             var methods = GetMethodsFromType(type, obj);
 
             foreach (var method in methods) {
@@ -32,7 +43,7 @@ namespace DevelopmentConsoleTool.CommandHandlerSystem {
             }
         }
 
-        private static IEnumerable<MethodInfo> GetMethodsFromType(
+        private IEnumerable<MethodInfo> GetMethodsFromType(
             Type type,
             object obj) {
 
@@ -43,7 +54,7 @@ namespace DevelopmentConsoleTool.CommandHandlerSystem {
                     BindingFlags.Public |
                     BindingFlags.NonPublic);
             }
-            // static class
+            // class
             else {
                 methods = type.GetMethods(
                     BindingFlags.Static |
@@ -54,7 +65,7 @@ namespace DevelopmentConsoleTool.CommandHandlerSystem {
             return methods;
         }
 
-        private static void RegisterMethodCommandHandler(
+        private void RegisterMethodCommandHandler(
             Type type,
             object obj,
             MethodInfo method,
@@ -69,7 +80,7 @@ namespace DevelopmentConsoleTool.CommandHandlerSystem {
             CommandHandlers.Add(commandName.ToLower(), handler);
         }
 
-        public static void HandleCommand(string commandString) {
+        public void HandleCommand(string commandString) {
             CommandHandler commandHandler;
             CommandHandlers.TryGetValue(commandString, out commandHandler);
             if (commandHandler != null) {
@@ -77,7 +88,7 @@ namespace DevelopmentConsoleTool.CommandHandlerSystem {
             }
         }
 
-        public static void RegisterCommandHandlers(Type type, object obj) {
+        public void RegisterCommandHandlers(Type type, object obj) {
             if (handlerTypes.Contains(type)) {
                 return;
             }
