@@ -31,7 +31,7 @@ namespace DevelopmentConsoleTool {
         private Action arrowUpKeyPressed;
         private Action arrowDownKeyPressed;
 
-        private CommandHistory commandHistory;
+        private readonly CommandHistory commandHistory = new CommandHistory();
 
         private bool IsConsoleWindowOpen {
             get { return canvas.gameObject.activeSelf; }
@@ -47,8 +47,6 @@ namespace DevelopmentConsoleTool {
 
             var keyChar = (char)toggleConsoleWindowKey;
             lineManager.IgnoredChars = keyChar.ToString();
-
-            commandHistory = new CommandHistory();
 
             Assert.IsNotNull(lineManager);
             Assert.IsNotNull(canvas);
@@ -114,6 +112,7 @@ namespace DevelopmentConsoleTool {
         #region INPUT HANDLERS
 
         private void OnReturnKeyPressed() {
+            commandHistory.AddCommand(lineManager.CommandString);
             CommandHandlerManager.Instance.HandleCommand(lineManager.CommandString);
             lineManager.InstantiateLine();
         }
