@@ -3,6 +3,7 @@ using DevelopmentConsoleTool.CommandHandlerSystem;
 using UnityEngine;
 using UnityEngine.Assertions;
 
+#pragma warning disable 169
 #pragma warning disable 649
 #pragma warning disable 0414
 
@@ -75,7 +76,7 @@ namespace DevelopmentConsoleTool {
 
         #endregion
 
-        private void CheckForReturnKey(){
+        private void CheckForReturnKey() {
             if (Input.GetKeyDown(KeyCode.Return)) {
                 returnKeyPressed();
             }
