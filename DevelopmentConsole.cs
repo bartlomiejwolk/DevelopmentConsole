@@ -80,15 +80,15 @@ namespace DevelopmentConsoleTool {
             }
         }
 
-        private void CheckForArrowDownKey() {
-            if (Input.GetKeyDown(KeyCode.DownArrow)) {
-                arrowDownKeyPressed();
-            }
-        }
-
         private void CheckForArrowUpKey() {
             if (Input.GetKeyDown(KeyCode.UpArrow)) {
                 arrowUpKeyPressed();
+            }
+        }
+
+        private void CheckForArrowDownKey() {
+            if (Input.GetKeyDown(KeyCode.DownArrow)) {
+                arrowDownKeyPressed();
             }
         }
 
@@ -119,21 +119,21 @@ namespace DevelopmentConsoleTool {
             }
         }
 
-        private void OnArrowDownPressed() {
-            var previousInput = commandHistory.GetPreviousCommand();
-            if (previousInput == null) {
-                return;
-            }
-            lineManager.SetText(previousInput);
-            Event.current.Use();
-        }
-
         private void OnArrowUpPressed() {
             var nextInput = commandHistory.GetPreviousCommand();
             if (nextInput == null) {
                 return;
             }
             lineManager.SetText(nextInput);
+            Event.current.Use();
+        }
+
+        private void OnArrowDownPressed() {
+            var previousInput = commandHistory.GetPreviousCommand();
+            if (previousInput == null) {
+                return;
+            }
+            lineManager.SetText(previousInput);
             Event.current.Use();
         }
 
