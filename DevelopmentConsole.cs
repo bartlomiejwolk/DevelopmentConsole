@@ -58,8 +58,16 @@ namespace DevelopmentConsoleTool {
         }
 
         private void Update() {
-            CheckForReturnKey();
             CheckForToggleConsoleWindowKey();
+            HandleInConsoleKeyboardInput();
+        }
+
+        private void HandleInConsoleKeyboardInput() {
+            if (!IsConsoleWindowOpen) {
+                return;
+            }
+
+            CheckForReturnKey();
             CheckForArrowUpKey();
             CheckForArrowDownKey();
         }
@@ -124,17 +132,15 @@ namespace DevelopmentConsoleTool {
             if (nextInput == null) {
                 return;
             }
-            lineManager.SetText(nextInput);
-            Event.current.Use();
+            lineManager.SetCommandString(nextInput);
         }
 
         private void OnArrowDownPressed() {
-            var previousInput = commandHistory.GetPreviousCommand();
+            var previousInput = commandHistory.GetNextCommand();
             if (previousInput == null) {
                 return;
             }
-            lineManager.SetText(previousInput);
-            Event.current.Use();
+            lineManager.SetCommandString(previousInput);
         }
 
         #endregion

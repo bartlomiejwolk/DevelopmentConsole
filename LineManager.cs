@@ -139,8 +139,8 @@ namespace DevelopmentConsoleTool {
             LastLine.GetFocus();
         }
 
-        public void SetText(string text) {
-            throw new NotImplementedException();
+        public void SetCommandString(string text) {
+            LastLine.SetCommandString(text);
         }
     }
 

@@ -33,6 +33,7 @@ namespace DevelopmentConsoleTool {
 
         public string Text {
             get { return InputField.text; }
+            set { InputField.text = value; }
         }
 
         private void Awake() {
@@ -60,10 +61,14 @@ namespace DevelopmentConsoleTool {
             InputField.readOnly = true;
         }
 
-        public string GetCommandString()
-        {
+        public string GetCommandString() {
             var cmdString = Text.Substring(prompt.Length);
             return cmdString;
+        }
+
+        public void SetCommandString(string cmd) {
+            var result = prompt + cmd;
+            Text = result;
         }
     }
 

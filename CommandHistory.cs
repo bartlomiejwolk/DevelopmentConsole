@@ -1,9 +1,15 @@
-﻿namespace DevelopmentConsoleTool
+﻿using System;
+
+namespace DevelopmentConsoleTool
 {
     public class CommandHistory
     {
         public string GetPreviousCommand() {
-            throw new System.NotImplementedException();
+            throw new NotImplementedException();
+        }
+
+        public string GetNextCommand() {
+            throw new NotImplementedException();
         }
     }
 }
