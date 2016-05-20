@@ -138,6 +138,10 @@ namespace DevelopmentConsoleTool {
         public void GetFocus() {
             LastLine.GetFocus();
         }
+
+        public void SetText(string text) {
+            throw new NotImplementedException();
+        }
     }
 
     public class LineInstantiatedEventArgs : EventArgs {

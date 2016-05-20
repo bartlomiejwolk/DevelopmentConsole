@@ -28,6 +28,10 @@ namespace DevelopmentConsoleTool {
 
         private Action returnKeyPressed;
         private Action toggleConsoleWindowKeyPressed;
+        private Action arrowUpKeyPressed;
+        private Action arrowDownKeyPressed;
+
+        private CommandHistory commandHistory;
 
         private bool IsConsoleWindowOpen {
             get { return canvas.gameObject.activeSelf; }
@@ -38,9 +42,13 @@ namespace DevelopmentConsoleTool {
         private void Awake() {
             returnKeyPressed += OnReturnKeyPressed;
             toggleConsoleWindowKeyPressed += OnToggleConsoleWindowKeyPressed;
+            arrowUpKeyPressed += OnArrowUpPressed;
+            arrowDownKeyPressed += OnArrowDownPressed;
 
             var keyChar = (char)toggleConsoleWindowKey;
             lineManager.IgnoredChars = keyChar.ToString();
+
+            commandHistory = new CommandHistory();
 
             Assert.IsNotNull(lineManager);
             Assert.IsNotNull(canvas);
@@ -52,26 +60,8 @@ namespace DevelopmentConsoleTool {
         private void Update() {
             CheckForReturnKey();
             CheckForToggleConsoleWindowKey();
-        }
-
-        #endregion
-
-        #region INPUT HANDLERS
-
-        private void OnReturnKeyPressed() {
-            CommandHandlerManager.Instance.HandleCommand(lineManager.CommandString);
-            lineManager.InstantiateLine();
-        }
-
-        private void OnToggleConsoleWindowKeyPressed() {
-            if (IsConsoleWindowOpen)
-            {
-                CloseConsoleWindow();
-            }
-            else
-            {
-                OpenConsoleWindow();
-            }
+            CheckForArrowUpKey();
+            CheckForArrowDownKey();
         }
 
         #endregion
@@ -88,6 +78,18 @@ namespace DevelopmentConsoleTool {
             }
         }
 
+        private void CheckForArrowDownKey() {
+            if (Input.GetKeyDown(KeyCode.DownArrow)) {
+                arrowDownKeyPressed();
+            }
+        }
+
+        private void CheckForArrowUpKey() {
+            if (Input.GetKeyDown(KeyCode.UpArrow)) {
+                arrowUpKeyPressed();
+            }
+        }
+
         private void OpenConsoleWindow() {
             canvas.gameObject.SetActive(true);
             lineManager.GetFocus();
@@ -96,5 +98,41 @@ namespace DevelopmentConsoleTool {
         private void CloseConsoleWindow() {
             canvas.gameObject.SetActive(false);
         }
+
+        #region INPUT HANDLERS
+
+        private void OnReturnKeyPressed() {
+            CommandHandlerManager.Instance.HandleCommand(lineManager.CommandString);
+            lineManager.InstantiateLine();
+        }
+
+        private void OnToggleConsoleWindowKeyPressed() {
+            if (IsConsoleWindowOpen) {
+                CloseConsoleWindow();
+            }
+            else {
+                OpenConsoleWindow();
+            }
+        }
+
+        private void OnArrowDownPressed() {
+            var previousInput = commandHistory.GetPreviousCommand();
+            if (previousInput == null) {
+                return;
+            }
+            lineManager.SetText(previousInput);
+            Event.current.Use();
+        }
+
+        private void OnArrowUpPressed() {
+            var nextInput = commandHistory.GetPreviousCommand();
+            if (nextInput == null) {
+                return;
+            }
+            lineManager.SetText(nextInput);
+            Event.current.Use();
+        }
+
+        #endregion
     }
 }
