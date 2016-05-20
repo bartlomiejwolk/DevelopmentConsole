@@ -66,6 +66,8 @@ namespace DevelopmentConsoleTool {
 
         #endregion
 
+        #region CHECK METHODS
+
         private void CheckForReturnKey() {
             if (Input.GetKeyDown(KeyCode.Return)) {
                 returnKeyPressed();
@@ -89,6 +91,8 @@ namespace DevelopmentConsoleTool {
                 arrowUpKeyPressed();
             }
         }
+
+        #endregion
 
         private void OpenConsoleWindow() {
             canvas.gameObject.SetActive(true);
