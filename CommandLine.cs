@@ -6,8 +6,7 @@ using UnityEngine.UI;
 namespace DevelopmentConsoleTool {
 
     public class CommandLine : InputField {
-
-		[SerializeField]
+	    [SerializeField]
 		private string prompt = "> ";
 
 	    private RectTransform rectTransform;
@@ -29,7 +28,19 @@ namespace DevelopmentConsoleTool {
 			get { return RectTransform.rect.height; }
 		}
 
-		protected override void Awake() {
+	    private void OnGUI() {
+		    RedefineUpArrowBehavior();
+	    }
+
+	    private void RedefineUpArrowBehavior() {
+		    var currentEvent = Event.current;
+		    if (currentEvent.keyCode == KeyCode.UpArrow) {
+			    currentEvent.Use();
+			    MoveCaretToEnd();
+		    }
+	    }
+
+	    protected override void Awake() {
             base.Awake();
 
 			onValidateInput += ValidateInputHandler;
@@ -92,6 +103,7 @@ namespace DevelopmentConsoleTool {
 			var result = prompt + cmd;
 			text = result;
 		}
+
 	}
 
 }
