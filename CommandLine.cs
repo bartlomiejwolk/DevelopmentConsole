@@ -5,7 +5,7 @@ using UnityEngine.UI;
 
 namespace DevelopmentConsoleTool {
 
-    public class CustomInputField : InputField {
+    public class CommandLine : InputField {
 
 		[SerializeField]
 		private string prompt = "> ";
