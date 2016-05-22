@@ -1,75 +1,97 @@
-﻿using UnityEngine;
+﻿using System.Collections;
+using UnityEngine;
 using UnityEngine.UI;
 #pragma warning disable 649
 
 namespace DevelopmentConsoleTool {
 
-    /// <summary>
-    /// Class to be attached to a line prefab.
-    /// </summary>
-    [RequireComponent(typeof(InputField))]
-    public class CommandLine : MonoBehaviour {
+    public class CommandLine : InputField {
 
-        [SerializeField]
-        private string prompt = "> ";
+		[SerializeField]
+		private string prompt = "> ";
 
-        // cache
-        public RectTransform RectTransform { get; private set; }
-        private CustomInputField inputField;
+	    private RectTransform rectTransform;
 
-        private CustomInputField InputField {
-            get {
-                if (inputField != null) {
-                    return inputField;
-                }
-                var component = GetComponent<CustomInputField>();
-                return component;
+	    public RectTransform RectTransform {
+		    get {
+			    if (rectTransform != null) {
+				    return rectTransform;
+			    }
+				var com = GetComponent<RectTransform>();
+			    return com;
+		    }
+	    }
+
+	    public string IgnoredChars { get; set; }
+
+		public float Height
+		{
+			get { return RectTransform.rect.height; }
+		}
+
+		protected override void Awake() {
+            base.Awake();
+
+			onValidateInput += ValidateInputHandler;
+            onValueChanged.AddListener(ValueChangedHandler);
+        }
+
+        private char ValidateInputHandler(string fieldText, int charIndex, char addedChar)
+        {
+            if (IgnoredChars.Contains(addedChar.ToString())) {
+                return '\0';
+            }
+            return addedChar;
+        }
+
+        private void ValueChangedHandler(string value) {
+            // prevent prompt to be deleted
+            if (value.Length < prompt.Length) {
+                text = prompt;
+            }
+
+            // prevent caret from going onto the prompt
+            if (caretPosition < prompt.Length) {
+                MoveTextEnd(false);
             }
         }
 
-        public float Height {
-            get { return RectTransform.rect.height; }
-        }
-
-        public string Text {
-            get { return InputField.text; }
-            set { InputField.text = value; }
-        }
-
-        private void Awake() {
-            Init();
-        }
-
-        public void GetFocus() {
-            InputField.ActivateInputField();
+        protected override void Start() {
+            text = prompt;
+            ActivateInputField();
+            StartCoroutine(MoveTextEnd_NextFrame());
         }
 
         public void MoveCaretToEnd() {
-            InputField.MoveCaretToEnd();
+            StartCoroutine(MoveTextEnd_NextFrame());
         }
 
-        private void Init() {
-            InputField.Prompt = prompt;
-            RectTransform = GetComponent<RectTransform>();
+        IEnumerator MoveTextEnd_NextFrame() {
+            yield return 0; 
+            MoveTextEnd(false);
         }
 
-        public void SetIgnoredChars(string chars) {
-            InputField.IgnoredChars = chars;
-        }
+		public string GetCommandString()
+		{
+			var cmdString = text.Substring(prompt.Length);
+			return cmdString;
+		}
 
-        public void SetReadOnly() {
-            InputField.readOnly = true;
-        }
+		public void GetFocus()
+		{
+			ActivateInputField();
+		}
 
-        public string GetCommandString() {
-            var cmdString = Text.Substring(prompt.Length);
-            return cmdString;
-        }
+		public void SetReadOnly()
+		{
+			readOnly = true;
+		}
 
-        public void SetCommandString(string cmd) {
-            var result = prompt + cmd;
-            Text = result;
-        }
-    }
+		public void SetCommandString(string cmd)
+		{
+			var result = prompt + cmd;
+			text = result;
+		}
+	}
 
 }

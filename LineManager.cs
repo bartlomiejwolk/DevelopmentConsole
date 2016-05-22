@@ -64,7 +64,7 @@ namespace DevelopmentConsoleTool {
         }
 
         private void Start() {
-            firstLine.SetIgnoredChars(IgnoredChars);
+            firstLine.IgnoredChars = IgnoredChars;
         }
 
         #endregion
@@ -127,7 +127,7 @@ namespace DevelopmentConsoleTool {
             var cmdLine = go.GetComponent<CommandLine>();
 
             lines.Add(cmdLine);
-            cmdLine.SetIgnoredChars(IgnoredChars);
+            cmdLine.IgnoredChars = IgnoredChars;
             PositionLine();
             PenultimateLine.SetReadOnly();
             RepositionLines();
