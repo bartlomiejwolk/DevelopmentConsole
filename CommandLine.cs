@@ -6,8 +6,7 @@ using UnityEngine.UI;
 namespace DevelopmentConsoleTool {
 
     public class CommandLine : InputField {
-
-		[SerializeField]
+	    [SerializeField]
 		private string prompt = "> ";
 
 	    private RectTransform rectTransform;
@@ -29,14 +28,38 @@ namespace DevelopmentConsoleTool {
 			get { return RectTransform.rect.height; }
 		}
 
-		protected override void Awake() {
-            base.Awake();
+	    #region UNITY MESSAGES
 
-			onValidateInput += ValidateInputHandler;
-            onValueChanged.AddListener(ValueChangedHandler);
-        }
+	    private void OnGUI() {
+		    RedefineUpDownArrowBehavior();
+		}
 
-        private char ValidateInputHandler(string fieldText, int charIndex, char addedChar)
+	    protected override void Awake() {
+		    base.Awake();
+
+		    onValidateInput += ValidateInputHandler;
+		    onValueChanged.AddListener(ValueChangedHandler);
+	    }
+
+	    protected override void Start() {
+		    text = prompt;
+		    ActivateInputField();
+		    StartCoroutine(MoveTextEnd_NextFrame());
+	    }
+
+	    #endregion
+
+	    private void RedefineUpDownArrowBehavior() {
+		    var currentEvent = Event.current;
+		    if (currentEvent.keyCode == KeyCode.UpArrow ||
+				currentEvent.keyCode == KeyCode.DownArrow) {
+
+			    currentEvent.Use();
+			    MoveCaretToEnd();
+		    }
+	    }
+
+	    private char ValidateInputHandler(string fieldText, int charIndex, char addedChar)
         {
             if (IgnoredChars.Contains(addedChar.ToString())) {
                 return '\0';
@@ -56,13 +79,7 @@ namespace DevelopmentConsoleTool {
             }
         }
 
-        protected override void Start() {
-            text = prompt;
-            ActivateInputField();
-            StartCoroutine(MoveTextEnd_NextFrame());
-        }
-
-        public void MoveCaretToEnd() {
+	    public void MoveCaretToEnd() {
             StartCoroutine(MoveTextEnd_NextFrame());
         }
 
@@ -92,6 +109,7 @@ namespace DevelopmentConsoleTool {
 			var result = prompt + cmd;
 			text = result;
 		}
+
 	}
 
 }
