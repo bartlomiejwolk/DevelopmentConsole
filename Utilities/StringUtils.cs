@@ -1,6 +1,6 @@
 ﻿namespace DevelopmentConsoleTool.Utilities {
 
-	public static class StringUtils {
+    public static class StringUtils {
 
-	}
+    }
 }

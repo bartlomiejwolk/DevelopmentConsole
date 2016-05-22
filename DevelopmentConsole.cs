@@ -3,115 +3,145 @@ using DevelopmentConsoleTool.CommandHandlerSystem;
 using UnityEngine;
 using UnityEngine.Assertions;
 
+#pragma warning disable 169
 #pragma warning disable 649
+#pragma warning disable 0414
 
 namespace DevelopmentConsoleTool {
 
-	/// <summary>
-	/// The main class of the DevelopmentConsole tool.
-	/// </summary>
+    /// <summary>
+    /// The main class of the DevelopmentConsole tool.
+    /// </summary>
     public class DevelopmentConsole : MonoBehaviour {
 
-	    public static DevelopmentConsole Instance;
+        [SerializeField]
+        private bool dontDestroyOnLoad = true;
 
-	    [SerializeField]
-	    private bool dontDestroyOnLoad = true;
+        [SerializeField]
+        private LineManager lineManager;
 
-		[SerializeField]
-		private LineManager lineManager;
+        [SerializeField]
+        private Canvas canvas;
 
-		[SerializeField]
-		private Canvas canvas;
+        [SerializeField]
+        private KeyCode toggleConsoleWindowKey = KeyCode.BackQuote;
 
-		[SerializeField]
-		private KeyCode toggleConsoleWindowKey = KeyCode.BackQuote;
+        private Action returnKeyPressed;
+        private Action toggleConsoleWindowKeyPressed;
+        private Action arrowUpKeyPressed;
+        private Action arrowDownKeyPressed;
 
-	    private Action returnKeyPressed;
-		private Action toggleConsoleWindowKeyPressed;
+        private readonly CommandHistory commandHistory = new CommandHistory();
 
-		private bool IsConsoleWindowOpen {
-			get { return canvas.gameObject.activeSelf; }
-		}
+        private bool IsConsoleWindowOpen {
+            get { return canvas.gameObject.activeSelf; }
+        }
 
-	    #region UNITY MESSAGES
+        #region UNITY MESSAGES
 
-	    private void Awake() {
-	        InitializeSingleton();
+        private void Awake() {
+            returnKeyPressed += OnReturnKeyPressed;
+            toggleConsoleWindowKeyPressed += OnToggleConsoleWindowKeyPressed;
+            arrowUpKeyPressed += OnArrowUpPressed;
+            arrowDownKeyPressed += OnArrowDownPressed;
 
-			returnKeyPressed += OnReturnKeyPressed;
-		    toggleConsoleWindowKeyPressed += OnToggleConsoleWindowKeyPressed;
+            var keyChar = (char)toggleConsoleWindowKey;
+            lineManager.IgnoredChars = keyChar.ToString();
 
-			var keyChar = (char)toggleConsoleWindowKey;
-			lineManager.IgnoredChars = keyChar.ToString();
+            Assert.IsNotNull(lineManager);
+            Assert.IsNotNull(canvas);
+        }
 
-			Assert.IsNotNull(lineManager);
-			Assert.IsNotNull(canvas);
-	    }
+        private void Start() {
+        }
 
-		private void Start() {
-		}
+        private void Update() {
+            CheckForToggleConsoleWindowKey();
+            HandleInConsoleKeyboardInput();
+        }
 
-		private void Update() {
-		    CheckForReturnKey();
-			CheckForToggleConsoleWindowKey();
-	    }
+        private void HandleInConsoleKeyboardInput() {
+            if (!IsConsoleWindowOpen) {
+                return;
+            }
 
-	    #endregion
+            CheckForReturnKey();
+            CheckForArrowUpKey();
+            CheckForArrowDownKey();
+        }
 
-	    private void InitializeSingleton() {
-		    if (Instance != null) {
-			    if (Instance == this) {
-				    return;
-			    }
-			    Debug.Log("Multiple DevelopmentConsole instances detected in the scene. Only one DevelopmentConsole can exist at a time. The duplicate DevelopmentConsole will not be used.");
-			    Destroy(gameObject);
-			    return;
-		    }
-		    Instance = this;
+        #endregion
 
-		    if (dontDestroyOnLoad) {
-			    DontDestroyOnLoad(this);
-		    }
-	    }
+        #region CHECK METHODS
 
-		#region INPUT HANDLERS
-
-		private void OnReturnKeyPressed() {
-			CommandHandlerManager.HandleCommand(lineManager.CommandString);
-			lineManager.AddNewLine();
-	    }
-
-		private void OnToggleConsoleWindowKeyPressed() {
-			if (IsConsoleWindowOpen) {
-				CloseConsoleWindow();
-				return;
-			}
-			OpenConsoleWindow();
-		}
-
-		#endregion
-
-		private void CheckForReturnKey()
-        {
-            if (Input.GetKeyDown(KeyCode.Return))
-            {
+        private void CheckForReturnKey() {
+            if (Input.GetKeyDown(KeyCode.Return)) {
                 returnKeyPressed();
             }
         }
 
-		private void CheckForToggleConsoleWindowKey() {
-			if (Input.GetKeyDown(toggleConsoleWindowKey)) {
-				toggleConsoleWindowKeyPressed();
-			}
-		}
+        private void CheckForToggleConsoleWindowKey() {
+            if (Input.GetKeyDown(toggleConsoleWindowKey)) {
+                toggleConsoleWindowKeyPressed();
+            }
+        }
 
-		private void OpenConsoleWindow() {
-			canvas.gameObject.SetActive(true);
-			lineManager.GetFocus();
-		}
+        private void CheckForArrowUpKey() {
+            if (Input.GetKeyDown(KeyCode.UpArrow)) {
+                arrowUpKeyPressed();
+            }
+        }
 
-		private void CloseConsoleWindow() {
-			canvas.gameObject.SetActive(false);
-		}
+        private void CheckForArrowDownKey() {
+            if (Input.GetKeyDown(KeyCode.DownArrow)) {
+                arrowDownKeyPressed();
+            }
+        }
+
+        #endregion
+
+        private void OpenConsoleWindow() {
+            canvas.gameObject.SetActive(true);
+            lineManager.GetFocus();
+        }
+
+        private void CloseConsoleWindow() {
+            canvas.gameObject.SetActive(false);
+        }
+
+        #region INPUT HANDLERS
+
+        private void OnReturnKeyPressed() {
+            commandHistory.AddCommand(lineManager.CommandString);
+            CommandHandlerManager.Instance.HandleCommand(lineManager.CommandString);
+            lineManager.InstantiateLine();
+        }
+
+        private void OnToggleConsoleWindowKeyPressed() {
+            if (IsConsoleWindowOpen) {
+                CloseConsoleWindow();
+            }
+            else {
+                OpenConsoleWindow();
+            }
+        }
+
+        private void OnArrowUpPressed() {
+            var nextInput = commandHistory.GetPreviousCommand();
+            if (nextInput == null) {
+                return;
+            }
+            lineManager.SetCommandString(nextInput);
+        }
+
+        private void OnArrowDownPressed() {
+            var previousInput = commandHistory.GetNextCommand();
+            if (previousInput == null) {
+                return;
+            }
+            lineManager.SetCommandString(previousInput);
+        }
+
+        #endregion
     }
 }
