@@ -31,8 +31,8 @@ namespace DevelopmentConsoleTool {
 	    #region UNITY MESSAGES
 
 	    private void OnGUI() {
-		    RedefineUpArrowBehavior();
-	    }
+		    RedefineUpDownArrowBehavior();
+		}
 
 	    protected override void Awake() {
 		    base.Awake();
@@ -49,9 +49,11 @@ namespace DevelopmentConsoleTool {
 
 	    #endregion
 
-	    private void RedefineUpArrowBehavior() {
+	    private void RedefineUpDownArrowBehavior() {
 		    var currentEvent = Event.current;
-		    if (currentEvent.keyCode == KeyCode.UpArrow) {
+		    if (currentEvent.keyCode == KeyCode.UpArrow ||
+				currentEvent.keyCode == KeyCode.DownArrow) {
+
 			    currentEvent.Use();
 			    MoveCaretToEnd();
 		    }
