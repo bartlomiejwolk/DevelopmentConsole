@@ -9,10 +9,22 @@ namespace DevelopmentConsoleTool {
         public string IgnoredChars { get; set; }
         public string Prompt { get; set; }
 
-        protected override void Awake() {
+		[SerializeField]
+		private string prompt = "> ";
+
+		public RectTransform RectTransform { get; private set; }
+
+		public float Height
+		{
+			get { return RectTransform.rect.height; }
+		}
+
+		protected override void Awake() {
             base.Awake();
 
-            onValidateInput += ValidateInputHandler;
+			RectTransform = GetComponent<RectTransform>();
+
+			onValidateInput += ValidateInputHandler;
             onValueChanged.AddListener(ValueChangedHandler);
         }
 
@@ -55,6 +67,32 @@ namespace DevelopmentConsoleTool {
             MoveTextEnd(false);
         }
 
-    }
+		public string GetCommandString()
+		{
+			var cmdString = text.Substring(prompt.Length);
+			return cmdString;
+		}
+
+		public void GetFocus()
+		{
+			ActivateInputField();
+		}
+
+		public void SetIgnoredChars(string chars)
+		{
+			IgnoredChars = chars;
+		}
+
+		public void SetReadOnly()
+		{
+			readOnly = true;
+		}
+
+		public void SetCommandString(string cmd)
+		{
+			var result = prompt + cmd;
+			text = result;
+		}
+	}
 
 }

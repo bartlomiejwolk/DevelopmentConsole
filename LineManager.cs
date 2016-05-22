@@ -18,18 +18,18 @@ namespace DevelopmentConsoleTool {
         public string IgnoredChars { get; set; }
 
         [SerializeField]
-        private CommandLine firstLine;
+        private CustomInputField firstLine;
 
         [SerializeField]
         private GameObject commandLineTemplate;
 
-        private readonly List<CommandLine> lines = new List<CommandLine>();
+        private readonly List<CustomInputField> lines = new List<CustomInputField>();
 
-        public CommandLine LastLine {
+        public CustomInputField LastLine {
             get { return lines.LastOrDefault(); }
         }
 
-        public CommandLine PenultimateLine
+        public CustomInputField PenultimateLine
         {
             get {
                 if (lines.Count > 1) {
@@ -124,7 +124,7 @@ namespace DevelopmentConsoleTool {
 
         private void LineInstantiatedHandler(object sender, LineInstantiatedEventArgs eventArgs) {
             var go = eventArgs.InstantiatedGo;
-            var cmdLine = go.GetComponent<CommandLine>();
+            var cmdLine = go.GetComponent<CustomInputField>();
 
             lines.Add(cmdLine);
             cmdLine.SetIgnoredChars(IgnoredChars);
