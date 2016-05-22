@@ -1,18 +1,28 @@
 ﻿using System.Collections;
 using UnityEngine;
 using UnityEngine.UI;
+#pragma warning disable 649
 
 namespace DevelopmentConsoleTool {
 
     public class CustomInputField : InputField {
 
-        public string IgnoredChars { get; set; }
-        public string Prompt { get; set; }
-
 		[SerializeField]
 		private string prompt = "> ";
 
-		public RectTransform RectTransform { get; private set; }
+	    private RectTransform rectTransform;
+
+	    public RectTransform RectTransform {
+		    get {
+			    if (rectTransform != null) {
+				    return rectTransform;
+			    }
+				var com = GetComponent<RectTransform>();
+			    return com;
+		    }
+	    }
+
+	    public string IgnoredChars { get; set; }
 
 		public float Height
 		{
@@ -22,13 +32,11 @@ namespace DevelopmentConsoleTool {
 		protected override void Awake() {
             base.Awake();
 
-			RectTransform = GetComponent<RectTransform>();
-
 			onValidateInput += ValidateInputHandler;
             onValueChanged.AddListener(ValueChangedHandler);
         }
 
-        private char ValidateInputHandler(string text, int charIndex, char addedChar)
+        private char ValidateInputHandler(string fieldText, int charIndex, char addedChar)
         {
             if (IgnoredChars.Contains(addedChar.ToString())) {
                 return '\0';
@@ -38,22 +46,18 @@ namespace DevelopmentConsoleTool {
 
         private void ValueChangedHandler(string value) {
             // prevent prompt to be deleted
-            if (value.Length < Prompt.Length) {
-                text = Prompt;
+            if (value.Length < prompt.Length) {
+                text = prompt;
             }
 
             // prevent caret from going onto the prompt
-            if (caretPosition < Prompt.Length) {
+            if (caretPosition < prompt.Length) {
                 MoveTextEnd(false);
             }
         }
 
-        protected override void OnEnable() {
-            base.OnEnable();
-        }
-
         protected override void Start() {
-            text = Prompt;
+            text = prompt;
             ActivateInputField();
             StartCoroutine(MoveTextEnd_NextFrame());
         }
@@ -76,11 +80,6 @@ namespace DevelopmentConsoleTool {
 		public void GetFocus()
 		{
 			ActivateInputField();
-		}
-
-		public void SetIgnoredChars(string chars)
-		{
-			IgnoredChars = chars;
 		}
 
 		public void SetReadOnly()
