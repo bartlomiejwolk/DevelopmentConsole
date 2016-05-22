@@ -28,9 +28,26 @@ namespace DevelopmentConsoleTool {
 			get { return RectTransform.rect.height; }
 		}
 
+	    #region UNITY MESSAGES
+
 	    private void OnGUI() {
 		    RedefineUpArrowBehavior();
 	    }
+
+	    protected override void Awake() {
+		    base.Awake();
+
+		    onValidateInput += ValidateInputHandler;
+		    onValueChanged.AddListener(ValueChangedHandler);
+	    }
+
+	    protected override void Start() {
+		    text = prompt;
+		    ActivateInputField();
+		    StartCoroutine(MoveTextEnd_NextFrame());
+	    }
+
+	    #endregion
 
 	    private void RedefineUpArrowBehavior() {
 		    var currentEvent = Event.current;
@@ -40,14 +57,7 @@ namespace DevelopmentConsoleTool {
 		    }
 	    }
 
-	    protected override void Awake() {
-            base.Awake();
-
-			onValidateInput += ValidateInputHandler;
-            onValueChanged.AddListener(ValueChangedHandler);
-        }
-
-        private char ValidateInputHandler(string fieldText, int charIndex, char addedChar)
+	    private char ValidateInputHandler(string fieldText, int charIndex, char addedChar)
         {
             if (IgnoredChars.Contains(addedChar.ToString())) {
                 return '\0';
@@ -67,13 +77,7 @@ namespace DevelopmentConsoleTool {
             }
         }
 
-        protected override void Start() {
-            text = prompt;
-            ActivateInputField();
-            StartCoroutine(MoveTextEnd_NextFrame());
-        }
-
-        public void MoveCaretToEnd() {
+	    public void MoveCaretToEnd() {
             StartCoroutine(MoveTextEnd_NextFrame());
         }
 
