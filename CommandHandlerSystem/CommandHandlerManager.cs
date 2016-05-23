@@ -20,6 +20,23 @@ namespace DevelopmentConsoleTool.CommandHandlerSystem {
 
         private CommandHandlerManager() {}
 
+        public void HandleCommand(string commandString) {
+            CommandHandler commandHandler;
+            commandHandlers.TryGetValue(commandString, out commandHandler);
+            if (commandHandler != null) {
+                commandHandler.Invoke();
+            }
+        }
+
+        public void RegisterCommandHandlers(Type type, object obj) {
+            if (handlerTypes.Contains(type)) {
+                return;
+            }
+
+            handlerTypes.Add(type);
+            RegisterMethodHandlers(type, obj);
+        }
+
         public void RegisterMethodHandlers(Type type, object obj) {
             var methods = GetMethodsFromType(type, obj);
 
@@ -76,23 +93,6 @@ namespace DevelopmentConsoleTool.CommandHandlerSystem {
 
             var handler = new MethodCommandHandler(commandName, description, obj, type, method);
             commandHandlers.Add(commandName.ToLower(), handler);
-        }
-
-        public void HandleCommand(string commandString) {
-            CommandHandler commandHandler;
-            commandHandlers.TryGetValue(commandString, out commandHandler);
-            if (commandHandler != null) {
-                commandHandler.Invoke();
-            }
-        }
-
-        public void RegisterCommandHandlers(Type type, object obj) {
-            if (handlerTypes.Contains(type)) {
-                return;
-            }
-
-            handlerTypes.Add(type);
-            RegisterMethodHandlers(type, obj);
         }
     }
 }
