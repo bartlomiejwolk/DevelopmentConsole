@@ -28,6 +28,14 @@ namespace DevelopmentConsoleTool.CommandHandlerSystem {
             }
         }
 
+        public void RegisterCommandHandlers(Type type) {
+            RegisterCommandHandlers(type, null);
+        }
+
+        public void RegisterCommandHandlers(object obj) {
+            RegisterCommandHandlers(obj.GetType(), obj);
+        }
+
         public void RegisterCommandHandlers(Type type, object obj) {
             if (handlerTypes.Contains(type)) {
                 return;
