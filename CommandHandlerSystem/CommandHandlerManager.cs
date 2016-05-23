@@ -42,16 +42,15 @@ namespace DevelopmentConsoleTool.CommandHandlerSystem {
             }
 
             handlerTypes.Add(type);
-            RegisterMethodHandlers(type, obj);
+            RegisterCommandHandlerMethods(type, obj);
         }
 
-        public void RegisterMethodHandlers(Type type, object obj) {
+        public void RegisterCommandHandlerMethods(Type type, object obj) {
             var methods = GetMethodsFromType(type, obj);
 
             foreach (var method in methods) {
                 var customAttributes = method.GetCustomAttributes(
                     typeof (CommandHandlerAttribute), true);
-
                 if (customAttributes.Length <= 0) {
                     continue;
                 }
