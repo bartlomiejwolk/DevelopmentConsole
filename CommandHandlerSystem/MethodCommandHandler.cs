@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Reflection;
 
 namespace DevelopmentConsoleTool.CommandHandlerSystem {
@@ -32,6 +31,7 @@ namespace DevelopmentConsoleTool.CommandHandlerSystem {
         }
 
         public override void Invoke(params string[] arguments) {
+            // todo implement args
             _methodInfo.Invoke(ObjectReference.Target, null);
         }
     }

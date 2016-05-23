@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Reflection;
+using DevelopmentConsoleTool.Utilities;
 
 namespace DevelopmentConsoleTool.CommandHandlerSystem {
 
@@ -21,11 +23,27 @@ namespace DevelopmentConsoleTool.CommandHandlerSystem {
         private CommandHandlerManager() {}
 
         public void HandleCommand(string commandString) {
-            CommandHandler commandHandler;
-            commandHandlers.TryGetValue(commandString, out commandHandler);
+            var splitData = SplitCommandString(commandString);
+            var commandName = splitData[0];
+            var commandHandler = GetHandlerByCommandName(commandName);
             if (commandHandler != null) {
-                commandHandler.Invoke();
+                var parameters = splitData.GetRange(1, splitData.Count - 1);
+                commandHandler.Invoke(parameters.ToArray());
             }
+        }
+
+        private static List<string> SplitCommandString(string commandString) {
+            var arguments = commandString.Split(null).ToList();
+            if (arguments.Count == 0) {
+                return null;
+            }
+            return arguments;
+        }
+
+        private CommandHandler GetHandlerByCommandName(string commandName) {
+            CommandHandler handler;
+            commandHandlers.TryGetValue(commandName, out handler);
+            return handler;
         }
 
         public void RegisterCommandHandlers(Type type) {
