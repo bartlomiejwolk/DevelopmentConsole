@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Reflection;
 
 namespace DevelopmentConsoleTool.CommandHandlerSystem {
@@ -9,11 +10,11 @@ namespace DevelopmentConsoleTool.CommandHandlerSystem {
         private readonly List<ParamInfo> paramInfos = new List<ParamInfo>();
 
         public MethodCommandHandler(
-            string commandName,
-            string description,
-            object obj,
             Type type,
-            MethodInfo methodInfo) : base(commandName, description, obj, type) {
+            object obj,
+            MethodInfo methodInfo,
+            string commandName,
+            string description) : base(type, obj, commandName, description) {
 
             this.methodInfo = methodInfo;
         }

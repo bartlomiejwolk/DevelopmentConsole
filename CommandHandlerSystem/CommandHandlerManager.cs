@@ -98,7 +98,7 @@ namespace DevelopmentConsoleTool.CommandHandlerSystem {
                 commandName = method.Name;
             }
 
-            var handler = new MethodCommandHandler(commandName, description, obj, type, method);
+            var handler = new MethodCommandHandler(type, obj, method, commandName, description);
             commandHandlers.Add(commandName.ToLower(), handler);
         }
     }

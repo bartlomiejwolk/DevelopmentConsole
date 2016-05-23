@@ -12,14 +12,21 @@ namespace DevelopmentConsoleTool.CommandHandlerSystem {
         protected readonly Type Type;
         private readonly bool isStatic;
 
-        protected CommandHandler(string commandName, string description, object obj, Type type) {
+        protected CommandHandler(
+            Type type,
+            object obj,
+            string commandName,
+            string description) {
+            
+            Type = type;
+            if (obj != null) {
+                ObjectReference = new WeakReference(obj);
+            }
+            else {
+                isStatic = true;
+            }
             CommandName = commandName;
             Description = description;
-            Type = type;
-            if (obj != null)
-                ObjectReference = new WeakReference(obj);
-            else
-                isStatic = true;
         }
 
         public abstract void Invoke(params string[] arguments);
