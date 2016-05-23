@@ -6,6 +6,7 @@ namespace DevelopmentConsoleTool.CommandHandlerSystem {
     public class MethodCommandHandler : CommandHandler {
 
         private readonly MethodInfo methodInfo;
+        private readonly List<ParamInfo> paramInfos = new List<ParamInfo>();
 
         public MethodCommandHandler(
             string commandName,
