@@ -15,6 +15,7 @@ namespace DevelopmentConsoleTool {
     public class LineManager : MonoBehaviour {
 
         public event EventHandler<LineInstantiatedEventArgs> LineInstantiated;
+        public event EventHandler<LineValueChangedEventArgs> LineValueChanged;
         public string IgnoredChars { get; set; }
 
         [SerializeField]
@@ -112,9 +113,16 @@ namespace DevelopmentConsoleTool {
 
         #region EVENT INVOCATORS
 
+        // todo rename to OnLineInstantiated
+        // todo change param to accept LineInstantiatedEventArgs
         protected virtual void RaiseLineInstantiatedEvent(GameObject instantiatedGo) {
             var handler = LineInstantiated;
             var args = new LineInstantiatedEventArgs(instantiatedGo);
+            if (handler != null) handler(this, args);
+        }
+
+        protected virtual void OnLineValueChanged(LineValueChangedEventArgs args) {
+            var handler = LineValueChanged;
             if (handler != null) handler(this, args);
         }
 
@@ -144,12 +152,23 @@ namespace DevelopmentConsoleTool {
         }
     }
 
+    // todo move to a separate file
     public class LineInstantiatedEventArgs : EventArgs {
 
         public GameObject InstantiatedGo { get; private set; }
 
         public LineInstantiatedEventArgs(GameObject instantiatedGo) {
             InstantiatedGo = instantiatedGo;
+        }
+    }
+
+    // todo move to a separate file
+    public class LineValueChangedEventArgs : EventArgs {
+        
+        public string Value { get; private set; }
+
+        public LineValueChangedEventArgs(string value) {
+            Value = value;
         }
     }
 
