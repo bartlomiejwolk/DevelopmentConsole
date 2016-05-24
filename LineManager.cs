@@ -55,7 +55,7 @@ namespace DevelopmentConsoleTool {
             Assert.IsNotNull(_commandLineTemplate);
             Assert.IsNotNull(_firstLine);
 
-            LineInstantiated += LineInstantiatedHandler;
+            LineInstantiated += OnInstantiated;
             _lines.Add(_firstLine);
             SubscribeToValueChangedEvent();
         }
@@ -93,7 +93,7 @@ namespace DevelopmentConsoleTool {
             cmdLineGo.transform.SetParent(transform, false);
 
             var args = new LineInstantiatedEventArgs(cmdLineGo);
-            OnLineInstantiated(args);
+            InvokeLineInstantiatedEvent(args);
         }
 
         private void PositionLine() {
@@ -115,14 +115,12 @@ namespace DevelopmentConsoleTool {
 
         #region EVENT INVOCATORS
 
-        // todo rename to FireLineInstantiedEvent
-        protected virtual void OnLineInstantiated(LineInstantiatedEventArgs args) {
+        protected virtual void InvokeLineInstantiatedEvent(LineInstantiatedEventArgs args) {
             var handler = LineInstantiated;
             if (handler != null) handler(this, args);
         }
 
-        // todo rename to FireLineValueChangedEvent
-        protected virtual void OnLineValueChanged(LineValueChangedEventArgs args) {
+        protected virtual void InvokeLineValueChangedEvent(LineValueChangedEventArgs args) {
             var handler = LineValueChanged;
             if (handler != null) handler(this, args);
         }
@@ -131,8 +129,7 @@ namespace DevelopmentConsoleTool {
 
         #region EVENT HANDLERS
 
-        // todo rename all handlers like OnLineInstantiated
-        private void LineInstantiatedHandler(object sender, LineInstantiatedEventArgs eventArgs) {
+        private void OnInstantiated(object sender, LineInstantiatedEventArgs eventArgs) {
             var go = eventArgs.InstantiatedGo;
             var cmdLine = go.GetComponent<CommandLine>();
 
@@ -150,12 +147,12 @@ namespace DevelopmentConsoleTool {
         }
 
         private void SubscribeToValueChangedEvent() {
-            LastLine.onValueChanged.AddListener(InputFieldOnValueChangedHandler);
+            LastLine.onValueChanged.AddListener(InputFieldOnValueChanged);
         }
 
-        private void InputFieldOnValueChangedHandler(string text) {
+        private void InputFieldOnValueChanged(string text) {
             var args = new LineValueChangedEventArgs(text);
-            OnLineValueChanged(args);
+            InvokeLineValueChangedEvent(args);
         }
 
         #endregion

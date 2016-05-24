@@ -39,7 +39,7 @@ namespace DevelopmentConsoleTool {
 		    base.Awake();
 
 		    onValidateInput += ValidateInputHandler;
-		    onValueChanged.AddListener(ValueChangedHandler);
+		    onValueChanged.AddListener(OnValueChanged);
 	    }
 
 	    protected override void Start() {
@@ -101,8 +101,7 @@ namespace DevelopmentConsoleTool {
 		    return addedChar;
 	    }
 
-        // todo rename to OnValueChanged
-	    private void ValueChangedHandler(string value) {
+	    private void OnValueChanged(string value) {
 		    // prevent prompt to be deleted
 		    if (value.Length < _prompt.Length) {
 			    text = _prompt;
