@@ -60,16 +60,6 @@ namespace DevelopmentConsoleTool {
             HandleInConsoleKeyboardInput();
         }
 
-        private void HandleInConsoleKeyboardInput() {
-            if (!IsConsoleWindowOpen) {
-                return;
-            }
-
-            CheckForReturnKey();
-            CheckForArrowUpKey();
-            CheckForArrowDownKey();
-        }
-
         #endregion
 
         #region CHECK METHODS
@@ -99,6 +89,16 @@ namespace DevelopmentConsoleTool {
         }
 
         #endregion
+
+        private void HandleInConsoleKeyboardInput() {
+            if (!IsConsoleWindowOpen) {
+                return;
+            }
+
+            CheckForReturnKey();
+            CheckForArrowUpKey();
+            CheckForArrowDownKey();
+        }
 
         private void OpenConsoleWindow() {
             _canvas.gameObject.SetActive(true);
