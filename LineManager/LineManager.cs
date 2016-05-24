@@ -165,25 +165,4 @@ namespace DevelopmentConsoleTool {
             LastLine.SetCommandString(text);
         }
     }
-
-    // todo move to a separate file
-    public class LineInstantiatedEventArgs : EventArgs {
-
-        public GameObject InstantiatedGo { get; private set; }
-
-        public LineInstantiatedEventArgs(GameObject instantiatedGo) {
-            InstantiatedGo = instantiatedGo;
-        }
-    }
-
-    // todo move to a separate file
-    public class LineValueChangedEventArgs : EventArgs {
-        
-        public string Value { get; private set; }
-
-        public LineValueChangedEventArgs(string value) {
-            Value = value;
-        }
-    }
-
 }
