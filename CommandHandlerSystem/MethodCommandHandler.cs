@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Reflection;
+using Debug = UnityEngine.Debug;
 
 namespace DevelopmentConsoleTool.CommandHandlerSystem {
 
@@ -53,21 +55,32 @@ namespace DevelopmentConsoleTool.CommandHandlerSystem {
         }
 
         private object GetArgumentValueFromString(Type type, string argument) {
-            if (type == typeof (string)) {
-                var argObject = (object) argument;
-                return argObject;
+            try
+            {
+                if (type == typeof(string))
+                {
+                    var argObject = (object)argument;
+                    return argObject;
+                }
+                if (type == typeof(int))
+                {
+                    var argObject = (object)int.Parse(argument);
+                    return argObject;
+                }
+                if (type == typeof(float))
+                {
+                    var argObject = (object)float.Parse(argument);
+                    return argObject;
+                }
+                if (type == typeof(bool))
+                {
+                    var argObject = (object)bool.Parse(argument);
+                    return argObject;
+                }
             }
-            if (type == typeof (int)) {
-                var argObject = (object) int.Parse(argument);
-                return argObject;
-            }
-            if (type == typeof (float)) {
-                var argObject = (object) float.Parse(argument);
-                return argObject;
-            }
-            if (type == typeof (bool)) {
-                var argObject = (object) bool.Parse(argument);
-                return argObject;
+            catch (Exception e)
+            {
+                Debug.LogWarning("Could not parse command line argument!");
             }
             return null;
         }
