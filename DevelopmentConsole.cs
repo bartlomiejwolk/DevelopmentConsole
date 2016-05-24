@@ -40,7 +40,6 @@ namespace DevelopmentConsoleTool {
         #region UNITY MESSAGES
 
         private void Awake() {
-            // todo unsubscribe on destroy
             _lineManager.LineValueChanged += LineManagerOnLineValueChanged;
             _returnKeyPressed += OnReturnKeyPressed;
             _toggleConsoleWindowKeyPressed += OnToggleConsoleWindowKeyPressed;
@@ -64,6 +63,10 @@ namespace DevelopmentConsoleTool {
         private void Update() {
             CheckForToggleConsoleWindowKey();
             HandleInConsoleKeyboardInput();
+        }
+
+        private void OnDestroy() {
+            _lineManager.LineValueChanged -= LineManagerOnLineValueChanged;
         }
 
         #endregion
