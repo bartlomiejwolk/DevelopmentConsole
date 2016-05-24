@@ -6,15 +6,16 @@ using UnityEngine.UI;
 namespace DevelopmentConsoleTool {
 
     public class CommandLine : InputField {
-	    [SerializeField]
-		private string prompt = "> ";
+	    
+        [SerializeField]
+		private string _prompt = "> ";
 
-	    private RectTransform rectTransform;
+	    private RectTransform _rectTransform;
 
 	    public RectTransform RectTransform {
 		    get {
-			    if (rectTransform != null) {
-				    return rectTransform;
+			    if (_rectTransform != null) {
+				    return _rectTransform;
 			    }
 				var com = GetComponent<RectTransform>();
 			    return com;
@@ -42,7 +43,7 @@ namespace DevelopmentConsoleTool {
 	    }
 
 	    protected override void Start() {
-		    text = prompt;
+		    text = _prompt;
 		    ActivateInputField();
 		    MoveCaretToEnd();
 	    }
@@ -55,7 +56,7 @@ namespace DevelopmentConsoleTool {
 
 	    public string GetCommandString()
 		{
-			var cmdString = text.Substring(prompt.Length);
+			var cmdString = text.Substring(_prompt.Length);
 			return cmdString;
 		}
 
@@ -71,7 +72,7 @@ namespace DevelopmentConsoleTool {
 
 		public void SetCommandString(string cmd)
 		{
-			var result = prompt + cmd;
+			var result = _prompt + cmd;
 			text = result;
 		}
 
@@ -102,12 +103,12 @@ namespace DevelopmentConsoleTool {
 
 	    private void ValueChangedHandler(string value) {
 		    // prevent prompt to be deleted
-		    if (value.Length < prompt.Length) {
-			    text = prompt;
+		    if (value.Length < _prompt.Length) {
+			    text = _prompt;
 		    }
 
 		    // prevent caret from going onto the prompt
-		    if (caretPosition < prompt.Length) {
+		    if (caretPosition < _prompt.Length) {
 			    MoveTextEnd(false);
 		    }
 	    }

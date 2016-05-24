@@ -10,7 +10,7 @@ namespace DevelopmentConsoleTool.CommandHandlerSystem {
         protected readonly string Description;
         protected readonly WeakReference ObjectReference;
         protected readonly Type Type;
-        private readonly bool isStatic;
+        private readonly bool _isStatic;
 
         protected CommandHandler(
             Type type,
@@ -23,7 +23,7 @@ namespace DevelopmentConsoleTool.CommandHandlerSystem {
                 ObjectReference = new WeakReference(obj);
             }
             else {
-                isStatic = true;
+                _isStatic = true;
             }
             CommandName = commandName;
             Description = description;

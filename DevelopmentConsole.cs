@@ -15,41 +15,41 @@ namespace DevelopmentConsoleTool {
     public class DevelopmentConsole : MonoBehaviour {
 
         [SerializeField]
-        private bool dontDestroyOnLoad = true;
+        private bool _dontDestroyOnLoad = true;
 
         [SerializeField]
-        private LineManager lineManager;
+        private LineManager _lineManager;
 
         [SerializeField]
-        private Canvas canvas;
+        private Canvas _canvas;
 
         [SerializeField]
-        private KeyCode toggleConsoleWindowKey = KeyCode.BackQuote;
+        private KeyCode _toggleConsoleWindowKey = KeyCode.BackQuote;
 
-        private Action returnKeyPressed;
-        private Action toggleConsoleWindowKeyPressed;
-        private Action arrowUpKeyPressed;
-        private Action arrowDownKeyPressed;
+        private Action _returnKeyPressed;
+        private Action _toggleConsoleWindowKeyPressed;
+        private Action _arrowUpKeyPressed;
+        private Action _arrowDownKeyPressed;
 
-        private readonly CommandHistory commandHistory = new CommandHistory();
+        private readonly CommandHistory _commandHistory = new CommandHistory();
 
         private bool IsConsoleWindowOpen {
-            get { return canvas.gameObject.activeSelf; }
+            get { return _canvas.gameObject.activeSelf; }
         }
 
         #region UNITY MESSAGES
 
         private void Awake() {
-            returnKeyPressed += OnReturnKeyPressed;
-            toggleConsoleWindowKeyPressed += OnToggleConsoleWindowKeyPressed;
-            arrowUpKeyPressed += OnArrowUpPressed;
-            arrowDownKeyPressed += OnArrowDownPressed;
+            _returnKeyPressed += OnReturnKeyPressed;
+            _toggleConsoleWindowKeyPressed += OnToggleConsoleWindowKeyPressed;
+            _arrowUpKeyPressed += OnArrowUpPressed;
+            _arrowDownKeyPressed += OnArrowDownPressed;
 
-            var keyChar = (char)toggleConsoleWindowKey;
-            lineManager.IgnoredChars = keyChar.ToString();
+            var keyChar = (char)_toggleConsoleWindowKey;
+            _lineManager.IgnoredChars = keyChar.ToString();
 
-            Assert.IsNotNull(lineManager);
-            Assert.IsNotNull(canvas);
+            Assert.IsNotNull(_lineManager);
+            Assert.IsNotNull(_canvas);
         }
 
         private void Start() {
@@ -76,45 +76,45 @@ namespace DevelopmentConsoleTool {
 
         private void CheckForReturnKey() {
             if (Input.GetKeyDown(KeyCode.Return)) {
-                returnKeyPressed();
+                _returnKeyPressed();
             }
         }
 
         private void CheckForToggleConsoleWindowKey() {
-            if (Input.GetKeyDown(toggleConsoleWindowKey)) {
-                toggleConsoleWindowKeyPressed();
+            if (Input.GetKeyDown(_toggleConsoleWindowKey)) {
+                _toggleConsoleWindowKeyPressed();
             }
         }
 
         private void CheckForArrowUpKey() {
             if (Input.GetKeyDown(KeyCode.UpArrow)) {
-                arrowUpKeyPressed();
+                _arrowUpKeyPressed();
             }
         }
 
         private void CheckForArrowDownKey() {
             if (Input.GetKeyDown(KeyCode.DownArrow)) {
-                arrowDownKeyPressed();
+                _arrowDownKeyPressed();
             }
         }
 
         #endregion
 
         private void OpenConsoleWindow() {
-            canvas.gameObject.SetActive(true);
-            lineManager.GetFocus();
+            _canvas.gameObject.SetActive(true);
+            _lineManager.GetFocus();
         }
 
         private void CloseConsoleWindow() {
-            canvas.gameObject.SetActive(false);
+            _canvas.gameObject.SetActive(false);
         }
 
         #region INPUT HANDLERS
 
         private void OnReturnKeyPressed() {
-            commandHistory.AddCommand(lineManager.CommandString);
-            CommandHandlerManager.Instance.HandleCommand(lineManager.CommandString);
-            lineManager.InstantiateLine();
+            _commandHistory.AddCommand(_lineManager.CommandString);
+            CommandHandlerManager.Instance.HandleCommand(_lineManager.CommandString);
+            _lineManager.InstantiateLine();
         }
 
         private void OnToggleConsoleWindowKeyPressed() {
@@ -127,19 +127,19 @@ namespace DevelopmentConsoleTool {
         }
 
         private void OnArrowUpPressed() {
-            var nextInput = commandHistory.GetPreviousCommand();
+            var nextInput = _commandHistory.GetPreviousCommand();
             if (nextInput == null) {
                 return;
             }
-            lineManager.SetCommandString(nextInput);
+            _lineManager.SetCommandString(nextInput);
         }
 
         private void OnArrowDownPressed() {
-            var previousInput = commandHistory.GetNextCommand();
+            var previousInput = _commandHistory.GetNextCommand();
             if (previousInput == null) {
                 return;
             }
-            lineManager.SetCommandString(previousInput);
+            _lineManager.SetCommandString(previousInput);
         }
 
         #endregion

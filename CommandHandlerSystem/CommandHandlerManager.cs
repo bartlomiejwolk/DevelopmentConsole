@@ -8,16 +8,16 @@ namespace DevelopmentConsoleTool.CommandHandlerSystem {
 
     public sealed class CommandHandlerManager {
 
-        private static readonly CommandHandlerManager instance 
+        private static readonly CommandHandlerManager _instance 
             = new CommandHandlerManager();
 
-        private readonly HashSet<Type> handlerTypes = new HashSet<Type>();
+        private readonly HashSet<Type> _handlerTypes = new HashSet<Type>();
 
-        private readonly Dictionary<string, CommandHandler> commandHandlers =
+        private readonly Dictionary<string, CommandHandler> _commandHandlers =
             new Dictionary<string, CommandHandler>();
 
         public static CommandHandlerManager Instance {
-            get { return instance; }
+            get { return _instance; }
         }
 
         private CommandHandlerManager() {}
@@ -42,7 +42,7 @@ namespace DevelopmentConsoleTool.CommandHandlerSystem {
 
         private CommandHandler GetHandlerByCommandName(string commandName) {
             CommandHandler handler;
-            commandHandlers.TryGetValue(commandName, out handler);
+            _commandHandlers.TryGetValue(commandName, out handler);
             return handler;
         }
 
@@ -55,11 +55,11 @@ namespace DevelopmentConsoleTool.CommandHandlerSystem {
         }
 
         public void RegisterCommandHandlers(Type type, object obj) {
-            if (handlerTypes.Contains(type)) {
+            if (_handlerTypes.Contains(type)) {
                 return;
             }
 
-            handlerTypes.Add(type);
+            _handlerTypes.Add(type);
             RegisterCommandHandlerMethods(type, obj);
         }
 
@@ -117,7 +117,7 @@ namespace DevelopmentConsoleTool.CommandHandlerSystem {
             }
 
             var handler = new MethodCommandHandler(type, obj, method, commandName, description);
-            commandHandlers.Add(commandName.ToLower(), handler);
+            _commandHandlers.Add(commandName.ToLower(), handler);
         }
     }
 }
