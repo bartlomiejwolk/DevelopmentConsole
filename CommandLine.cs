@@ -101,6 +101,7 @@ namespace DevelopmentConsoleTool {
 		    return addedChar;
 	    }
 
+        // todo rename to OnValueChanged
 	    private void ValueChangedHandler(string value) {
 		    // prevent prompt to be deleted
 		    if (value.Length < _prompt.Length) {

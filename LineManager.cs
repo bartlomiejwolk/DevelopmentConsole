@@ -57,6 +57,7 @@ namespace DevelopmentConsoleTool {
 
             LineInstantiated += LineInstantiatedHandler;
             _lines.Add(_firstLine);
+            SubscribeToValueChangedEvent();
         }
 
         private void OnEnable() {
@@ -114,11 +115,13 @@ namespace DevelopmentConsoleTool {
 
         #region EVENT INVOCATORS
 
+        // todo rename to FireLineInstantiedEvent
         protected virtual void OnLineInstantiated(LineInstantiatedEventArgs args) {
             var handler = LineInstantiated;
             if (handler != null) handler(this, args);
         }
 
+        // todo rename to FireLineValueChangedEvent
         protected virtual void OnLineValueChanged(LineValueChangedEventArgs args) {
             var handler = LineValueChanged;
             if (handler != null) handler(this, args);
@@ -128,6 +131,7 @@ namespace DevelopmentConsoleTool {
 
         #region EVENT HANDLERS
 
+        // todo rename all handlers like OnLineInstantiated
         private void LineInstantiatedHandler(object sender, LineInstantiatedEventArgs eventArgs) {
             var go = eventArgs.InstantiatedGo;
             var cmdLine = go.GetComponent<CommandLine>();
@@ -137,6 +141,21 @@ namespace DevelopmentConsoleTool {
             PositionLine();
             PenultimateLine.SetReadOnly();
             RepositionLines();
+            UnsubscribeFromValueChangedEvent();
+            SubscribeToValueChangedEvent();
+        }
+
+        private void UnsubscribeFromValueChangedEvent() {
+            PenultimateLine.onValueChanged.RemoveAllListeners();
+        }
+
+        private void SubscribeToValueChangedEvent() {
+            LastLine.onValueChanged.AddListener(InputFieldOnValueChangedHandler);
+        }
+
+        private void InputFieldOnValueChangedHandler(string text) {
+            var args = new LineValueChangedEventArgs(text);
+            OnLineValueChanged(args);
         }
 
         #endregion

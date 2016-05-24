@@ -40,6 +40,8 @@ namespace DevelopmentConsoleTool {
         #region UNITY MESSAGES
 
         private void Awake() {
+            // todo unsubscribe on destroy
+            _lineManager.LineValueChanged += LineManagerOnLineValueChanged;
             _returnKeyPressed += OnReturnKeyPressed;
             _toggleConsoleWindowKeyPressed += OnToggleConsoleWindowKeyPressed;
             _arrowUpKeyPressed += OnArrowUpPressed;
@@ -50,6 +52,10 @@ namespace DevelopmentConsoleTool {
 
             Assert.IsNotNull(_lineManager);
             Assert.IsNotNull(_canvas);
+        }
+
+        private void LineManagerOnLineValueChanged(object sender, LineValueChangedEventArgs eventArgs) {
+            Debug.Log(eventArgs.Value);
         }
 
         private void Start() {
