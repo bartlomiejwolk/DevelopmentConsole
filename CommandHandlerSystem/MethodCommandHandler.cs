@@ -1,24 +1,84 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Reflection;
+using Debug = UnityEngine.Debug;
 
 namespace DevelopmentConsoleTool.CommandHandlerSystem {
 
-	public class MethodCommandHandler : CommandHandler {
+    public class MethodCommandHandler : CommandHandler {
 
-		private readonly MethodInfo methodInfo;
+        private readonly MethodInfo _methodInfo;
+        private readonly List<ParamInfo> _paramInfos = new List<ParamInfo>();
 
-		public MethodCommandHandler(
-			string commandName,
-			string description,
-			object obj,
-			Type type,
-			MethodInfo methodInfo) : base(commandName, description, obj, type) {
+        public MethodCommandHandler(
+            Type type,
+            object obj,
+            MethodInfo methodInfo,
+            string commandName,
+            string description) : base(type, obj, commandName, description) {
 
-			this.methodInfo = methodInfo;
-		}
+            _methodInfo = methodInfo;
+            SetMethodParameters(methodInfo);
+        }
 
-		public override void Invoke(params string[] arguments) {
-			methodInfo.Invoke(ObjectReference.Target, null);
-		}
-	}
+        private void SetMethodParameters(MethodInfo methodInfo) {
+            var parameters = methodInfo.GetParameters();
+            foreach (var parameter in parameters) {
+                var paramInfo = new ParamInfo(parameter);
+                _paramInfos.Add(paramInfo);
+            }
+        }
+
+        public override void Invoke(params string[] arguments) {
+            var convertedArgs = ConvertArgumentsToObjects(arguments);
+            if (ObjectReference != null) {
+                _methodInfo.Invoke(ObjectReference.Target, convertedArgs);
+            }
+            else {
+                _methodInfo.Invoke(null, convertedArgs);
+            }
+        }
+
+        private object[] ConvertArgumentsToObjects(string[] arguments) {
+            var argObjects = new List<object>();
+            for (var i = 0; i < _paramInfos.Count; i++) {
+                var paramInfo = _paramInfos[i];
+                var argument = arguments[i];
+                var argObject = GetArgumentValueFromString(paramInfo.Type, argument);
+                argObjects.Add(argObject);
+            }
+            return argObjects.ToArray();
+        }
+
+        private object GetArgumentValueFromString(Type type, string argument) {
+            try
+            {
+                if (type == typeof(string))
+                {
+                    var argObject = (object)argument;
+                    return argObject;
+                }
+                if (type == typeof(int))
+                {
+                    var argObject = (object)int.Parse(argument);
+                    return argObject;
+                }
+                if (type == typeof(float))
+                {
+                    var argObject = (object)float.Parse(argument);
+                    return argObject;
+                }
+                if (type == typeof(bool))
+                {
+                    var argObject = (object)bool.Parse(argument);
+                    return argObject;
+                }
+            }
+            catch (Exception e)
+            {
+                Debug.LogWarning("Could not parse command line argument!");
+            }
+            return null;
+        }
+    }
 }

@@ -1,64 +1,119 @@
-﻿using UnityEngine;
+﻿using System.Collections;
+using UnityEngine;
 using UnityEngine.UI;
 #pragma warning disable 649
 
 namespace DevelopmentConsoleTool {
 
-    /// <summary>
-    /// Class to be attached to a line prefab.
-    /// </summary>
-    [RequireComponent(typeof(InputField))]
-    public class CommandLine : MonoBehaviour {
-
+    public class CommandLine : InputField {
+	    
         [SerializeField]
-        private string prompt = "> ";
+		private string _prompt = "> ";
 
-        // cache
-        public RectTransform RectTransform { get; private set; }
-	    private CustomInputField inputField;
+	    private RectTransform _rectTransform;
 
-		private CustomInputField InputField {
+	    public RectTransform RectTransform {
 		    get {
-			    if (inputField != null) {
-				    return inputField;
+			    if (_rectTransform != null) {
+				    return _rectTransform;
 			    }
-			    var component = GetComponent<CustomInputField>();
-			    return component;
+				var com = GetComponent<RectTransform>();
+			    return com;
 		    }
 	    }
 
-	    public float Height {
-            get { return RectTransform.rect.height; }
-        }
+	    public string IgnoredChars { get; set; }
 
-	    public string Text {
-		    get { return InputField.text; }
+		public float Height
+		{
+			get { return RectTransform.rect.height; }
+		}
+
+	    #region UNITY MESSAGES
+
+	    private void OnGUI() {
+		    RedefineUpDownArrowBehavior();
+		}
+
+	    protected override void Awake() {
+		    base.Awake();
+
+		    onValidateInput += ValidateInputHandler;
+		    onValueChanged.AddListener(ValueChangedHandler);
 	    }
 
-        private void Awake() {
-            Init();
-        }
-
-	    public void GetFocus() {
-		    InputField.ActivateInputField();
+	    protected override void Start() {
+		    text = _prompt;
+		    ActivateInputField();
+		    MoveCaretToEnd();
 	    }
+
+	    #endregion
 
 	    public void MoveCaretToEnd() {
-		    InputField.MoveCaretToEnd();
+		    StartCoroutine(MoveTextEnd_NextFrame());
 	    }
 
-        private void Init() {
-            InputField.Prompt = prompt;
-            RectTransform = GetComponent<RectTransform>();
-        }
+	    public string GetCommandString()
+		{
+			var cmdString = text.Substring(_prompt.Length);
+			return cmdString;
+		}
 
-	    public void SetIgnoredChars(string chars) {
-		    InputField.IgnoredChars = chars;
+		public void GetFocus()
+		{
+			ActivateInputField();
+		}
+
+		public void SetReadOnly()
+		{
+			readOnly = true;
+		}
+
+		public void SetCommandString(string cmd)
+		{
+			var result = _prompt + cmd;
+			text = result;
+		}
+
+	    private void RedefineUpDownArrowBehavior() {
+		    var currentEvent = Event.current;
+		    if (currentEvent.keyCode == KeyCode.UpArrow ||
+		        currentEvent.keyCode == KeyCode.DownArrow) {
+
+			    currentEvent.Use();
+			    MoveCaretToEnd();
+		    }
 	    }
 
-	    public void SetReadOnly() {
-		    InputField.readOnly = true;
+	    IEnumerator MoveTextEnd_NextFrame() {
+		    yield return 0; 
+		    MoveTextEnd(false);
 	    }
+
+	    #region EVENT HANDLERS
+
+	    private char ValidateInputHandler(string fieldText, int charIndex, char addedChar)
+	    {
+		    if (IgnoredChars.Contains(addedChar.ToString())) {
+			    return '\0';
+		    }
+		    return addedChar;
+	    }
+
+	    private void ValueChangedHandler(string value) {
+		    // prevent prompt to be deleted
+		    if (value.Length < _prompt.Length) {
+			    text = _prompt;
+		    }
+
+		    // prevent caret from going onto the prompt
+		    if (caretPosition < _prompt.Length) {
+			    MoveTextEnd(false);
+		    }
+	    }
+
+	    #endregion
     }
 
 }
