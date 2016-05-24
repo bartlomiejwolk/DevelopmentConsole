@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.Reflection;
 using Debug = UnityEngine.Debug;
 
@@ -9,7 +8,7 @@ namespace DevelopmentConsoleTool.CommandHandlerSystem {
     public class MethodCommandHandler : CommandHandler {
 
         private readonly MethodInfo _methodInfo;
-        private readonly List<ParamInfo> paramInfos = new List<ParamInfo>();
+        private readonly List<ParamInfo> _paramInfos = new List<ParamInfo>();
 
         public MethodCommandHandler(
             Type type,
@@ -26,7 +25,7 @@ namespace DevelopmentConsoleTool.CommandHandlerSystem {
             var parameters = methodInfo.GetParameters();
             foreach (var parameter in parameters) {
                 var paramInfo = new ParamInfo(parameter);
-                paramInfos.Add(paramInfo);
+                _paramInfos.Add(paramInfo);
             }
         }
 
@@ -42,8 +41,8 @@ namespace DevelopmentConsoleTool.CommandHandlerSystem {
 
         private object[] ConvertArgumentsToObjects(string[] arguments) {
             var argObjects = new List<object>();
-            for (var i = 0; i < paramInfos.Count; i++) {
-                var paramInfo = paramInfos[i];
+            for (var i = 0; i < _paramInfos.Count; i++) {
+                var paramInfo = _paramInfos[i];
                 var argument = arguments[i];
                 var argObject = GetArgumentValueFromString(paramInfo.Type, argument);
                 argObjects.Add(argObject);
