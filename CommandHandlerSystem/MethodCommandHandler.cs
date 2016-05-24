@@ -9,7 +9,7 @@ namespace DevelopmentConsoleTool.CommandHandlerSystem {
     public class MethodCommandHandler : CommandHandler {
 
         private readonly MethodInfo _methodInfo;
-        private readonly List<ParamInfo> paramInfos;
+        private readonly List<ParamInfo> paramInfos = new List<ParamInfo>();
 
         public MethodCommandHandler(
             Type type,
@@ -19,18 +19,15 @@ namespace DevelopmentConsoleTool.CommandHandlerSystem {
             string description) : base(type, obj, commandName, description) {
 
             _methodInfo = methodInfo;
-            // todo update _methodInfo directly from the method
-            paramInfos = GetMethodParameters(methodInfo);
+            SetMethodParameters(methodInfo);
         }
 
-        private List<ParamInfo> GetMethodParameters(MethodInfo methodInfo) {
+        private void SetMethodParameters(MethodInfo methodInfo) {
             var parameters = methodInfo.GetParameters();
-            var result = new List<ParamInfo>();
             foreach (var parameter in parameters) {
                 var paramInfo = new ParamInfo(parameter);
-                result.Add(paramInfo);
+                paramInfos.Add(paramInfo);
             }
-            return result;
         }
 
         public override void Invoke(params string[] arguments) {
