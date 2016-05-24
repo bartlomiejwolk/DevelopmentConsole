@@ -42,7 +42,34 @@ namespace DevelopmentConsoleTool.CommandHandlerSystem {
         }
 
         private object[] ConvertArgumentsToObjects(string[] arguments) {
-            throw new NotImplementedException();
+            var argObjects = new List<object>();
+            for (var i = 0; i < paramInfos.Count; i++) {
+                var paramInfo = paramInfos[i];
+                var argument = arguments[i];
+                var argObject = GetArgumentValueFromString(paramInfo.Type, argument);
+                argObjects.Add(argObject);
+            }
+            return argObjects.ToArray();
+        }
+
+        private object GetArgumentValueFromString(Type type, string argument) {
+            if (type == typeof (string)) {
+                var argObject = (object) argument;
+                return argObject;
+            }
+            if (type == typeof (int)) {
+                var argObject = (object) int.Parse(argument);
+                return argObject;
+            }
+            if (type == typeof (float)) {
+                var argObject = (object) float.Parse(argument);
+                return argObject;
+            }
+            if (type == typeof (bool)) {
+                var argObject = (object) bool.Parse(argument);
+                return argObject;
+            }
+            return null;
         }
     }
 }
