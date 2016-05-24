@@ -91,7 +91,8 @@ namespace DevelopmentConsoleTool {
             cmdLineGo.gameObject.SetActive(true);
             cmdLineGo.transform.SetParent(transform, false);
 
-            RaiseLineInstantiatedEvent(cmdLineGo);
+            var args = new LineInstantiatedEventArgs(cmdLineGo);
+            OnLineInstantiated(args);
         }
 
         private void PositionLine() {
@@ -113,11 +114,8 @@ namespace DevelopmentConsoleTool {
 
         #region EVENT INVOCATORS
 
-        // todo rename to OnLineInstantiated
-        // todo change param to accept LineInstantiatedEventArgs
-        protected virtual void RaiseLineInstantiatedEvent(GameObject instantiatedGo) {
+        protected virtual void OnLineInstantiated(LineInstantiatedEventArgs args) {
             var handler = LineInstantiated;
-            var args = new LineInstantiatedEventArgs(instantiatedGo);
             if (handler != null) handler(this, args);
         }
 
