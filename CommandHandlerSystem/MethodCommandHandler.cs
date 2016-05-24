@@ -17,6 +17,7 @@ namespace DevelopmentConsoleTool.CommandHandlerSystem {
             string description) : base(type, obj, commandName, description) {
 
             _methodInfo = methodInfo;
+            // todo update _methodInfo directly from the method
             paramInfos = GetMethodParameters(methodInfo);
         }
 
@@ -31,8 +32,17 @@ namespace DevelopmentConsoleTool.CommandHandlerSystem {
         }
 
         public override void Invoke(params string[] arguments) {
-            // todo implement args
-            _methodInfo.Invoke(ObjectReference.Target, null);
+            var convertedArgs = ConvertArgumentsToObjects(arguments);
+            if (ObjectReference != null) {
+                _methodInfo.Invoke(ObjectReference.Target, convertedArgs);
+            }
+            else {
+                _methodInfo.Invoke(null, convertedArgs);
+            }
+        }
+
+        private object[] ConvertArgumentsToObjects(string[] arguments) {
+            throw new NotImplementedException();
         }
     }
 }
