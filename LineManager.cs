@@ -18,22 +18,22 @@ namespace DevelopmentConsoleTool {
         public string IgnoredChars { get; set; }
 
         [SerializeField]
-        private CommandLine firstLine;
+        private CommandLine _firstLine;
 
         [SerializeField]
-        private GameObject commandLineTemplate;
+        private GameObject _commandLineTemplate;
 
-        private readonly List<CommandLine> lines = new List<CommandLine>();
+        private readonly List<CommandLine> _lines = new List<CommandLine>();
 
         public CommandLine LastLine {
-            get { return lines.LastOrDefault(); }
+            get { return _lines.LastOrDefault(); }
         }
 
         public CommandLine PenultimateLine
         {
             get {
-                if (lines.Count > 1) {
-                    var penultimate = lines[lines.Count - 2];
+                if (_lines.Count > 1) {
+                    var penultimate = _lines[_lines.Count - 2];
                     return penultimate;
                 }
                 return null;
@@ -51,11 +51,11 @@ namespace DevelopmentConsoleTool {
         #region UNITY MESSAGES
 
         private void Awake() {
-            Assert.IsNotNull(commandLineTemplate);
-            Assert.IsNotNull(firstLine);
+            Assert.IsNotNull(_commandLineTemplate);
+            Assert.IsNotNull(_firstLine);
 
             LineInstantiated += LineInstantiatedHandler;
-            lines.Add(firstLine);
+            _lines.Add(_firstLine);
         }
 
         private void OnEnable() {
@@ -64,7 +64,7 @@ namespace DevelopmentConsoleTool {
         }
 
         private void Start() {
-            firstLine.IgnoredChars = IgnoredChars;
+            _firstLine.IgnoredChars = IgnoredChars;
         }
 
         #endregion
@@ -86,7 +86,7 @@ namespace DevelopmentConsoleTool {
         }
 
         public void InstantiateLine() {
-            var cmdLineGo = Instantiate(commandLineTemplate);
+            var cmdLineGo = Instantiate(_commandLineTemplate);
             cmdLineGo.gameObject.SetActive(true);
             cmdLineGo.transform.SetParent(transform, false);
 
@@ -126,7 +126,7 @@ namespace DevelopmentConsoleTool {
             var go = eventArgs.InstantiatedGo;
             var cmdLine = go.GetComponent<CommandLine>();
 
-            lines.Add(cmdLine);
+            _lines.Add(cmdLine);
             cmdLine.IgnoredChars = IgnoredChars;
             PositionLine();
             PenultimateLine.SetReadOnly();
