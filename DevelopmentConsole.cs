@@ -32,6 +32,7 @@ namespace DevelopmentConsoleTool {
         private Action _arrowDownKeyPressed;
 
         private readonly CommandHistory _commandHistory = new CommandHistory();
+        private readonly FuzzySearch _fuzzySearch = new FuzzySearch();
 
         private bool IsConsoleWindowOpen {
             get { return _canvas.gameObject.activeSelf; }
@@ -54,7 +55,11 @@ namespace DevelopmentConsoleTool {
         }
 
         private void LineManagerOnLineValueChanged(object sender, LineValueChangedEventArgs eventArgs) {
-            Debug.Log(eventArgs.Value);
+            var typedChars = eventArgs.Value;
+            var names = CommandHandlerManager.Instance.GetCommandNames();
+            var matches = _fuzzySearch.MatchSearchSet(names, typedChars);
+
+            // todo display results on screen
         }
 
         private void Start() {
