@@ -10,24 +10,23 @@ namespace DevelopmentConsoleTool {
 
     public class FuzzySearch {
 
-        public List<Match> MatchSearchSet(List<string> searchSet, string query) {
+        public List<Match> MatchResultSet(List<string> resultSet, string query) {
             if (query == string.Empty) {
                 return null;
             }
 
             var tokens = query.ToCharArray();
-            List<Match> matches = new List<Match>();
+            var matches = new List<Match>();
 
-            foreach (var searchSetElement in searchSet) {
+            foreach (var result in resultSet) {
                 var tokenIndex = 0;
-                var stringIndex = 0;
-                List<int> matchedPositions = new List<int>();
+                var resultCharIndex = 0;
+                var matchedPositions = new List<int>();
+                var searchSetElementLower = result.ToLower();
 
-                var searchSetElementLower = searchSetElement.ToLower();
-
-                while (stringIndex < searchSetElement.Length) {
-                    if (searchSetElement[stringIndex] == tokens[tokenIndex]) {
-                        matchedPositions.Add(stringIndex);
+                while (resultCharIndex < result.Length) {
+                    if (result[resultCharIndex] == tokens[tokenIndex]) {
+                        matchedPositions.Add(resultCharIndex);
                         tokenIndex++;
 
                         if (tokenIndex >= tokens.Length) {
@@ -36,14 +35,12 @@ namespace DevelopmentConsoleTool {
                                 Positions = matchedPositions
                             };
                             matches.Add(match);
-
                             break;
                         }
                     }
-                    stringIndex++;
+                    resultCharIndex++;
                 }
             }
-
             return matches;
         }
     }

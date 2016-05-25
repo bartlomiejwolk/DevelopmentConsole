@@ -57,7 +57,7 @@ namespace DevelopmentConsoleTool {
         private void LineManagerOnLineValueChanged(object sender, LineValueChangedEventArgs eventArgs) {
             var typedChars = eventArgs.Value;
             var names = CommandHandlerManager.Instance.GetCommandNames();
-            var matches = _fuzzySearch.MatchSearchSet(names, typedChars);
+            var matches = _fuzzySearch.MatchResultSet(names, typedChars);
             if (matches == null) {
                 return;
             }
