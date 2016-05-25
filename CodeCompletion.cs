@@ -11,8 +11,22 @@ namespace DevelopmentConsoleTool {
         private GameObject _optionTemplate;
 
         public void DisplayResults(List<Match> options) {
+            CleanResults();
             foreach (var option in options) {
                 CreateOption(option);
+            }
+        }
+
+        private void CleanResults() {
+            foreach (var child in transform) {
+                var childTransform = (Transform) child;
+
+                // option template
+                if (!childTransform.gameObject.activeSelf) {
+                    continue;
+                }
+
+                Destroy(childTransform.gameObject);
             }
         }
 
