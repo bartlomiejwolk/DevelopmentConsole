@@ -12,6 +12,11 @@ namespace DevelopmentConsoleTool {
 
         public void DisplayResults(List<Match> options) {
             CleanResults();
+
+            if (options == null) {
+                return;
+            }
+
             foreach (var option in options) {
                 CreateOption(option);
             }

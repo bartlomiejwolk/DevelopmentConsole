@@ -62,9 +62,6 @@ namespace DevelopmentConsoleTool {
             var typedChars = eventArgs.Value;
             var names = CommandHandlerManager.Instance.GetCommandNames();
             var matches = _fuzzySearch.MatchResultSet(names, typedChars);
-            if (matches == null) {
-                return;
-            }
             _codeCompletion.DisplayResults(matches);
         }
 
