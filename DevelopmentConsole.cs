@@ -61,11 +61,6 @@ namespace DevelopmentConsoleTool {
             if (matches == null) {
                 return;
             }
-
-            foreach (var match in matches) {
-                Debug.Log(match.TextValue);
-                Debug.Log("-------------------------");
-            }
         }
 
         private void Start() {
