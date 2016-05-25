@@ -21,6 +21,9 @@ namespace DevelopmentConsoleTool {
         private LineManager _lineManager;
 
         [SerializeField]
+        private CodeCompletion _codeCompletion;
+
+        [SerializeField]
         private Canvas _canvas;
 
         [SerializeField]
@@ -51,6 +54,7 @@ namespace DevelopmentConsoleTool {
             _lineManager.IgnoredChars = keyChar.ToString();
 
             Assert.IsNotNull(_lineManager);
+            Assert.IsNotNull(_codeCompletion);
             Assert.IsNotNull(_canvas);
         }
 
@@ -61,6 +65,7 @@ namespace DevelopmentConsoleTool {
             if (matches == null) {
                 return;
             }
+            _codeCompletion.DisplayResults(matches);
         }
 
         private void Start() {
