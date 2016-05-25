@@ -22,7 +22,6 @@ namespace DevelopmentConsoleTool {
                 var tokenIndex = 0;
                 var resultCharIndex = 0;
                 var matchedPositions = new List<int>();
-                var searchSetElementLower = result.ToLower();
 
                 while (resultCharIndex < result.Length) {
                     if (result[resultCharIndex] == tokens[tokenIndex]) {
@@ -31,7 +30,7 @@ namespace DevelopmentConsoleTool {
 
                         if (tokenIndex >= tokens.Length) {
                             var match = new Match() {
-                                TextValue = searchSetElementLower,
+                                TextValue = result,
                                 Positions = matchedPositions
                             };
                             matches.Add(match);
