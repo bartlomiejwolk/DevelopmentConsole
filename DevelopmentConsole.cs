@@ -58,8 +58,14 @@ namespace DevelopmentConsoleTool {
             var typedChars = eventArgs.Value;
             var names = CommandHandlerManager.Instance.GetCommandNames();
             var matches = _fuzzySearch.MatchSearchSet(names, typedChars);
+            if (matches == null) {
+                return;
+            }
 
-            // todo display results on screen
+            foreach (var match in matches) {
+                Debug.Log(match.TextValue);
+                Debug.Log("-------------------------");
+            }
         }
 
         private void Start() {

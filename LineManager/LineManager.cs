@@ -151,8 +151,14 @@ namespace DevelopmentConsoleTool {
         }
 
         private void InputFieldOnValueChanged(string text) {
-            var args = new LineValueChangedEventArgs(text);
+            var commandString = StripPrompt(text);
+            var args = new LineValueChangedEventArgs(commandString);
             InvokeLineValueChangedEvent(args);
+        }
+
+        private string StripPrompt(string text) {
+            var commandString = text.Substring(LastLine.Prompt.Length);
+            return commandString;
         }
 
         #endregion

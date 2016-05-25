@@ -29,7 +29,11 @@ namespace DevelopmentConsoleTool {
 			get { return RectTransform.rect.height; }
 		}
 
-	    #region UNITY MESSAGES
+        public string Prompt {
+            get { return _prompt; }
+        }
+
+        #region UNITY MESSAGES
 
 	    private void OnGUI() {
 		    RedefineUpDownArrowBehavior();
