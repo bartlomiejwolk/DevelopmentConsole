@@ -17,7 +17,7 @@ namespace DevelopmentConsoleTool {
         private Action _tabKeyPressed;
         private int _activeOption;
 
-        private int PreviouslySelectedOption {
+        private int PreviousOption {
             get {
                 int result;
                 if (_activeOption > 0) {
@@ -43,7 +43,7 @@ namespace DevelopmentConsoleTool {
             }
 
             HighlightOption(_activeOption);
-            UnhighlightOption(PreviouslySelectedOption);
+            UnhighlightOption(PreviousOption);
         }
 
         private void Start() {
@@ -106,6 +106,11 @@ namespace DevelopmentConsoleTool {
         }
 
         private void UnhighlightOption(int index) {
+            // if there's only one option, it should always be highlighted
+            if (_options.Count == 1) {
+                return;
+            }
+
             var option = _options[index];
             var imageCo = option.GetComponent<Image>();
             // todo set color through inspector
