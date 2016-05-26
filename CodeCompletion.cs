@@ -56,11 +56,12 @@ namespace DevelopmentConsoleTool {
         #endregion
 
         public void DisplayResults(List<Match> options) {
+            CleanResults();
+
             if (options == null) {
                 return;
             }
 
-            CleanResults();
             foreach (var option in options) {
                 CreateOption(option);
             }
