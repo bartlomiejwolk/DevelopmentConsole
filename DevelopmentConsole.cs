@@ -44,7 +44,7 @@ namespace DevelopmentConsoleTool {
         #region UNITY MESSAGES
 
         private void Awake() {
-            _lineManager.LineValueChanged += LineManagerOnLineValueChanged;
+            _lineManager.LineValueChanged += LineManager_OnLineValueChanged;
             _returnKeyPressed += OnReturnKeyPressed;
             _toggleConsoleWindowKeyPressed += OnToggleConsoleWindowKeyPressed;
             _arrowUpKeyPressed += OnArrowUpPressed;
@@ -67,7 +67,7 @@ namespace DevelopmentConsoleTool {
         }
 
         private void OnDestroy() {
-            _lineManager.LineValueChanged -= LineManagerOnLineValueChanged;
+            _lineManager.LineValueChanged -= LineManager_OnLineValueChanged;
         }
 
         #endregion
@@ -121,7 +121,7 @@ namespace DevelopmentConsoleTool {
 
         #region EVENT HANDLERS
 
-        private void LineManagerOnLineValueChanged(object sender, LineValueChangedEventArgs eventArgs) {
+        private void LineManager_OnLineValueChanged(object sender, LineValueChangedEventArgs eventArgs) {
             var typedChars = eventArgs.Value;
             var names = CommandHandlerManager.Instance.GetCommandNames();
             var matches = _fuzzySearch.MatchResultSet(names, typedChars);
