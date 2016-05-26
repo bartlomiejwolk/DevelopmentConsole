@@ -107,6 +107,9 @@ namespace DevelopmentConsoleTool {
                 _activeOption = 0;
             }
 
+            var args = new SelectedOptionEventArgs(CurrentOption);
+            InvokeOptionSelected(args);
+
             HighlightOption(_activeOption);
             UnhighlightOption(PreviousOption);
         }
