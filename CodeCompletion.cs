@@ -84,14 +84,9 @@ namespace DevelopmentConsoleTool {
         private void CleanResults() {
             foreach (var child in transform) {
                 var childTransform = (Transform) child;
-
-                // option template
-                if (!childTransform.gameObject.activeSelf) {
-                    continue;
-                }
-
                 Destroy(childTransform.gameObject);
             }
+            _options.Clear();
         }
 
         private void CreateOption(Match matchInfo) {
