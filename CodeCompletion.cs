@@ -86,6 +86,7 @@ namespace DevelopmentConsoleTool {
                 var childTransform = (Transform) child;
                 Destroy(childTransform.gameObject);
             }
+            _activeOption = 0;
             _options.Clear();
         }
 
