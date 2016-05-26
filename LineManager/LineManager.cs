@@ -22,7 +22,7 @@ namespace DevelopmentConsoleTool {
         private CommandLine _firstLine;
 
         [SerializeField]
-        private GameObject _commandLineTemplate;
+        private CommandLine _commandLineTemplate;
 
         private readonly List<CommandLine> _lines = new List<CommandLine>();
 
@@ -92,7 +92,7 @@ namespace DevelopmentConsoleTool {
             cmdLineGo.gameObject.SetActive(true);
             cmdLineGo.transform.SetParent(transform, false);
 
-            var args = new LineInstantiatedEventArgs(cmdLineGo);
+            var args = new LineInstantiatedEventArgs(cmdLineGo.gameObject);
             InvokeLineInstantiatedEvent(args);
         }
 
