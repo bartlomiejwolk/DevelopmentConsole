@@ -58,13 +58,6 @@ namespace DevelopmentConsoleTool {
             Assert.IsNotNull(_canvas);
         }
 
-        private void LineManagerOnLineValueChanged(object sender, LineValueChangedEventArgs eventArgs) {
-            var typedChars = eventArgs.Value;
-            var names = CommandHandlerManager.Instance.GetCommandNames();
-            var matches = _fuzzySearch.MatchResultSet(names, typedChars);
-            _codeCompletion.DisplayResults(matches);
-        }
-
         private void Start() {
         }
 
@@ -79,7 +72,7 @@ namespace DevelopmentConsoleTool {
 
         #endregion
 
-        #region CHECK METHODS
+        #region INPUT
 
         private void CheckForReturnKey() {
             if (Input.GetKeyDown(KeyCode.Return)) {
@@ -125,6 +118,17 @@ namespace DevelopmentConsoleTool {
         private void CloseConsoleWindow() {
             _canvas.gameObject.SetActive(false);
         }
+
+        #region EVENT HANDLERS
+
+        private void LineManagerOnLineValueChanged(object sender, LineValueChangedEventArgs eventArgs) {
+            var typedChars = eventArgs.Value;
+            var names = CommandHandlerManager.Instance.GetCommandNames();
+            var matches = _fuzzySearch.MatchResultSet(names, typedChars);
+            _codeCompletion.DisplayResults(matches);
+        }
+
+        #endregion
 
         #region INPUT HANDLERS
 
