@@ -147,10 +147,10 @@ namespace DevelopmentConsoleTool {
         }
 
         private void SubscribeToValueChangedEvent() {
-            LastLine.onValueChanged.AddListener(InputFieldOnValueChanged);
+            LastLine.onValueChanged.AddListener(InputField_OnValueChanged);
         }
 
-        private void InputFieldOnValueChanged(string text) {
+        private void InputField_OnValueChanged(string text) {
             var commandString = StripPrompt(text);
             var args = new LineValueChangedEventArgs(commandString);
             InvokeLineValueChangedEvent(args);
