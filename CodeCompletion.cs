@@ -26,6 +26,7 @@ namespace DevelopmentConsoleTool {
 
         #endregion
 
+        // todo rename to PreviousOptionIndex
         private int PreviousOption {
             get {
                 int result;
@@ -38,6 +39,7 @@ namespace DevelopmentConsoleTool {
             }
         }
 
+        // todo use it where appropriate
         private Text CurrentOptionLabel {
             get {
                 var optionGo = _options[_activeOption];
