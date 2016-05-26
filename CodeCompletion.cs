@@ -35,6 +35,7 @@ namespace DevelopmentConsoleTool {
         }
 
         private void OnTabKeyPressed() {
+            // update active option index
             if (_activeOption < _options.Count - 1) {
                 _activeOption++;
             }
@@ -70,12 +71,11 @@ namespace DevelopmentConsoleTool {
         }
 
         public void DisplayResults(List<Match> options) {
-            CleanResults();
-
             if (options == null) {
                 return;
             }
 
+            CleanResults();
             foreach (var option in options) {
                 CreateOption(option);
             }
