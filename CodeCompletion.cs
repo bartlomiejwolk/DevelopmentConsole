@@ -10,6 +10,8 @@ namespace DevelopmentConsoleTool {
     // todo rename to CodeCompletionManager
     public class CodeCompletion : MonoBehaviour {
 
+        public event EventHandler<SelectedOptionEventArgs> OptionSelected;
+
         [SerializeField]
         private GameObject _optionTemplate;
 
@@ -141,6 +143,21 @@ namespace DevelopmentConsoleTool {
             var imageCo = option.GetComponent<Image>();
             // todo set color through inspector
             imageCo.color = Color.white;
+        }
+
+        protected virtual void InvokeOptionSelected(SelectedOptionEventArgs e) {
+            var handler = OptionSelected;
+            if (handler != null) handler(this, e);
+        }
+    }
+
+    // todo move to file
+    public class SelectedOptionEventArgs : EventArgs {
+        
+        public string Option { get; private set; }
+            
+        public SelectedOptionEventArgs(string option) {
+            Option = option;
         }
     }
 }
