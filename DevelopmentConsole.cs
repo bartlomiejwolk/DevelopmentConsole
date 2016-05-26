@@ -44,6 +44,10 @@ namespace DevelopmentConsoleTool {
         #region UNITY MESSAGES
 
         private void Awake() {
+            Assert.IsNotNull(_lineManager);
+            Assert.IsNotNull(_codeCompletion);
+            Assert.IsNotNull(_canvas);
+            
             _lineManager.LineValueChanged += LineManager_OnLineValueChanged;
             _returnKeyPressed += OnReturnKeyPressed;
             _toggleConsoleWindowKeyPressed += OnToggleConsoleWindowKeyPressed;
@@ -52,10 +56,6 @@ namespace DevelopmentConsoleTool {
 
             var keyChar = (char)_toggleConsoleWindowKey;
             _lineManager.IgnoredChars = keyChar.ToString();
-
-            Assert.IsNotNull(_lineManager);
-            Assert.IsNotNull(_codeCompletion);
-            Assert.IsNotNull(_canvas);
         }
 
         private void Start() {
