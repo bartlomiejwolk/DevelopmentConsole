@@ -10,6 +10,7 @@ namespace DevelopmentConsoleTool {
     // todo rename to CodeCompletionManager
     public class CodeCompletion : MonoBehaviour {
 
+        // todo delete if not used
         public event EventHandler<SelectedOptionEventArgs> OptionSelected;
 
         [SerializeField]
@@ -40,12 +41,15 @@ namespace DevelopmentConsoleTool {
         }
 
         // todo use it where appropriate
-        private Text CurrentOptionLabel {
+        private string CurrentOption {
             get {
+                // todo create ActiveOption property
                 var optionGo = _options[_activeOption];
                 var textCo = optionGo.GetComponentInChildren<Text>();
-                return textCo;
+                var text = textCo.text;
+                return text;
             }
+            // todo create setter
         }
 
         #region UNITY MESSAGES
