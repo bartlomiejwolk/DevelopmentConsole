@@ -30,6 +30,8 @@ namespace DevelopmentConsoleTool {
         }
 
         private void Awake() {
+            Assert.IsNotNull(_optionTemplate);
+
             _optionCreated += OnOptionCreated;
             _tabKeyPressed += OnTabKeyPressed;
         }
