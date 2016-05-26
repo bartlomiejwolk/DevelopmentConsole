@@ -40,7 +40,7 @@ namespace DevelopmentConsoleTool {
             optionGo.transform.SetParent(transform);
             optionGo.SetActive(true);
 
-            var textCo = optionGo.GetComponent<Text>();
+            var textCo = optionGo.GetComponentInChildren<Text>();
             textCo.text = option.TextValue;
         }
     }
