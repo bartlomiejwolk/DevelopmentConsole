@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Assertions;
 using UnityEngine.UI;
 #pragma warning disable 649
 
@@ -13,9 +14,15 @@ namespace DevelopmentConsoleTool {
         private GameObject _optionTemplate;
 
         private readonly List<GameObject> _options = new List<GameObject>();
-        private Action<GameObject, Match> _optionCreated;
-        private Action _tabKeyPressed;
         private int _activeOption;
+
+        #region EVENTS
+
+        private Action<GameObject, Match> _optionCreated;
+
+        private Action _tabKeyPressed;
+
+        #endregion
 
         private int PreviousOption {
             get {
@@ -29,24 +36,13 @@ namespace DevelopmentConsoleTool {
             }
         }
 
+        #region UNITY MESSAGES
+
         private void Awake() {
             Assert.IsNotNull(_optionTemplate);
 
             _optionCreated += OnOptionCreated;
             _tabKeyPressed += OnTabKeyPressed;
-        }
-
-        private void OnTabKeyPressed() {
-            // update active option index
-            if (_activeOption < _options.Count - 1) {
-                _activeOption++;
-            }
-            else if (_activeOption == _options.Count - 1) {
-                _activeOption = 0;
-            }
-
-            HighlightOption(_activeOption);
-            UnhighlightOption(PreviousOption);
         }
 
         private void Start() {
@@ -57,20 +53,7 @@ namespace DevelopmentConsoleTool {
             HandleInput();
         }
 
-        private void HandleInput() {
-            if (Input.GetKeyDown(KeyCode.Tab)) {
-                _tabKeyPressed();
-            }
-        }
-
-        private void OnOptionCreated(GameObject option, Match info) {
-            _options.Add(option);
-            HighlightOption(_activeOption);
-
-            // update label
-            var textCo = option.GetComponentInChildren<Text>();
-            textCo.text = info.TextValue;
-        }
+        #endregion
 
         public void DisplayResults(List<Match> options) {
             if (options == null) {
@@ -99,6 +82,42 @@ namespace DevelopmentConsoleTool {
 
             _optionCreated(optionGo, matchInfo);
         }
+
+        #region New region
+
+        private void OnTabKeyPressed() {
+            // update active option index
+            if (_activeOption < _options.Count - 1) {
+                _activeOption++;
+            }
+            else if (_activeOption == _options.Count - 1) {
+                _activeOption = 0;
+            }
+
+            HighlightOption(_activeOption);
+            UnhighlightOption(PreviousOption);
+        }
+
+        #endregion
+
+        private void HandleInput() {
+            if (Input.GetKeyDown(KeyCode.Tab)) {
+                _tabKeyPressed();
+            }
+        }
+
+        #region EVENT HANDLERS
+
+        private void OnOptionCreated(GameObject option, Match info) {
+            _options.Add(option);
+            HighlightOption(_activeOption);
+
+            // update label
+            var textCo = option.GetComponentInChildren<Text>();
+            textCo.text = info.TextValue;
+        }
+
+        #endregion
 
         private void HighlightOption(int index) {
             if (_options.Count == 0) {
