@@ -1,14 +1,31 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 #pragma warning disable 649
 
 namespace DevelopmentConsoleTool {
     
+    // todo rename to CodeCompletionManager
     public class CodeCompletion : MonoBehaviour {
 
         [SerializeField]
         private GameObject _optionTemplate;
+
+        private List<GameObject> _options = new List<GameObject>();
+        private Action<GameObject, Match> _optionCreated;
+
+        private void Awake() {
+            _optionCreated += OnOptionCreated;
+        }
+
+        private void OnOptionCreated(GameObject option, Match info) {
+            _options.Add(option);
+
+            // update label
+            var textCo = option.GetComponentInChildren<Text>();
+            textCo.text = info.TextValue;
+        }
 
         public void DisplayResults(List<Match> options) {
             CleanResults();
@@ -35,13 +52,12 @@ namespace DevelopmentConsoleTool {
             }
         }
 
-        private void CreateOption(Match option) {
+        private void CreateOption(Match matchInfo) {
             var optionGo = Instantiate(_optionTemplate);
             optionGo.transform.SetParent(transform);
             optionGo.SetActive(true);
 
-            var textCo = optionGo.GetComponentInChildren<Text>();
-            textCo.text = option.TextValue;
+            _optionCreated(optionGo, matchInfo);
         }
     }
 }
