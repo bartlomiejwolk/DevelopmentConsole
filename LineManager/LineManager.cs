@@ -104,8 +104,10 @@ namespace DevelopmentConsoleTool {
 
         // calculates position to place line on the screen
         private Vector2 CalculateLinePosition() {
-            var verticalOffset = (PenultimateLine.Height / 2) + (LastLine.Height / 2);
-            var verticalPos = PenultimateLine.RectTransform.anchoredPosition.y - verticalOffset;
+            var verticalOffset = (PenultimateLine.Height / 2) +
+                (LastLine.Height / 2);
+            var yPos = PenultimateLine.RectTransform.anchoredPosition.y;
+            var verticalPos = yPos - verticalOffset;
             var newPos = new Vector2(
                 PenultimateLine.RectTransform.anchoredPosition.x,
                 verticalPos);
