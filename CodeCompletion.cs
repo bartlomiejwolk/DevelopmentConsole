@@ -12,15 +12,57 @@ namespace DevelopmentConsoleTool {
         [SerializeField]
         private GameObject _optionTemplate;
 
-        private List<GameObject> _options = new List<GameObject>();
+        private readonly List<GameObject> _options = new List<GameObject>();
         private Action<GameObject, Match> _optionCreated;
+        private Action _tabKeyPressed;
+        private int _activeOption;
+
+        private int PreviouslySelectedOption {
+            get {
+                int result;
+                if (_activeOption > 0) {
+                    result = _activeOption - 1;
+                    return result;
+                }
+                result = _options.Count - 1;
+                return result;
+            }
+        }
 
         private void Awake() {
             _optionCreated += OnOptionCreated;
+            _tabKeyPressed += OnTabKeyPressed;
+        }
+
+        private void OnTabKeyPressed() {
+            if (_activeOption < _options.Count - 1) {
+                _activeOption++;
+            }
+            else if (_activeOption >= _options.Count - 1) {
+                _activeOption = 0;
+            }
+
+            HighlightOption(_activeOption);
+            UnhighlightOption(PreviouslySelectedOption);
+        }
+
+        private void Start() {
+            // todo read image color and cache. Use for unhighlighting option
+        }
+
+        private void Update() {
+            HandleInput();
+        }
+
+        private void HandleInput() {
+            if (Input.GetKeyDown(KeyCode.Tab)) {
+                _tabKeyPressed();
+            }
         }
 
         private void OnOptionCreated(GameObject option, Match info) {
             _options.Add(option);
+            HighlightOption(_activeOption);
 
             // update label
             var textCo = option.GetComponentInChildren<Text>();
@@ -58,6 +100,20 @@ namespace DevelopmentConsoleTool {
             optionGo.SetActive(true);
 
             _optionCreated(optionGo, matchInfo);
+        }
+
+        private void HighlightOption(int index) {
+            var option = _options[index];
+            var imageCo = option.GetComponent<Image>();
+            // todo set color through inspector
+            imageCo.color = Color.red;
+        }
+
+        private void UnhighlightOption(int index) {
+            var option = _options[index];
+            var imageCo = option.GetComponent<Image>();
+            // todo set color through inspector
+            imageCo.color = Color.white;
         }
     }
 }
