@@ -38,6 +38,14 @@ namespace DevelopmentConsoleTool {
             }
         }
 
+        private Text CurrentOptionLabel {
+            get {
+                var optionGo = _options[_activeOption];
+                var textCo = optionGo.GetComponentInChildren<Text>();
+                return textCo;
+            }
+        }
+
         #region UNITY MESSAGES
 
         private void Awake() {
