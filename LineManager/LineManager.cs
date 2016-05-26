@@ -157,6 +157,9 @@ namespace DevelopmentConsoleTool {
         }
 
         private string StripPrompt(string text) {
+            if (text.Length <= LastLine.Prompt.Length) {
+                return string.Empty;
+            }
             var commandString = text.Substring(LastLine.Prompt.Length);
             return commandString;
         }
