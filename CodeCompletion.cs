@@ -38,7 +38,7 @@ namespace DevelopmentConsoleTool {
             if (_activeOption < _options.Count - 1) {
                 _activeOption++;
             }
-            else if (_activeOption >= _options.Count - 1) {
+            else if (_activeOption == _options.Count - 1) {
                 _activeOption = 0;
             }
 
@@ -99,6 +99,10 @@ namespace DevelopmentConsoleTool {
         }
 
         private void HighlightOption(int index) {
+            if (_options.Count == 0) {
+                return;
+            }
+
             var option = _options[index];
             var imageCo = option.GetComponent<Image>();
             // todo set color through inspector
@@ -107,7 +111,7 @@ namespace DevelopmentConsoleTool {
 
         private void UnhighlightOption(int index) {
             // if there's only one option, it should always be highlighted
-            if (_options.Count == 1) {
+            if (_options.Count <= 1) {
                 return;
             }
 
