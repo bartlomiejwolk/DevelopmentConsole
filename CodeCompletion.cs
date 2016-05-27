@@ -41,15 +41,17 @@ namespace DevelopmentConsoleTool {
             }
         }
 
+        private GameObject ActiveOption {
+            get { return _options[_activeOption]; }
+        }
+
         private Text CurrentOptionLabel {
             get {
                 if (_options.Count == 0) {
                     return null;
                 }
 
-                // todo create ActiveOption property
-                var optionGo = _options[_activeOption];
-                var textCo = optionGo.GetComponentInChildren<Text>();
+                var textCo = ActiveOption.GetComponentInChildren<Text>();
                 return textCo;
             }
             // todo create setter
