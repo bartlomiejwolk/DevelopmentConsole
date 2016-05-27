@@ -15,7 +15,7 @@ namespace DevelopmentConsoleTool {
         private GameObject _optionTemplate;
 
         [SerializeField]
-        private Color _highlightedColor = Color.red;
+        private readonly Color _highlightedColor = Color.red;
 
         private readonly List<GameObject> _options = new List<GameObject>();
         private int _activeOption;
@@ -171,7 +171,6 @@ namespace DevelopmentConsoleTool {
         }
 
         private void UnhighlightOption(int index) {
-            // if there's only one option, it should always be highlighted
             if (_options.Count <= 1) {
                 return;
             }
