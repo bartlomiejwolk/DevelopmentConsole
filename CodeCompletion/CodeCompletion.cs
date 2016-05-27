@@ -76,8 +76,7 @@ namespace DevelopmentConsoleTool {
         }
 
         private void Start() {
-            var imageCo = _optionTemplate.GetComponent<Image>();
-            _inactiveOptionColor = imageCo.color;
+            CacheOptionBgColor();
         }
 
         private void Update() {
@@ -86,13 +85,26 @@ namespace DevelopmentConsoleTool {
 
         #endregion
 
+        private void CacheOptionBgColor() {
+            var imageCo = _optionTemplate.GetComponent<Image>();
+            _inactiveOptionColor = imageCo.color;
+        }
+
+        private void HandleInput() {
+            if (Input.GetKeyDown(KeyCode.Tab)) {
+                _tabKeyPressed();
+            }
+            if (Input.GetKeyDown(KeyCode.Return)) {
+                _returnKeyPressed();
+            }
+        }
+
         public void DisplayResults(List<Match> options) {
             CleanResults();
 
             if (options == null) {
                 return;
             }
-
             foreach (var option in options) {
                 CreateOption(option);
             }
@@ -118,7 +130,6 @@ namespace DevelopmentConsoleTool {
         #region INPUT HANDLERS
 
         private void OnTabKeyPressed() {
-            // update active option index
             if (_activeOption < _options.Count - 1) {
                 _activeOption++;
             }
@@ -134,7 +145,6 @@ namespace DevelopmentConsoleTool {
             if (_options.Count == 0) {
                 return;
             }
-
             var args = new SelectedOptionEventArgs(CurrentOptionLabel.text);
             InvokeOptionSelected(args);
 
@@ -143,13 +153,9 @@ namespace DevelopmentConsoleTool {
 
         #endregion
 
-        private void HandleInput() {
-            if (Input.GetKeyDown(KeyCode.Tab)) {
-                _tabKeyPressed();
-            }
-            if (Input.GetKeyDown(KeyCode.Return)) {
-                _returnKeyPressed();
-            }
+        protected virtual void InvokeOptionSelected(SelectedOptionEventArgs e) {
+            var handler = OptionSelected;
+            if (handler != null) handler(this, e);
         }
 
         #region EVENT HANDLERS
@@ -169,7 +175,6 @@ namespace DevelopmentConsoleTool {
             if (_options.Count == 0) {
                 return;
             }
-
             var option = _options[index];
             var imageCo = option.GetComponent<Image>();
             imageCo.color = _highlightedColor;
@@ -179,15 +184,9 @@ namespace DevelopmentConsoleTool {
             if (_options.Count <= 1) {
                 return;
             }
-
             var option = _options[index];
             var imageCo = option.GetComponent<Image>();
             imageCo.color = _inactiveOptionColor;
-        }
-
-        protected virtual void InvokeOptionSelected(SelectedOptionEventArgs e) {
-            var handler = OptionSelected;
-            if (handler != null) handler(this, e);
         }
     }
 }
