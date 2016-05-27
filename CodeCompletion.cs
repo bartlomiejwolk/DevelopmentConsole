@@ -150,7 +150,9 @@ namespace DevelopmentConsoleTool {
             _options.Add(option);
             HighlightOption(_activeOption);
 
-            CurrentOptionLabel.text = info.TextValue;
+            // update label
+            var textCo = option.GetComponentInChildren<Text>();
+            textCo.text = info.TextValue;
         }
 
         #endregion
