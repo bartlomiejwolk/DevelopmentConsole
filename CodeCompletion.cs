@@ -41,18 +41,16 @@ namespace DevelopmentConsoleTool {
             }
         }
 
-        // todo use it where appropriate
-        private string CurrentOption {
+        private Text CurrentOptionLabel {
             get {
                 if (_options.Count == 0) {
-                    return string.Empty;
+                    return null;
                 }
 
                 // todo create ActiveOption property
                 var optionGo = _options[_activeOption];
                 var textCo = optionGo.GetComponentInChildren<Text>();
-                var text = textCo.text;
-                return text;
+                return textCo;
             }
             // todo create setter
         }
@@ -127,7 +125,7 @@ namespace DevelopmentConsoleTool {
                 return;
             }
 
-            var args = new SelectedOptionEventArgs(CurrentOption);
+            var args = new SelectedOptionEventArgs(CurrentOptionLabel.text);
             InvokeOptionSelected(args);
 
             CleanResults();
@@ -150,9 +148,7 @@ namespace DevelopmentConsoleTool {
             _options.Add(option);
             HighlightOption(_activeOption);
 
-            // update label
-            var textCo = option.GetComponentInChildren<Text>();
-            textCo.text = info.TextValue;
+            CurrentOptionLabel.text = info.TextValue;
         }
 
         #endregion
