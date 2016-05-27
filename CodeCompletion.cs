@@ -22,10 +22,14 @@ namespace DevelopmentConsoleTool {
         #region EVENTS
 
         private Action<GameObject, Match> _optionCreated;
-
         private Action _tabKeyPressed;
+        private Action _returnKeyPressed;
 
         #endregion
+
+        public bool IsOpen {
+            get { return _options.Count > 0; }
+        }
 
         // todo rename to PreviousOptionIndex
         private int PreviousOption {
@@ -57,8 +61,10 @@ namespace DevelopmentConsoleTool {
         private void Awake() {
             Assert.IsNotNull(_optionTemplate);
 
-            _optionCreated += OnOptionCreated;
-            _tabKeyPressed += OnTabKeyPressed;
+            // todo remove += from Action assignments in other classes
+            _optionCreated = OnOptionCreated;
+            _tabKeyPressed = OnTabKeyPressed;
+            _returnKeyPressed = OnReturnKeyPressed;
         }
 
         private void Start() {
@@ -100,7 +106,7 @@ namespace DevelopmentConsoleTool {
             _optionCreated(optionGo, matchInfo);
         }
 
-        #region New region
+        #region INPUT HANDLERS
 
         private void OnTabKeyPressed() {
             // update active option index
@@ -111,11 +117,13 @@ namespace DevelopmentConsoleTool {
                 _activeOption = 0;
             }
 
-            var args = new SelectedOptionEventArgs(CurrentOption);
-            InvokeOptionSelected(args);
-
             HighlightOption(_activeOption);
             UnhighlightOption(PreviousOption);
+        }
+
+        private void OnReturnKeyPressed() {
+            var args = new SelectedOptionEventArgs(CurrentOption);
+            InvokeOptionSelected(args);
         }
 
         #endregion
@@ -123,6 +131,9 @@ namespace DevelopmentConsoleTool {
         private void HandleInput() {
             if (Input.GetKeyDown(KeyCode.Tab)) {
                 _tabKeyPressed();
+            }
+            if (Input.GetKeyDown(KeyCode.Return)) {
+                _returnKeyPressed();
             }
         }
 

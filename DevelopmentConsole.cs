@@ -53,6 +53,7 @@ namespace DevelopmentConsoleTool {
             _toggleConsoleWindowKeyPressed += OnToggleConsoleWindowKeyPressed;
             _arrowUpKeyPressed += OnArrowUpPressed;
             _arrowDownKeyPressed += OnArrowDownPressed;
+            _codeCompletion.OptionSelected += CodeCompletion_OnOptionSelected;
 
             var keyChar = (char)_toggleConsoleWindowKey;
             _lineManager.IgnoredChars = keyChar.ToString();
@@ -128,11 +129,24 @@ namespace DevelopmentConsoleTool {
             _codeCompletion.DisplayResults(matches);
         }
 
+        private void CodeCompletion_OnOptionSelected(
+            object sender,
+            SelectedOptionEventArgs selectedOptionEventArgs) {
+
+            var option = selectedOptionEventArgs.Option;
+            _lineManager.SetCommandString(option);
+        }
+
         #endregion
 
         #region INPUT HANDLERS
 
         private void OnReturnKeyPressed() {
+            // let the code completion handle this
+            if (_codeCompletion.IsOpen) {
+                return;
+            }
+
             _commandHistory.AddCommand(_lineManager.CommandString);
             CommandHandlerManager.Instance.HandleCommand(_lineManager.CommandString);
             _lineManager.InstantiateLine();
