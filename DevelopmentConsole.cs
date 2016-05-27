@@ -49,11 +49,12 @@ namespace DevelopmentConsoleTool {
             Assert.IsNotNull(_canvas);
             
             _lineManager.LineValueChanged += LineManager_OnLineValueChanged;
-            _returnKeyPressed += OnReturnKeyPressed;
-            _toggleConsoleWindowKeyPressed += OnToggleConsoleWindowKeyPressed;
-            _arrowUpKeyPressed += OnArrowUpPressed;
-            _arrowDownKeyPressed += OnArrowDownPressed;
             _codeCompletion.OptionSelected += CodeCompletion_OnOptionSelected;
+
+            _returnKeyPressed = OnReturnKeyPressed;
+            _toggleConsoleWindowKeyPressed = OnToggleConsoleWindowKeyPressed;
+            _arrowUpKeyPressed = OnArrowUpPressed;
+            _arrowDownKeyPressed = OnArrowDownPressed;
 
             var keyChar = (char)_toggleConsoleWindowKey;
             _lineManager.IgnoredChars = keyChar.ToString();

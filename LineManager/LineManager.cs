@@ -55,7 +55,7 @@ namespace DevelopmentConsoleTool {
             Assert.IsNotNull(_commandLineTemplate);
             Assert.IsNotNull(_firstLine);
 
-            LineInstantiated += OnInstantiated;
+            LineInstantiated = OnInstantiated;
             _lines.Add(_firstLine);
             SubscribeToValueChangedEvent();
         }

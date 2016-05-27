@@ -54,7 +54,6 @@ namespace DevelopmentConsoleTool {
                 var textCo = ActiveOption.GetComponentInChildren<Text>();
                 return textCo;
             }
-            // todo create setter
         }
 
         #region UNITY MESSAGES
@@ -62,7 +61,6 @@ namespace DevelopmentConsoleTool {
         private void Awake() {
             Assert.IsNotNull(_optionTemplate);
 
-            // todo remove += from Action assignments in other classes
             _optionCreated = OnOptionCreated;
             _tabKeyPressed = OnTabKeyPressed;
             _returnKeyPressed = OnReturnKeyPressed;
