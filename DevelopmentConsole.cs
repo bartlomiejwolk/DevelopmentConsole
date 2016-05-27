@@ -113,7 +113,7 @@ namespace DevelopmentConsoleTool {
 
         private void OpenConsoleWindow() {
             _canvas.gameObject.SetActive(true);
-            _lineManager.GetFocus();
+            _lineManager.SetFocus();
         }
 
         private void CloseConsoleWindow() {
@@ -135,7 +135,7 @@ namespace DevelopmentConsoleTool {
 
             var option = selectedOptionEventArgs.Option;
             _lineManager.SetCommandString(option);
-            _lineManager.GetFocus();
+            _lineManager.SetFocus();
         }
 
         #endregion

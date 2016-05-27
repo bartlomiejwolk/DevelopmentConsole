@@ -168,8 +168,7 @@ namespace DevelopmentConsoleTool {
 
         #endregion
 
-        // todo rename set focus
-        public void GetFocus() {
+        public void SetFocus() {
             LastLine.GetFocus();
             LastLine.MoveCaretToEnd();
         }
