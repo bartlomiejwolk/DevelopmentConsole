@@ -14,6 +14,9 @@ namespace DevelopmentConsoleTool {
         [SerializeField]
         private GameObject _optionTemplate;
 
+        [SerializeField]
+        private Color _highlightedColor = Color.red;
+
         private readonly List<GameObject> _options = new List<GameObject>();
         private int _activeOption;
         private Color _inactiveOptionColor = Color.white;
@@ -164,8 +167,7 @@ namespace DevelopmentConsoleTool {
 
             var option = _options[index];
             var imageCo = option.GetComponent<Image>();
-            // todo set color through inspector
-            imageCo.color = Color.red;
+            imageCo.color = _highlightedColor;
         }
 
         private void UnhighlightOption(int index) {
