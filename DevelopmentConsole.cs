@@ -135,6 +135,7 @@ namespace DevelopmentConsoleTool {
 
             var option = selectedOptionEventArgs.Option;
             _lineManager.SetCommandString(option);
+            _lineManager.GetFocus();
         }
 
         #endregion
