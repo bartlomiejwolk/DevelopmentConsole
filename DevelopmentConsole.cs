@@ -29,8 +29,8 @@ namespace DevelopmentConsoleTool {
         [SerializeField]
         private KeyCode _toggleConsoleWindowKey = KeyCode.BackQuote;
 
-        private Action _returnKeyPressed;
         private Action _toggleConsoleWindowKeyPressed;
+        private Action _returnKeyPressed;
         private Action _arrowUpKeyPressed;
         private Action _arrowDownKeyPressed;
 
@@ -51,16 +51,13 @@ namespace DevelopmentConsoleTool {
             _lineManager.LineValueChanged += LineManager_OnLineValueChanged;
             _codeCompletion.OptionSelected += CodeCompletion_OnOptionSelected;
 
-            _returnKeyPressed = OnReturnKeyPressed;
             _toggleConsoleWindowKeyPressed = OnToggleConsoleWindowKeyPressed;
+            _returnKeyPressed = OnReturnKeyPressed;
             _arrowUpKeyPressed = OnArrowUpPressed;
             _arrowDownKeyPressed = OnArrowDownPressed;
 
             var keyChar = (char)_toggleConsoleWindowKey;
             _lineManager.IgnoredChars = keyChar.ToString();
-        }
-
-        private void Start() {
         }
 
         private void Update() {
@@ -70,21 +67,32 @@ namespace DevelopmentConsoleTool {
 
         private void OnDestroy() {
             _lineManager.LineValueChanged -= LineManager_OnLineValueChanged;
+            _codeCompletion.OptionSelected -= CodeCompletion_OnOptionSelected;
         }
 
         #endregion
 
         #region INPUT
 
-        private void CheckForReturnKey() {
-            if (Input.GetKeyDown(KeyCode.Return)) {
-                _returnKeyPressed();
+        private void HandleInConsoleKeyboardInput() {
+            if (!IsConsoleWindowOpen) {
+                return;
             }
+
+            CheckForReturnKey();
+            CheckForArrowUpKey();
+            CheckForArrowDownKey();
         }
 
         private void CheckForToggleConsoleWindowKey() {
             if (Input.GetKeyDown(_toggleConsoleWindowKey)) {
                 _toggleConsoleWindowKeyPressed();
+            }
+        }
+
+        private void CheckForReturnKey() {
+            if (Input.GetKeyDown(KeyCode.Return)) {
+                _returnKeyPressed();
             }
         }
 
@@ -102,16 +110,6 @@ namespace DevelopmentConsoleTool {
 
         #endregion
 
-        private void HandleInConsoleKeyboardInput() {
-            if (!IsConsoleWindowOpen) {
-                return;
-            }
-
-            CheckForReturnKey();
-            CheckForArrowUpKey();
-            CheckForArrowDownKey();
-        }
-
         private void OpenConsoleWindow() {
             _canvas.gameObject.SetActive(true);
             _lineManager.SetFocus();
@@ -123,7 +121,10 @@ namespace DevelopmentConsoleTool {
 
         #region EVENT HANDLERS
 
-        private void LineManager_OnLineValueChanged(object sender, LineValueChangedEventArgs eventArgs) {
+        private void LineManager_OnLineValueChanged(
+            object sender,
+            LineValueChangedEventArgs eventArgs) {
+            
             var typedChars = eventArgs.Value;
             var names = CommandHandlerManager.Instance.GetCommandNames();
             var matches = _fuzzySearch.MatchResultSet(names, typedChars);
