@@ -33,6 +33,26 @@ namespace DevelopmentConsoleTool {
             get { return _options.Count > 0; }
         }
 
+        private GameObject ActiveOption {
+            get {
+                if (_options.Count == 0)
+                {
+                    return null;
+                }
+                return _options[_activeOption];
+            }
+        }
+
+        private Text CurrentOptionLabel {
+            get {
+                if (ActiveOption == null) {
+                    return null;
+                }
+                var textCo = ActiveOption.GetComponentInChildren<Text>();
+                return textCo;
+            }
+        }
+
         private int PreviousOptionIndex {
             get {
                 int result;
@@ -42,21 +62,6 @@ namespace DevelopmentConsoleTool {
                 }
                 result = _options.Count - 1;
                 return result;
-            }
-        }
-
-        private GameObject ActiveOption {
-            get { return _options[_activeOption]; }
-        }
-
-        private Text CurrentOptionLabel {
-            get {
-                if (_options.Count == 0) {
-                    return null;
-                }
-
-                var textCo = ActiveOption.GetComponentInChildren<Text>();
-                return textCo;
             }
         }
 
