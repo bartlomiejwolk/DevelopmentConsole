@@ -16,6 +16,7 @@ namespace DevelopmentConsoleTool {
 
         private readonly List<GameObject> _options = new List<GameObject>();
         private int _activeOption;
+        private Color _inactiveOptionColor = Color.white;
 
         #region EVENTS
 
@@ -67,7 +68,8 @@ namespace DevelopmentConsoleTool {
         }
 
         private void Start() {
-            // todo read image color and cache. Use for unhighlighting option
+            var imageCo = _optionTemplate.GetComponent<Image>();
+            _inactiveOptionColor = imageCo.color;
         }
 
         private void Update() {
@@ -172,8 +174,7 @@ namespace DevelopmentConsoleTool {
 
             var option = _options[index];
             var imageCo = option.GetComponent<Image>();
-            // todo set color through inspector
-            imageCo.color = Color.white;
+            imageCo.color = _inactiveOptionColor;
         }
 
         protected virtual void InvokeOptionSelected(SelectedOptionEventArgs e) {
