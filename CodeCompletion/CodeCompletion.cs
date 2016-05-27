@@ -15,6 +15,9 @@ namespace DevelopmentConsoleTool {
         private GameObject _optionTemplate;
 
         [SerializeField]
+        private Transform _container;
+
+        [SerializeField]
         private readonly Color _highlightedColor = Color.red;
 
         private readonly List<GameObject> _options = new List<GameObject>();
@@ -69,6 +72,7 @@ namespace DevelopmentConsoleTool {
 
         private void Awake() {
             Assert.IsNotNull(_optionTemplate);
+            Assert.IsNotNull(_container);
 
             _optionCreated = OnOptionCreated;
             _tabKeyPressed = OnTabKeyPressed;
@@ -111,7 +115,7 @@ namespace DevelopmentConsoleTool {
         }
 
         private void CleanResults() {
-            foreach (var child in transform) {
+            foreach (var child in _container) {
                 var childTransform = (Transform) child;
                 Destroy(childTransform.gameObject);
             }
@@ -121,7 +125,7 @@ namespace DevelopmentConsoleTool {
 
         private void CreateOption(Match matchInfo) {
             var optionGo = Instantiate(_optionTemplate);
-            optionGo.transform.SetParent(transform);
+            optionGo.transform.SetParent(_container);
             optionGo.SetActive(true);
 
             _optionCreated(optionGo, matchInfo);

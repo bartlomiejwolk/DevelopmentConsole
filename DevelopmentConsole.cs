@@ -149,7 +149,6 @@ namespace DevelopmentConsoleTool {
             if (_codeCompletion.IsOpen) {
                 return;
             }
-
             _commandHistory.AddCommand(_lineManager.CommandString);
             CommandHandlerManager.Instance.HandleCommand(_lineManager.CommandString);
             _lineManager.InstantiateLine();
