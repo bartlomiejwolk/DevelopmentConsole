@@ -7,10 +7,8 @@ using UnityEngine.UI;
 
 namespace DevelopmentConsoleTool {
     
-    // todo rename to CodeCompletionManager
     public class CodeCompletion : MonoBehaviour {
 
-        // todo delete if not used
         public event EventHandler<SelectedOptionEventArgs> OptionSelected;
 
         [SerializeField]
@@ -31,8 +29,7 @@ namespace DevelopmentConsoleTool {
             get { return _options.Count > 0; }
         }
 
-        // todo rename to PreviousOptionIndex
-        private int PreviousOption {
+        private int PreviousOptionIndex {
             get {
                 int result;
                 if (_activeOption > 0) {
@@ -122,7 +119,7 @@ namespace DevelopmentConsoleTool {
             }
 
             HighlightOption(_activeOption);
-            UnhighlightOption(PreviousOption);
+            UnhighlightOption(PreviousOptionIndex);
         }
 
         private void OnReturnKeyPressed() {
