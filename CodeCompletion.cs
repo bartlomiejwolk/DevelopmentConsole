@@ -47,6 +47,10 @@ namespace DevelopmentConsoleTool {
         // todo use it where appropriate
         private string CurrentOption {
             get {
+                if (_options.Count == 0) {
+                    return string.Empty;
+                }
+
                 // todo create ActiveOption property
                 var optionGo = _options[_activeOption];
                 var textCo = optionGo.GetComponentInChildren<Text>();
@@ -122,6 +126,10 @@ namespace DevelopmentConsoleTool {
         }
 
         private void OnReturnKeyPressed() {
+            if (_options.Count == 0) {
+                return;
+            }
+
             var args = new SelectedOptionEventArgs(CurrentOption);
             InvokeOptionSelected(args);
 
