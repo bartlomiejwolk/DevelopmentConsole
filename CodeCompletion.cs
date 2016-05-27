@@ -124,6 +124,8 @@ namespace DevelopmentConsoleTool {
         private void OnReturnKeyPressed() {
             var args = new SelectedOptionEventArgs(CurrentOption);
             InvokeOptionSelected(args);
+
+            CleanResults();
         }
 
         #endregion
