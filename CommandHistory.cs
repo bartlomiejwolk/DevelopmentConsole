@@ -37,7 +37,6 @@ namespace DevelopmentConsoleTool {
             if (!HasNextCommand) {
                 return string.Empty;
             }
-            // todo handle case when the first command in history should be returned
             _commandNumber += 1;
             var cmd = _history[_commandNumber];
             return cmd;

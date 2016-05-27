@@ -76,7 +76,7 @@ namespace DevelopmentConsoleTool.CommandHandlerSystem {
             }
             catch (Exception e)
             {
-                Debug.LogWarning("Could not parse command line argument!");
+                Debug.LogWarning("Could not parse command line argument! Exception message: " + e.Message);
             }
             return null;
         }

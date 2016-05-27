@@ -15,13 +15,14 @@ namespace DevelopmentConsoleTool {
     public class LineManager : MonoBehaviour {
 
         public event EventHandler<LineInstantiatedEventArgs> LineInstantiated;
+        public event EventHandler<LineValueChangedEventArgs> LineValueChanged;
         public string IgnoredChars { get; set; }
 
         [SerializeField]
         private CommandLine _firstLine;
 
         [SerializeField]
-        private GameObject _commandLineTemplate;
+        private CommandLine _commandLineTemplate;
 
         private readonly List<CommandLine> _lines = new List<CommandLine>();
 
@@ -54,8 +55,9 @@ namespace DevelopmentConsoleTool {
             Assert.IsNotNull(_commandLineTemplate);
             Assert.IsNotNull(_firstLine);
 
-            LineInstantiated += LineInstantiatedHandler;
+            LineInstantiated = OnInstantiated;
             _lines.Add(_firstLine);
+            SubscribeToValueChangedEvent();
         }
 
         private void OnEnable() {
@@ -90,7 +92,8 @@ namespace DevelopmentConsoleTool {
             cmdLineGo.gameObject.SetActive(true);
             cmdLineGo.transform.SetParent(transform, false);
 
-            RaiseLineInstantiatedEvent(cmdLineGo);
+            var args = new LineInstantiatedEventArgs(cmdLineGo.gameObject);
+            InvokeLineInstantiatedEvent(args);
         }
 
         private void PositionLine() {
@@ -101,8 +104,10 @@ namespace DevelopmentConsoleTool {
 
         // calculates position to place line on the screen
         private Vector2 CalculateLinePosition() {
-            var verticalOffset = (PenultimateLine.Height / 2) + (LastLine.Height / 2);
-            var verticalPos = PenultimateLine.RectTransform.anchoredPosition.y - verticalOffset;
+            var verticalOffset = (PenultimateLine.Height / 2) +
+                (LastLine.Height / 2);
+            var yPos = PenultimateLine.RectTransform.anchoredPosition.y;
+            var verticalPos = yPos - verticalOffset;
             var newPos = new Vector2(
                 PenultimateLine.RectTransform.anchoredPosition.x,
                 verticalPos);
@@ -112,9 +117,13 @@ namespace DevelopmentConsoleTool {
 
         #region EVENT INVOCATORS
 
-        protected virtual void RaiseLineInstantiatedEvent(GameObject instantiatedGo) {
+        protected virtual void InvokeLineInstantiatedEvent(LineInstantiatedEventArgs args) {
             var handler = LineInstantiated;
-            var args = new LineInstantiatedEventArgs(instantiatedGo);
+            if (handler != null) handler(this, args);
+        }
+
+        protected virtual void InvokeLineValueChangedEvent(LineValueChangedEventArgs args) {
+            var handler = LineValueChanged;
             if (handler != null) handler(this, args);
         }
 
@@ -122,7 +131,7 @@ namespace DevelopmentConsoleTool {
 
         #region EVENT HANDLERS
 
-        private void LineInstantiatedHandler(object sender, LineInstantiatedEventArgs eventArgs) {
+        private void OnInstantiated(object sender, LineInstantiatedEventArgs eventArgs) {
             var go = eventArgs.InstantiatedGo;
             var cmdLine = go.GetComponent<CommandLine>();
 
@@ -131,26 +140,41 @@ namespace DevelopmentConsoleTool {
             PositionLine();
             PenultimateLine.SetReadOnly();
             RepositionLines();
+            UnsubscribeFromValueChangedEvent();
+            SubscribeToValueChangedEvent();
+        }
+
+        private void UnsubscribeFromValueChangedEvent() {
+            PenultimateLine.onValueChanged.RemoveAllListeners();
+        }
+
+        private void SubscribeToValueChangedEvent() {
+            LastLine.onValueChanged.AddListener(InputField_OnValueChanged);
+        }
+
+        private void InputField_OnValueChanged(string text) {
+            var commandString = StripPrompt(text);
+            var args = new LineValueChangedEventArgs(commandString);
+            InvokeLineValueChangedEvent(args);
+        }
+
+        private string StripPrompt(string text) {
+            if (text.Length <= LastLine.Prompt.Length) {
+                return string.Empty;
+            }
+            var commandString = text.Substring(LastLine.Prompt.Length);
+            return commandString;
         }
 
         #endregion
 
-        public void GetFocus() {
+        public void SetFocus() {
             LastLine.GetFocus();
+            LastLine.MoveCaretToEnd();
         }
 
         public void SetCommandString(string text) {
             LastLine.SetCommandString(text);
         }
     }
-
-    public class LineInstantiatedEventArgs : EventArgs {
-
-        public GameObject InstantiatedGo { get; private set; }
-
-        public LineInstantiatedEventArgs(GameObject instantiatedGo) {
-            InstantiatedGo = instantiatedGo;
-        }
-    }
-
 }

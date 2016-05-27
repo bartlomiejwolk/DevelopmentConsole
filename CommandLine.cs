@@ -29,7 +29,11 @@ namespace DevelopmentConsoleTool {
 			get { return RectTransform.rect.height; }
 		}
 
-	    #region UNITY MESSAGES
+        public string Prompt {
+            get { return _prompt; }
+        }
+
+        #region UNITY MESSAGES
 
 	    private void OnGUI() {
 		    RedefineUpDownArrowBehavior();
@@ -39,7 +43,7 @@ namespace DevelopmentConsoleTool {
 		    base.Awake();
 
 		    onValidateInput += ValidateInputHandler;
-		    onValueChanged.AddListener(ValueChangedHandler);
+		    onValueChanged.AddListener(OnValueChanged);
 	    }
 
 	    protected override void Start() {
@@ -101,7 +105,7 @@ namespace DevelopmentConsoleTool {
 		    return addedChar;
 	    }
 
-	    private void ValueChangedHandler(string value) {
+	    private void OnValueChanged(string value) {
 		    // prevent prompt to be deleted
 		    if (value.Length < _prompt.Length) {
 			    text = _prompt;

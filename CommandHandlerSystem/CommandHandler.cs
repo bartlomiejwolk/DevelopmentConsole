@@ -4,7 +4,7 @@ using System;
 
 namespace DevelopmentConsoleTool.CommandHandlerSystem {
 
-    public abstract class CommandHandler {
+    public  abstract class CommandHandler {
 
         protected readonly string CommandName;
         protected readonly string Description;

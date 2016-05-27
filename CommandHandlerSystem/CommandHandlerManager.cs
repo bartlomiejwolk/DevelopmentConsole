@@ -32,6 +32,11 @@ namespace DevelopmentConsoleTool.CommandHandlerSystem {
             }
         }
 
+        public List<string> GetCommandNames() {
+            var keyList = new List<string>(_commandHandlers.Keys);
+            return keyList;
+        } 
+
         private static List<string> SplitCommandString(string commandString) {
             var arguments = commandString.Split(null).ToList();
             if (arguments.Count == 0) {
