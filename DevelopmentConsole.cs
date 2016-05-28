@@ -128,8 +128,9 @@ namespace DevelopmentConsoleTool {
             var typedChars = eventArgs.Value;
             var names = CommandHandlerManager.Instance.GetCommandNames();
             var matches = _fuzzySearch.MatchResultSet(names, typedChars);
-            _codeCompletion.DisplayResults(matches);
-	        _codeCompletion.PositionOnScreen(_lineManager.LastLine.textComponent);
+            _codeCompletion.DisplayResults(
+				matches,
+				_lineManager.LastLine.textComponent);
         }
 
         private void CodeCompletion_OnOptionSelected(

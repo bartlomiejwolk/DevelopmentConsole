@@ -27,6 +27,9 @@ namespace DevelopmentConsoleTool {
 	    private readonly PositionCalculator _positionCalculator
 			= new PositionCalculator();
 
+		// helper
+	    private Text _target;
+
         #region EVENTS
 
         private Action<GameObject, Match> _optionCreated;
@@ -115,15 +118,16 @@ namespace DevelopmentConsoleTool {
             }
         }
 
-        public void DisplayResults(List<Match> options) {
+        public void DisplayResults(List<Match> options, Text target) {
+	        _target = target;
             CleanResults();
-
             if (options == null) {
                 return;
             }
-            foreach (var option in options) {
+			foreach (var option in options) {
                 CreateOption(option);
             }
+			PositionOnScreen();
         }
 
         private void CleanResults() {
@@ -205,10 +209,9 @@ namespace DevelopmentConsoleTool {
             imageCo.color = _inactiveOptionColor;
         }
 
-		// todo pass Text instad of InputField
-	    public void PositionOnScreen(Text target) {
+	    private void PositionOnScreen() {
 		    var position = _positionCalculator.CalculatePosition(
-				target,
+				_target,
 				ContainerHeight);
 		    _container.transform.position = position;
 	    }
