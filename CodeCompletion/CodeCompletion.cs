@@ -203,26 +203,64 @@ namespace DevelopmentConsoleTool {
             imageCo.color = _inactiveOptionColor;
         }
 
+		// todo pass Text instad of InputField
 	    public void PositionOnScreen(InputField inputField) {
-			// last char start - local position
-			var textCo = inputField.textComponent;
-			var gen = textCo.cachedTextGenerator;
-			var charInfo = gen.characters.Last();
-			var x = (charInfo.cursorPos.x + charInfo.charWidth) / textCo.pixelsPerUnit;
-			var y = (charInfo.cursorPos.y) / textCo.pixelsPerUnit;
-		    var localPos = new Vector2(x, y);
+		    if (CanPositionBelow()) {
+			    PositionBelowText(inputField);
+		    }
+		    else {
+			    PositionAboveText(inputField);
+		    }
+	    }
+
+	    private void PositionAboveText(InputField target) {
+		    var textCo = target.textComponent;
+		    var localPos = CalculateLastCharLocalPosition(textCo);
 
 		    // global position
-		    var fieldPos = inputField.transform.position;
-		    var hTextEndPos = fieldPos.x + localPos.x;
+			var fieldPos = target.transform.position;
+			var hTextEndPos = fieldPos.x + localPos.x;
 
 			// vertical offset
+			var textHeight = textCo.rectTransform.rect.height;
+			var globalTextPos = textCo.transform.position;
+			var textUpperEdgePos = globalTextPos.y + (textHeight / 2);
+			var containerUpperPos = textUpperEdgePos + ContainerHeight;
+
+			var resultPos = new Vector3(hTextEndPos, containerUpperPos, 0);
+			_container.position = resultPos;
+		}
+
+		// last char start local position
+	    private void PositionBelowText(InputField target) {
+		    var textCo = target.textComponent;
+		    var localPos = CalculateLastCharLocalPosition(textCo);
+
+		    // global position
+		    var fieldPos = target.transform.position;
+		    var hTextEndPos = fieldPos.x + localPos.x;
+
+		    // vertical offset
 		    var textHeight = textCo.rectTransform.rect.height;
 		    var globalTextPos = textCo.transform.position;
-		    var textLowerEdgePos = globalTextPos.y - (textHeight/2);
+		    var textLowerEdgePos = globalTextPos.y - (textHeight / 2);
 
 		    var resultPos = new Vector3(hTextEndPos, textLowerEdgePos, 0);
 		    _container.position = resultPos;
+	    }
+
+		// todo don't pass Text. Use global Target property
+	    private static Vector2 CalculateLastCharLocalPosition(Text textCo) {
+		    var gen = textCo.cachedTextGenerator;
+		    var charInfo = gen.characters.Last();
+		    var x = (charInfo.cursorPos.x + charInfo.charWidth)/textCo.pixelsPerUnit;
+		    var y = (charInfo.cursorPos.y)/textCo.pixelsPerUnit;
+		    var localPos = new Vector2(x, y);
+		    return localPos;
+	    }
+
+	    private bool CanPositionBelow() {
+		    return true;
 	    }
     }
 }
