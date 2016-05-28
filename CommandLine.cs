@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using UnityEngine;
+using UnityEngine.EventSystems;
 using UnityEngine.UI;
 #pragma warning disable 649
 
@@ -115,6 +116,11 @@ namespace DevelopmentConsoleTool {
 		    if (caretPosition < _prompt.Length) {
 			    MoveTextEnd(false);
 		    }
+	    }
+
+	    public override void OnPointerClick(PointerEventData eventData) {
+			base.OnPointerClick(eventData);
+			MoveCaretToEnd();
 	    }
 
 	    #endregion
