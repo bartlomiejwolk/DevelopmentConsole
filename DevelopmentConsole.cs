@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 using DevelopmentConsoleTool.CodeCompletion;
 using DevelopmentConsoleTool.CommandHandlerSystem;
 using DevelopmentConsoleTool.FuzzySearchTool;
@@ -130,8 +132,9 @@ namespace DevelopmentConsoleTool {
             var typedChars = eventArgs.Value;
             var names = CommandHandlerManager.Instance.GetCommandNames();
             var matches = _fuzzySearch.MatchResultSet(names, typedChars);
-            _codeCompletion.DisplayResults(
-				matches,
+			var options = matches.Select(match => match.TextValue).ToList();
+	        _codeCompletion.DisplayResults(
+				options,
 				_lineManager.LastLine.textComponent);
         }
 

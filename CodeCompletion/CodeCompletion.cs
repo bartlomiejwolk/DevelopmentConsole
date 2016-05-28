@@ -33,7 +33,7 @@ namespace DevelopmentConsoleTool.CodeCompletion {
 
         #region EVENTS
 
-        private Action<GameObject, Match> _optionCreated;
+        private Action<GameObject, string> _optionCreated;
         private Action _tabKeyPressed;
         private Action _returnKeyPressed;
 
@@ -119,7 +119,7 @@ namespace DevelopmentConsoleTool.CodeCompletion {
             }
         }
 
-        public void DisplayResults(List<Match> options, Text target) {
+        public void DisplayResults(List<string> options, Text target) {
 	        _target = target;
             CleanResults();
             if (options == null) {
@@ -140,12 +140,12 @@ namespace DevelopmentConsoleTool.CodeCompletion {
             _options.Clear();
         }
 
-        private void CreateOption(Match matchInfo) {
+        private void CreateOption(string option) {
             var optionGo = Instantiate(_optionTemplate);
             optionGo.transform.SetParent(_container);
             optionGo.SetActive(true);
 
-            _optionCreated(optionGo, matchInfo);
+            _optionCreated(optionGo, option);
         }
 
         #region INPUT HANDLERS
@@ -181,13 +181,13 @@ namespace DevelopmentConsoleTool.CodeCompletion {
 
         #region EVENT HANDLERS
 
-        private void OnOptionCreated(GameObject option, Match info) {
+        private void OnOptionCreated(GameObject option, string text) {
             _options.Add(option);
             HighlightOption(_activeOption);
 
             // update label
             var textCo = option.GetComponentInChildren<Text>();
-            textCo.text = info.TextValue;
+            textCo.text = text;
         }
 
         #endregion
