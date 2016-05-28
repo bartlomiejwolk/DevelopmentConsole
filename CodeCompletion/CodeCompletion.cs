@@ -7,7 +7,7 @@ using UnityEngine.Assertions;
 using UnityEngine.UI;
 #pragma warning disable 649
 
-namespace DevelopmentConsoleTool {
+namespace DevelopmentConsoleTool.CodeCompletion {
     
     public class CodeCompletion : MonoBehaviour {
 

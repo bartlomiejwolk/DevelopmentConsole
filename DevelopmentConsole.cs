@@ -1,4 +1,5 @@
 ﻿using System;
+using DevelopmentConsoleTool.CodeCompletion;
 using DevelopmentConsoleTool.CommandHandlerSystem;
 using DevelopmentConsoleTool.FuzzySearchTool;
 using UnityEngine;
@@ -22,7 +23,7 @@ namespace DevelopmentConsoleTool {
         private LineManager _lineManager;
 
         [SerializeField]
-        private CodeCompletion _codeCompletion;
+        private CodeCompletion.CodeCompletion _codeCompletion;
 
         [SerializeField]
         private Canvas _canvas;

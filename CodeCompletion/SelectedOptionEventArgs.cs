@@ -1,7 +1,6 @@
 using System;
 
-namespace DevelopmentConsoleTool {
-
+namespace DevelopmentConsoleTool.CodeCompletion {
     public class SelectedOptionEventArgs : EventArgs {
         
         public string Option { get; private set; }
