@@ -111,7 +111,7 @@ namespace DevelopmentConsoleTool {
             currentLine.anchoredPosition = targetPos;
         }
 
-		// calculates target position for instantiated line
+		// calculates end position for instantiated line
         private Vector2 CalculateLinePosition() {
 			var vertOffset = (PenultimateLine.Height / 2)
 				+ (CurrentLine.Height / 2);
