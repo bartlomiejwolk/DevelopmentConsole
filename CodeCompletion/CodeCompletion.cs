@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.Assertions;
 using UnityEngine.UI;
@@ -192,5 +193,27 @@ namespace DevelopmentConsoleTool {
             var imageCo = option.GetComponent<Image>();
             imageCo.color = _inactiveOptionColor;
         }
+
+	    public void PositionOnScreen(InputField inputField) {
+			// last char start - local position
+			var textCo = inputField.textComponent;
+			var gen = textCo.cachedTextGenerator;
+			var charInfo = gen.characters.Last();
+			var x = (charInfo.cursorPos.x + charInfo.charWidth) / textCo.pixelsPerUnit;
+			var y = (charInfo.cursorPos.y) / textCo.pixelsPerUnit;
+		    var localPos = new Vector2(x, y);
+
+		    // global position
+		    var fieldPos = inputField.transform.position;
+		    var hTextEndPos = fieldPos.x + localPos.x;
+
+			// vertical offset
+		    var textHeight = textCo.rectTransform.rect.height;
+		    var globalTextPos = textCo.transform.position;
+		    var textLowerEdgePos = globalTextPos.y - (textHeight/2);
+
+		    var resultPos = new Vector3(hTextEndPos, textLowerEdgePos, 0);
+		    _container.position = resultPos;
+	    }
     }
 }
