@@ -101,7 +101,7 @@ namespace DevelopmentConsoleTool {
 			{
 				return;
 			}
-			// first line is instantiated at its default position
+			// first line is instantiated at correct position
 	        if (_lines.Count == 1) {
 		        return;
 	        }
