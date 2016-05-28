@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using Assets.DevelopmentConsole.FuzzySearch;
 using DevelopmentConsoleTool.CodeCompletion;
 using DevelopmentConsoleTool.CommandHandlerSystem;
 using DevelopmentConsoleTool.FuzzySearchTool;
@@ -129,22 +130,25 @@ namespace DevelopmentConsoleTool {
             object sender,
             LineValueChangedEventArgs eventArgs) {
 
-			// todo extract method
+			// find matching commands
             var typedChars = eventArgs.Value;
             var names = CommandHandlerManager.Instance.GetCommandNames();
             var matches = _fuzzySearch.MatchResultSet(names, typedChars);
 
-			// todo extract method
-	        if (matches != null) {
-				_lineManager.LastLine.ForceLabelUpdate();
-				var options = matches.Select(match => match.TextValue).ToList();
-				_codeCompletion.DisplayOptions(
-					options,
-					_lineManager.LastLine.textComponent);
-			}
+	        DisplayCodeCompletionPanel(matches);
         }
 
-        private void CodeCompletion_OnOptionSelected(
+	    private void DisplayCodeCompletionPanel(List<Match> matches) {
+		    if (matches == null) {
+			    return;
+		    }
+		    _lineManager.LastLine.ForceLabelUpdate();
+		    var options = matches.Select(match => match.TextValue).ToList();
+		    var textCo = _lineManager.LastLine.textComponent;
+			_codeCompletion.DisplayOptions(options, textCo);
+	    }
+
+	    private void CodeCompletion_OnOptionSelected(
             object sender,
             SelectedOptionEventArgs selectedOptionEventArgs) {
 
