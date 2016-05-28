@@ -157,9 +157,9 @@ namespace DevelopmentConsoleTool {
 		    if (matches == null) {
 			    return;
 		    }
-		    _lineManager.LastLine.ForceLabelUpdate();
+		    _lineManager.CurrentLine.ForceLabelUpdate();
 		    var options = matches.Select(match => match.TextValue).ToList();
-		    var textCo = _lineManager.LastLine.textComponent;
+		    var textCo = _lineManager.CurrentLine.textComponent;
 		    _codeCompletion.DisplayOptions(options, textCo);
 	    }
 

@@ -21,15 +21,13 @@ namespace DevelopmentConsoleTool {
 		[SerializeField]
 		private string _prompt = "> ";
 
-		[SerializeField]
-        private CommandLine _firstLine;
-
         [SerializeField]
         private CommandLine _commandLineTemplate;
 
         private readonly List<CommandLine> _lines = new List<CommandLine>();
 
-        public CommandLine LastLine {
+		// todo rename to CurrentLine
+        public CommandLine CurrentLine {
             get { return _lines.LastOrDefault(); }
         }
 
@@ -47,7 +45,7 @@ namespace DevelopmentConsoleTool {
         public string CommandString {
             get
             {
-                var cmd = LastLine.GetCommandString();
+                var cmd = CurrentLine.GetCommandString();
                 return cmd;
             }
         }
@@ -56,28 +54,27 @@ namespace DevelopmentConsoleTool {
 
         private void Awake() {
             Assert.IsNotNull(_commandLineTemplate);
-            Assert.IsNotNull(_firstLine);
 
             LineInstantiated = OnLineInstantiated;
-            _lines.Add(_firstLine);
+			// todo unsubscribe in OnDestroy()
             SubscribeToValueChangedEvent();
         }
 
         private void OnEnable() {
-            LastLine.GetFocus();
-            LastLine.MoveCaretToEnd();
+            CurrentLine.GetFocus();
+            CurrentLine.MoveCaretToEnd();
         }
 
         private void Start() {
-            //_firstLine.IgnoredChars = IgnoredChars;
+			InstantiateLine();
         }
 
         #endregion
 
         private void RepositionLines() {
             // calculate offset (relative to global (0; 0))
-            var correctPos = LastLine.Height/2;
-            var pos = LastLine.transform.position.y;
+            var correctPos = CurrentLine.Height/2;
+            var pos = CurrentLine.transform.position.y;
             var offset = pos - correctPos;
             
             // line is fully within the canvas
@@ -99,22 +96,29 @@ namespace DevelopmentConsoleTool {
             InvokeLineInstantiatedEvent(args);
         }
 
-        private void PositionLine() {
-            var newLineRectTransform = LastLine.GetComponent<RectTransform>();
-            var targetPos = CalculateLinePosition();
-            newLineRectTransform.anchoredPosition = targetPos;
+        private void HandleLinePositioning() {
+			if (CurrentLine == null)
+			{
+				return;
+			}
+			// first line is instantiated at its default position
+	        if (_lines.Count == 1) {
+		        return;
+	        }
+			var currentLine = CurrentLine.GetComponent<RectTransform>();
+			var targetPos = CalculateLinePosition();
+            currentLine.anchoredPosition = targetPos;
         }
 
-        // calculates position to place line on the screen
+		// calculates target position for instantiated line
         private Vector2 CalculateLinePosition() {
-            var verticalOffset = (PenultimateLine.Height / 2) +
-                (LastLine.Height / 2);
-            var yPos = PenultimateLine.RectTransform.anchoredPosition.y;
-            var verticalPos = yPos - verticalOffset;
-            var newPos = new Vector2(
-                PenultimateLine.RectTransform.anchoredPosition.x,
-                verticalPos);
-
+			var verticalOffset = (PenultimateLine.Height / 2) +
+				(CurrentLine.Height / 2);
+			var yPos = PenultimateLine.RectTransform.anchoredPosition.y;
+			var verticalPos = yPos - verticalOffset;
+			var newPos = new Vector2(
+				PenultimateLine.RectTransform.anchoredPosition.x,
+				verticalPos);
             return newPos;
         }
 
@@ -140,19 +144,32 @@ namespace DevelopmentConsoleTool {
 
 	        _lines.Add(cmdLine);
 	        cmdLine.Init(_prompt, IgnoredChars);
-            PositionLine();
-            PenultimateLine.SetReadOnly();
+            HandleLinePositioning();
+            SetPenultimateLineToReadOnly();
             RepositionLines();
             UnsubscribeFromValueChangedEvent();
             SubscribeToValueChangedEvent();
         }
 
-        private void UnsubscribeFromValueChangedEvent() {
+	    private void SetPenultimateLineToReadOnly() {
+		    if (PenultimateLine == null) {
+			    return;
+		    }
+		    PenultimateLine.SetReadOnly();
+	    }
+
+	    private void UnsubscribeFromValueChangedEvent() {
+	        if (PenultimateLine == null) {
+		        return;
+	        }
             PenultimateLine.onValueChanged.RemoveAllListeners();
         }
 
         private void SubscribeToValueChangedEvent() {
-            LastLine.onValueChanged.AddListener(InputField_OnValueChanged);
+	        if (CurrentLine == null) {
+		        return;
+	        }
+            CurrentLine.onValueChanged.AddListener(InputField_OnValueChanged);
         }
 
         private void InputField_OnValueChanged(string text) {
@@ -172,12 +189,12 @@ namespace DevelopmentConsoleTool {
         #endregion
 
         public void SetFocus() {
-            LastLine.GetFocus();
-            LastLine.MoveCaretToEnd();
+            CurrentLine.GetFocus();
+            CurrentLine.MoveCaretToEnd();
         }
 
         public void SetCommandString(string text) {
-            LastLine.SetCommandString(text);
+            CurrentLine.SetCommandString(text);
         }
     }
 }
