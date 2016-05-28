@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.Assertions;
 using UnityEngine.UI;
@@ -15,11 +16,19 @@ namespace DevelopmentConsoleTool {
         private GameObject _optionTemplate;
 
         [SerializeField]
+        private Transform _container;
+
+        [SerializeField]
         private readonly Color _highlightedColor = Color.red;
 
         private readonly List<GameObject> _options = new List<GameObject>();
         private int _activeOption;
         private Color _inactiveOptionColor = Color.white;
+	    private readonly PositionCalculator _positionCalculator
+			= new PositionCalculator();
+
+		// helper
+	    private Text _target;
 
         #region EVENTS
 
@@ -28,6 +37,15 @@ namespace DevelopmentConsoleTool {
         private Action _returnKeyPressed;
 
         #endregion
+
+	    public float ContainerHeight {
+		    get {
+				Canvas.ForceUpdateCanvases();
+			    var rt = _container.GetComponent<RectTransform>();
+			    var height = rt.rect.height;
+			    return height;
+		    }    
+	    }
 
         public bool IsOpen {
             get { return _options.Count > 0; }
@@ -69,6 +87,7 @@ namespace DevelopmentConsoleTool {
 
         private void Awake() {
             Assert.IsNotNull(_optionTemplate);
+            Assert.IsNotNull(_container);
 
             _optionCreated = OnOptionCreated;
             _tabKeyPressed = OnTabKeyPressed;
@@ -99,19 +118,20 @@ namespace DevelopmentConsoleTool {
             }
         }
 
-        public void DisplayResults(List<Match> options) {
+        public void DisplayResults(List<Match> options, Text target) {
+	        _target = target;
             CleanResults();
-
             if (options == null) {
                 return;
             }
-            foreach (var option in options) {
+			foreach (var option in options) {
                 CreateOption(option);
             }
+			PositionOnScreen();
         }
 
         private void CleanResults() {
-            foreach (var child in transform) {
+            foreach (var child in _container) {
                 var childTransform = (Transform) child;
                 Destroy(childTransform.gameObject);
             }
@@ -121,7 +141,7 @@ namespace DevelopmentConsoleTool {
 
         private void CreateOption(Match matchInfo) {
             var optionGo = Instantiate(_optionTemplate);
-            optionGo.transform.SetParent(transform);
+            optionGo.transform.SetParent(_container);
             optionGo.SetActive(true);
 
             _optionCreated(optionGo, matchInfo);
@@ -188,5 +208,12 @@ namespace DevelopmentConsoleTool {
             var imageCo = option.GetComponent<Image>();
             imageCo.color = _inactiveOptionColor;
         }
+
+	    private void PositionOnScreen() {
+		    var position = _positionCalculator.CalculatePosition(
+				_target,
+				ContainerHeight);
+		    _container.transform.position = position;
+	    }
     }
 }

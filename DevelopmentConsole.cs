@@ -128,7 +128,9 @@ namespace DevelopmentConsoleTool {
             var typedChars = eventArgs.Value;
             var names = CommandHandlerManager.Instance.GetCommandNames();
             var matches = _fuzzySearch.MatchResultSet(names, typedChars);
-            _codeCompletion.DisplayResults(matches);
+            _codeCompletion.DisplayResults(
+				matches,
+				_lineManager.LastLine.textComponent);
         }
 
         private void CodeCompletion_OnOptionSelected(
@@ -149,7 +151,6 @@ namespace DevelopmentConsoleTool {
             if (_codeCompletion.IsOpen) {
                 return;
             }
-
             _commandHistory.AddCommand(_lineManager.CommandString);
             CommandHandlerManager.Instance.HandleCommand(_lineManager.CommandString);
             _lineManager.InstantiateLine();
