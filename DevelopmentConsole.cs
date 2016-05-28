@@ -129,7 +129,7 @@ namespace DevelopmentConsoleTool {
             var names = CommandHandlerManager.Instance.GetCommandNames();
             var matches = _fuzzySearch.MatchResultSet(names, typedChars);
             _codeCompletion.DisplayResults(matches);
-	        _codeCompletion.PositionOnScreen(_lineManager.LastLine);
+	        _codeCompletion.PositionOnScreen(_lineManager.LastLine.textComponent);
         }
 
         private void CodeCompletion_OnOptionSelected(
