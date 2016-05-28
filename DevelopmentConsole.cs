@@ -1,5 +1,6 @@
 ﻿using System;
 using DevelopmentConsoleTool.CommandHandlerSystem;
+using DevelopmentConsoleTool.FuzzySearchTool;
 using UnityEngine;
 using UnityEngine.Assertions;
 

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using Assets.DevelopmentConsole.FuzzySearch;
 using UnityEngine;
 using UnityEngine.Assertions;
 using UnityEngine.UI;

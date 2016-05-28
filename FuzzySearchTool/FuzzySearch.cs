@@ -1,14 +1,8 @@
 ﻿using System.Collections.Generic;
-using UnityEngine;
+using Assets.DevelopmentConsole.FuzzySearch;
 
-namespace DevelopmentConsoleTool {
-
-    public struct Match {
-        public string TextValue;
-        public List<int> Positions;
-    }
-
-    public class FuzzySearch {
+namespace DevelopmentConsoleTool.FuzzySearchTool {
+	public class FuzzySearch {
 
         public List<Match> MatchResultSet(List<string> resultSet, string query) {
             if (query == string.Empty) {
