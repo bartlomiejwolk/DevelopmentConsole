@@ -49,7 +49,7 @@ namespace DevelopmentConsoleTool {
 			var gen = _target.cachedTextGenerator;
 			var charInfo = gen.characters.Last();
 			var x = (charInfo.cursorPos.x + charInfo.charWidth) / _target.pixelsPerUnit;
-			var y = (charInfo.cursorPos.y) / _target.pixelsPerUnit;
+			var y = charInfo.cursorPos.y / _target.pixelsPerUnit;
 			var localPos = new Vector2(x, y);
 			var hLocalPos = TargetGlobalPos.x + localPos.x;
 			var globalPos = new Vector2(hLocalPos, y);
@@ -57,6 +57,11 @@ namespace DevelopmentConsoleTool {
 		}
 
 		private bool CanPositionBelowTarget() {
+			var textLowerEdgePos = TargetGlobalPos.y - (TargetTextHeight / 2);
+			var containerBottomEdge = textLowerEdgePos - _containerHeight;
+			if (containerBottomEdge < 0) {
+				return false;
+			}
 			return true;
 		}
 	}
