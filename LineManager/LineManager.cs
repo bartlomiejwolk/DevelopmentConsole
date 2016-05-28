@@ -112,13 +112,14 @@ namespace DevelopmentConsoleTool {
 
 		// calculates target position for instantiated line
         private Vector2 CalculateLinePosition() {
-			var verticalOffset = (PenultimateLine.Height / 2) +
-				(CurrentLine.Height / 2);
-			var yPos = PenultimateLine.RectTransform.anchoredPosition.y;
-			var verticalPos = yPos - verticalOffset;
+			var vertOffset = (PenultimateLine.Height / 2)
+				+ (CurrentLine.Height / 2);
+			var penultimateVertPos = PenultimateLine.RectTransform.anchoredPosition.y;
+			var endVertPos = penultimateVertPos - vertOffset;
+	        var penultimateHorPos = PenultimateLine.RectTransform.anchoredPosition.x;
 			var newPos = new Vector2(
-				PenultimateLine.RectTransform.anchoredPosition.x,
-				verticalPos);
+				penultimateHorPos,
+				endVertPos);
             return newPos;
         }
 
