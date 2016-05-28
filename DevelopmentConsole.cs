@@ -129,13 +129,18 @@ namespace DevelopmentConsoleTool {
             object sender,
             LineValueChangedEventArgs eventArgs) {
             
+			// todo extract method
             var typedChars = eventArgs.Value;
             var names = CommandHandlerManager.Instance.GetCommandNames();
             var matches = _fuzzySearch.MatchResultSet(names, typedChars);
-			var options = matches.Select(match => match.TextValue).ToList();
-	        _codeCompletion.DisplayOptions(
-				options,
-				_lineManager.LastLine.textComponent);
+
+			// todo extract method
+	        if (matches != null) {
+				var options = matches.Select(match => match.TextValue).ToList();
+				_codeCompletion.DisplayOptions(
+					options,
+					_lineManager.LastLine.textComponent);
+			}
         }
 
         private void CodeCompletion_OnOptionSelected(
