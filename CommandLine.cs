@@ -8,9 +8,8 @@ namespace DevelopmentConsoleTool {
 
     public class CommandLine : InputField {
 	    
-        [SerializeField]
-		private string _prompt = "> ";
-
+		private string _prompt;
+	    private string _ignoredChars;
 	    private RectTransform _rectTransform;
 
 	    public RectTransform RectTransform {
@@ -23,15 +22,14 @@ namespace DevelopmentConsoleTool {
 		    }
 	    }
 
-	    public string IgnoredChars { get; set; }
-
 		public float Height
 		{
 			get { return RectTransform.rect.height; }
 		}
 
         public string Prompt {
-            get { return _prompt; }
+            //get { return _prompt; }
+			set { _prompt = value; }
         }
 
         #region UNITY MESSAGES
@@ -55,28 +53,29 @@ namespace DevelopmentConsoleTool {
 
 	    #endregion
 
+	    public void Init(string prompt, string ignoredChars) {
+		    _prompt = prompt;
+		    _ignoredChars = ignoredChars;
+	    }
+
 	    public void MoveCaretToEnd() {
 		    StartCoroutine(MoveTextEnd_NextFrame());
 	    }
 
-	    public string GetCommandString()
-		{
+	    public string GetCommandString() {
 			var cmdString = text.Substring(_prompt.Length);
 			return cmdString;
 		}
 
-		public void GetFocus()
-		{
+		public void GetFocus() {
 			ActivateInputField();
 		}
 
-		public void SetReadOnly()
-		{
+		public void SetReadOnly() {
 			readOnly = true;
 		}
 
-		public void SetCommandString(string cmd)
-		{
+		public void SetCommandString(string cmd) {
 			var result = _prompt + cmd;
 			text = result;
 		}
@@ -98,9 +97,8 @@ namespace DevelopmentConsoleTool {
 
 	    #region EVENT HANDLERS
 
-	    private char ValidateInputHandler(string fieldText, int charIndex, char addedChar)
-	    {
-		    if (IgnoredChars.Contains(addedChar.ToString())) {
+	    private char ValidateInputHandler(string fieldText, int charIndex, char addedChar) {
+		    if (_ignoredChars.Contains(addedChar.ToString())) {
 			    return '\0';
 		    }
 		    return addedChar;

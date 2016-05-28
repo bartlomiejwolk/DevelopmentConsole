@@ -18,7 +18,10 @@ namespace DevelopmentConsoleTool {
         public event EventHandler<LineValueChangedEventArgs> LineValueChanged;
         public string IgnoredChars { get; set; }
 
-        [SerializeField]
+		[SerializeField]
+		private string _prompt = "> ";
+
+		[SerializeField]
         private CommandLine _firstLine;
 
         [SerializeField]
@@ -55,7 +58,7 @@ namespace DevelopmentConsoleTool {
             Assert.IsNotNull(_commandLineTemplate);
             Assert.IsNotNull(_firstLine);
 
-            LineInstantiated = OnInstantiated;
+            LineInstantiated = OnLineInstantiated;
             _lines.Add(_firstLine);
             SubscribeToValueChangedEvent();
         }
@@ -66,7 +69,7 @@ namespace DevelopmentConsoleTool {
         }
 
         private void Start() {
-            _firstLine.IgnoredChars = IgnoredChars;
+            //_firstLine.IgnoredChars = IgnoredChars;
         }
 
         #endregion
@@ -131,12 +134,12 @@ namespace DevelopmentConsoleTool {
 
         #region EVENT HANDLERS
 
-        private void OnInstantiated(object sender, LineInstantiatedEventArgs eventArgs) {
+        private void OnLineInstantiated(object sender, LineInstantiatedEventArgs eventArgs) {
             var go = eventArgs.InstantiatedGo;
             var cmdLine = go.GetComponent<CommandLine>();
 
-            _lines.Add(cmdLine);
-            cmdLine.IgnoredChars = IgnoredChars;
+	        _lines.Add(cmdLine);
+	        cmdLine.Init(_prompt, IgnoredChars);
             PositionLine();
             PenultimateLine.SetReadOnly();
             RepositionLines();
@@ -159,10 +162,10 @@ namespace DevelopmentConsoleTool {
         }
 
         private string StripPrompt(string text) {
-            if (text.Length <= LastLine.Prompt.Length) {
+            if (text.Length <= _prompt.Length) {
                 return string.Empty;
             }
-            var commandString = text.Substring(LastLine.Prompt.Length);
+            var commandString = text.Substring(_prompt.Length);
             return commandString;
         }
 
