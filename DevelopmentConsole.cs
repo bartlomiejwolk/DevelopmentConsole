@@ -128,7 +128,7 @@ namespace DevelopmentConsoleTool {
         private void LineManager_OnLineValueChanged(
             object sender,
             LineValueChangedEventArgs eventArgs) {
-            
+
 			// todo extract method
             var typedChars = eventArgs.Value;
             var names = CommandHandlerManager.Instance.GetCommandNames();
@@ -136,6 +136,7 @@ namespace DevelopmentConsoleTool {
 
 			// todo extract method
 	        if (matches != null) {
+				_lineManager.LastLine.ForceLabelUpdate();
 				var options = matches.Select(match => match.TextValue).ToList();
 				_codeCompletion.DisplayOptions(
 					options,
