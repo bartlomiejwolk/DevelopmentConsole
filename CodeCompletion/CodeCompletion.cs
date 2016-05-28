@@ -119,7 +119,7 @@ namespace DevelopmentConsoleTool.CodeCompletion {
             }
         }
 
-        public void DisplayResults(List<string> options, Text target) {
+        public void DisplayOptions(List<string> options, Text target) {
 	        _target = target;
             CleanResults();
             if (options == null) {

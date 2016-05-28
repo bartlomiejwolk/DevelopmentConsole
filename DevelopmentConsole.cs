@@ -133,7 +133,7 @@ namespace DevelopmentConsoleTool {
             var names = CommandHandlerManager.Instance.GetCommandNames();
             var matches = _fuzzySearch.MatchResultSet(names, typedChars);
 			var options = matches.Select(match => match.TextValue).ToList();
-	        _codeCompletion.DisplayResults(
+	        _codeCompletion.DisplayOptions(
 				options,
 				_lineManager.LastLine.textComponent);
         }
