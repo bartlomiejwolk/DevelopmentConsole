@@ -24,9 +24,11 @@ namespace DevelopmentConsoleTool {
         [SerializeField]
         private CommandLine _commandLineTemplate;
 
+	    [SerializeField]
+	    private Transform _container;
+
         private readonly List<CommandLine> _lines = new List<CommandLine>();
 
-		// todo rename to CurrentLine
         public CommandLine CurrentLine {
             get { return _lines.LastOrDefault(); }
         }
@@ -54,14 +56,10 @@ namespace DevelopmentConsoleTool {
 
         private void Awake() {
             Assert.IsNotNull(_commandLineTemplate);
+			Assert.IsNotNull(_container);
 
             LineInstantiated = OnLineInstantiated;
             SubscribeToValueChangedEvent();
-        }
-
-        private void OnEnable() {
-            CurrentLine.GetFocus();
-            CurrentLine.MoveCaretToEnd();
         }
 
         private void Start() {
@@ -75,7 +73,7 @@ namespace DevelopmentConsoleTool {
         #endregion
 
         private void RepositionLines() {
-            // calculate offset (relative to global (0; 0))
+            // calculate offset relative to global (0; 0)
             var correctPos = CurrentLine.Height/2;
             var pos = CurrentLine.transform.position.y;
             var offset = pos - correctPos;
@@ -86,14 +84,14 @@ namespace DevelopmentConsoleTool {
             }
 
             // update line container position
-            var verticalPos = transform.position.y + Mathf.Abs(offset);
-            transform.position = new Vector3(transform.position.x, verticalPos, transform.position.z);
+            var verticalPos = _container.position.y + Mathf.Abs(offset);
+            _container.position = new Vector3(_container.position.x, verticalPos, _container.position.z);
         }
 
         public void InstantiateLine() {
             var cmdLineGo = Instantiate(_commandLineTemplate);
             cmdLineGo.gameObject.SetActive(true);
-            cmdLineGo.transform.SetParent(transform, false);
+            cmdLineGo.transform.SetParent(_container, false);
 
             var args = new LineInstantiatedEventArgs(cmdLineGo.gameObject);
             InvokeLineInstantiatedEvent(args);
@@ -193,6 +191,9 @@ namespace DevelopmentConsoleTool {
         #endregion
 
         public void SetFocus() {
+	        if (CurrentLine == null) {
+		        return;
+	        }
             CurrentLine.GetFocus();
             CurrentLine.MoveCaretToEnd();
         }
