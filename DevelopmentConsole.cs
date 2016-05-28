@@ -53,19 +53,23 @@ namespace DevelopmentConsoleTool {
             Assert.IsNotNull(_codeCompletion);
             Assert.IsNotNull(_canvas);
             
-            _lineManager.LineValueChanged += LineManager_OnLineValueChanged;
-            _codeCompletion.OptionSelected += CodeCompletion_OnOptionSelected;
+            SubscribeEventHandlers();
 
-            _toggleConsoleWindowKeyPressed = OnToggleConsoleWindowKeyPressed;
-            _returnKeyPressed = OnReturnKeyPressed;
-            _arrowUpKeyPressed = OnArrowUpPressed;
-            _arrowDownKeyPressed = OnArrowDownPressed;
-
-            var keyChar = (char)_toggleConsoleWindowKey;
+	        var keyChar = (char)_toggleConsoleWindowKey;
             _lineManager.IgnoredChars = keyChar.ToString();
         }
 
-        private void Update() {
+	    private void SubscribeEventHandlers() {
+		    _lineManager.LineValueChanged += LineManager_OnLineValueChanged;
+		    _codeCompletion.OptionSelected += CodeCompletion_OnOptionSelected;
+
+		    _toggleConsoleWindowKeyPressed = OnToggleConsoleWindowKeyPressed;
+		    _returnKeyPressed = OnReturnKeyPressed;
+		    _arrowUpKeyPressed = OnArrowUpPressed;
+		    _arrowDownKeyPressed = OnArrowDownPressed;
+	    }
+
+	    private void Update() {
             CheckForToggleConsoleWindowKey();
             HandleInConsoleKeyboardInput();
         }
