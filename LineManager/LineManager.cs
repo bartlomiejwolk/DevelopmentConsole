@@ -118,9 +118,7 @@ namespace DevelopmentConsoleTool {
 			var penultimateVertPos = PenultimateLine.RectTransform.anchoredPosition.y;
 			var endVertPos = penultimateVertPos - vertOffset;
 	        var penultimateHorPos = PenultimateLine.RectTransform.anchoredPosition.x;
-			var newPos = new Vector2(
-				penultimateHorPos,
-				endVertPos);
+			var newPos = new Vector2(penultimateHorPos, endVertPos);
             return newPos;
         }
 
