@@ -33,6 +33,15 @@ namespace DevelopmentConsoleTool {
 
         #endregion
 
+	    public float ContainerHeight {
+		    get {
+				Canvas.ForceUpdateCanvases();
+			    var rt = _container.GetComponent<RectTransform>();
+			    var height = rt.rect.height;
+			    return height;
+		    }    
+	    }
+
         public bool IsOpen {
             get { return _options.Count > 0; }
         }
