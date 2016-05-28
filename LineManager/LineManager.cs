@@ -79,7 +79,7 @@ namespace DevelopmentConsoleTool {
             var offset = pos - correctPos;
             
             // line is fully within the canvas
-            if (offset > 0) {
+            if (offset >= 0) {
                 return;
             }
 
