@@ -56,7 +56,6 @@ namespace DevelopmentConsoleTool {
             Assert.IsNotNull(_commandLineTemplate);
 
             LineInstantiated = OnLineInstantiated;
-			// todo unsubscribe in OnDestroy()
             SubscribeToValueChangedEvent();
         }
 
@@ -68,6 +67,10 @@ namespace DevelopmentConsoleTool {
         private void Start() {
 			InstantiateLine();
         }
+
+	    private void OnDestroy() {
+		    UnsubscribeFromValueChangedEvent();
+	    }
 
         #endregion
 
