@@ -142,16 +142,6 @@ namespace DevelopmentConsoleTool {
 	        DisplayCodeCompletionPanel(matches);
         }
 
-	    private void DisplayCodeCompletionPanel(List<Match> matches) {
-		    if (matches == null) {
-			    return;
-		    }
-		    _lineManager.LastLine.ForceLabelUpdate();
-		    var options = matches.Select(match => match.TextValue).ToList();
-		    var textCo = _lineManager.LastLine.textComponent;
-			_codeCompletion.DisplayOptions(options, textCo);
-	    }
-
 	    private void CodeCompletion_OnOptionSelected(
             object sender,
             SelectedOptionEventArgs selectedOptionEventArgs) {
@@ -163,7 +153,17 @@ namespace DevelopmentConsoleTool {
 
         #endregion
 
-        #region INPUT HANDLERS
+	    private void DisplayCodeCompletionPanel(List<Match> matches) {
+		    if (matches == null) {
+			    return;
+		    }
+		    _lineManager.LastLine.ForceLabelUpdate();
+		    var options = matches.Select(match => match.TextValue).ToList();
+		    var textCo = _lineManager.LastLine.textComponent;
+		    _codeCompletion.DisplayOptions(options, textCo);
+	    }
+
+	    #region INPUT HANDLERS
 
         private void OnReturnKeyPressed() {
             // let the code completion handle this
