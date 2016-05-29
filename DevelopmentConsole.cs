@@ -18,28 +18,35 @@ namespace DevelopmentConsoleTool {
     /// The main class of the DevelopmentConsole tool.
     /// </summary>
     public class DevelopmentConsole : MonoBehaviour {
+	    #region INSPECTOR
 
-        [SerializeField]
+	    [SerializeField]
         private bool _dontDestroyOnLoad = true;
 
-        [SerializeField]
-        private LineManager _lineManager;
+	    [SerializeField]
+	    private LineManager _lineManager;
 
-        [SerializeField]
-        private CodeCompletion.CodeCompletion _codeCompletion;
+	    [SerializeField]
+	    private CodeCompletion.CodeCompletion _codeCompletion;
 
-        [SerializeField]
-        private Canvas _canvas;
+	    [SerializeField]
+	    private Canvas _canvas;
 
-        [SerializeField]
-        private KeyCode _toggleConsoleWindowKey = KeyCode.BackQuote;
+	    [SerializeField]
+	    private KeyCode _toggleConsoleWindowKey = KeyCode.BackQuote;
 
-        private Action _toggleConsoleWindowKeyPressed;
-        private Action _returnKeyPressed;
-        private Action _arrowUpKeyPressed;
-        private Action _arrowDownKeyPressed;
+	    #endregion
 
-        private readonly CommandHistory _commandHistory = new CommandHistory();
+	    #region DELEGATES
+
+	    private Action _toggleConsoleWindowKeyPressed;
+	    private Action _returnKeyPressed;
+	    private Action _arrowUpKeyPressed;
+	    private Action _arrowDownKeyPressed;
+
+	    #endregion
+
+	    private readonly CommandHistory _commandHistory = new CommandHistory();
         private readonly FuzzySearch _fuzzySearch = new FuzzySearch();
 
         private bool IsConsoleWindowOpen {
@@ -59,16 +66,6 @@ namespace DevelopmentConsoleTool {
             _lineManager.IgnoredChars = keyChar.ToString();
         }
 
-	    private void SubscribeEventHandlers() {
-		    _lineManager.LineValueChanged += LineManager_OnLineValueChanged;
-		    _codeCompletion.OptionSelected += CodeCompletion_OnOptionSelected;
-
-		    _toggleConsoleWindowKeyPressed = OnToggleConsoleWindowKeyPressed;
-		    _returnKeyPressed = OnReturnKeyPressed;
-		    _arrowUpKeyPressed = OnArrowUpPressed;
-		    _arrowDownKeyPressed = OnArrowDownPressed;
-	    }
-
 	    private void Update() {
             CheckForToggleConsoleWindowKey();
             HandleInConsoleKeyboardInput();
@@ -81,7 +78,37 @@ namespace DevelopmentConsoleTool {
 
         #endregion
 
-        #region INPUT
+	    private void SubscribeEventHandlers() {
+		    _lineManager.LineValueChanged += LineManager_OnLineValueChanged;
+		    _codeCompletion.OptionSelected += CodeCompletion_OnOptionSelected;
+
+		    _toggleConsoleWindowKeyPressed = OnToggleConsoleWindowKeyPressed;
+		    _returnKeyPressed = OnReturnKeyPressed;
+		    _arrowUpKeyPressed = OnArrowUpPressed;
+		    _arrowDownKeyPressed = OnArrowDownPressed;
+	    }
+
+	    private void OpenConsoleWindow() {
+		    _canvas.gameObject.SetActive(true);
+		    _lineManager.SetFocus();
+	    }
+
+	    private void CloseConsoleWindow() {
+		    _canvas.gameObject.SetActive(false);
+	    }
+
+	    private void DisplayCodeCompletionPanel(List<Match> matches) {
+		    _codeCompletion.ClearResults();
+		    if (matches == null) {
+			    return;
+		    }
+		    _lineManager.CurrentLine.ForceLabelUpdate();
+		    var options = matches.Select(match => match.TextValue).ToList();
+		    var textCo = _lineManager.CurrentLine.textComponent;
+		    _codeCompletion.DisplayOptions(options, textCo);
+	    }
+
+	    #region INPUT
 
         private void HandleInConsoleKeyboardInput() {
             if (!IsConsoleWindowOpen) {
@@ -119,16 +146,46 @@ namespace DevelopmentConsoleTool {
 
         #endregion
 
-        private void OpenConsoleWindow() {
-            _canvas.gameObject.SetActive(true);
-            _lineManager.SetFocus();
-        }
+	    #region INPUT HANDLERS
 
-        private void CloseConsoleWindow() {
-            _canvas.gameObject.SetActive(false);
-        }
+	    private void OnReturnKeyPressed() {
+		    // let the code completion handle this
+		    if (_codeCompletion.IsOpen) {
+			    return;
+		    }
+		    _commandHistory.AddCommand(_lineManager.CommandString);
+		    CommandHandlerManager.Instance.HandleCommand(_lineManager.CommandString);
+		    _lineManager.InstantiateLine();
+	    }
 
-        #region EVENT HANDLERS
+	    private void OnToggleConsoleWindowKeyPressed() {
+		    if (IsConsoleWindowOpen) {
+			    CloseConsoleWindow();
+		    }
+		    else {
+			    OpenConsoleWindow();
+		    }
+	    }
+
+	    private void OnArrowUpPressed() {
+		    var nextInput = _commandHistory.GetPreviousCommand();
+		    if (nextInput == null) {
+			    return;
+		    }
+		    _lineManager.SetCommandString(nextInput);
+	    }
+
+	    private void OnArrowDownPressed() {
+		    var previousInput = _commandHistory.GetNextCommand();
+		    if (previousInput == null) {
+			    return;
+		    }
+		    _lineManager.SetCommandString(previousInput);
+	    }
+
+	    #endregion
+
+	    #region EVENT HANDLERS
 
         private void LineManager_OnLineValueChanged(
             object sender,
@@ -149,56 +206,6 @@ namespace DevelopmentConsoleTool {
             var option = selectedOptionEventArgs.Option;
             _lineManager.SetCommandString(option);
             _lineManager.SetFocus();
-        }
-
-        #endregion
-
-	    private void DisplayCodeCompletionPanel(List<Match> matches) {
-			_codeCompletion.ClearResults();
-		    if (matches == null) {
-			    return;
-		    }
-		    _lineManager.CurrentLine.ForceLabelUpdate();
-		    var options = matches.Select(match => match.TextValue).ToList();
-		    var textCo = _lineManager.CurrentLine.textComponent;
-		    _codeCompletion.DisplayOptions(options, textCo);
-	    }
-
-	    #region INPUT HANDLERS
-
-        private void OnReturnKeyPressed() {
-            // let the code completion handle this
-            if (_codeCompletion.IsOpen) {
-                return;
-            }
-            _commandHistory.AddCommand(_lineManager.CommandString);
-            CommandHandlerManager.Instance.HandleCommand(_lineManager.CommandString);
-            _lineManager.InstantiateLine();
-        }
-
-        private void OnToggleConsoleWindowKeyPressed() {
-            if (IsConsoleWindowOpen) {
-                CloseConsoleWindow();
-            }
-            else {
-                OpenConsoleWindow();
-            }
-        }
-
-        private void OnArrowUpPressed() {
-            var nextInput = _commandHistory.GetPreviousCommand();
-            if (nextInput == null) {
-                return;
-            }
-            _lineManager.SetCommandString(nextInput);
-        }
-
-        private void OnArrowDownPressed() {
-            var previousInput = _commandHistory.GetNextCommand();
-            if (previousInput == null) {
-                return;
-            }
-            _lineManager.SetCommandString(previousInput);
         }
 
         #endregion
