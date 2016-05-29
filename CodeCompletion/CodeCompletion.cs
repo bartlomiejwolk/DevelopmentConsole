@@ -119,7 +119,7 @@ namespace DevelopmentConsoleTool.CodeCompletion {
 
         public void DisplayOptions(List<string> options, Text target) {
 	        _target = target;
-            CleanResults();
+            ClearResults();
             if (options == null) {
                 return;
             }
@@ -129,7 +129,7 @@ namespace DevelopmentConsoleTool.CodeCompletion {
 			PositionOnScreen();
         }
 
-        private void CleanResults() {
+        private void ClearResults() {
             foreach (var child in _container) {
                 var childTransform = (Transform) child;
                 Destroy(childTransform.gameObject);
@@ -167,7 +167,7 @@ namespace DevelopmentConsoleTool.CodeCompletion {
             var args = new SelectedOptionEventArgs(CurrentOptionLabel.text);
             InvokeOptionSelected(args);
 
-            CleanResults();
+            ClearResults();
         }
 
         #endregion
