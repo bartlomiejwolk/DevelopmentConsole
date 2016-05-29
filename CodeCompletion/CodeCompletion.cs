@@ -129,7 +129,7 @@ namespace DevelopmentConsoleTool.CodeCompletion {
 			PositionOnScreen();
         }
 
-        private void ClearResults() {
+        public void ClearResults() {
             foreach (var child in _container) {
                 var childTransform = (Transform) child;
                 Destroy(childTransform.gameObject);

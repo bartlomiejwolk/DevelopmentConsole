@@ -154,6 +154,7 @@ namespace DevelopmentConsoleTool {
         #endregion
 
 	    private void DisplayCodeCompletionPanel(List<Match> matches) {
+			_codeCompletion.ClearResults();
 		    if (matches == null) {
 			    return;
 		    }
