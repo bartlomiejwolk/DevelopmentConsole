@@ -1,34 +1,38 @@
 ﻿using System.Collections;
 using UnityEngine;
+using UnityEngine.EventSystems;
 using UnityEngine.UI;
 #pragma warning disable 649
 
 namespace DevelopmentConsoleTool {
 
     public class CommandLine : InputField {
-	    [SerializeField]
-		private string prompt = "> ";
-
-	    private RectTransform rectTransform;
+	    
+		private string _prompt;
+	    private string _ignoredChars;
+	    private RectTransform _rectTransform;
 
 	    public RectTransform RectTransform {
 		    get {
-			    if (rectTransform != null) {
-				    return rectTransform;
+			    if (_rectTransform != null) {
+				    return _rectTransform;
 			    }
 				var com = GetComponent<RectTransform>();
 			    return com;
 		    }
 	    }
 
-	    public string IgnoredChars { get; set; }
-
 		public float Height
 		{
 			get { return RectTransform.rect.height; }
 		}
 
-	    #region UNITY MESSAGES
+        public string Prompt {
+            //get { return _prompt; }
+			set { _prompt = value; }
+        }
+
+        #region UNITY MESSAGES
 
 	    private void OnGUI() {
 		    RedefineUpDownArrowBehavior();
@@ -38,40 +42,41 @@ namespace DevelopmentConsoleTool {
 		    base.Awake();
 
 		    onValidateInput += ValidateInputHandler;
-		    onValueChanged.AddListener(ValueChangedHandler);
+		    onValueChanged.AddListener(OnValueChanged);
 	    }
 
 	    protected override void Start() {
-		    text = prompt;
+		    text = _prompt;
 		    ActivateInputField();
 		    MoveCaretToEnd();
 	    }
 
 	    #endregion
 
+	    public void Init(string prompt, string ignoredChars) {
+		    _prompt = prompt;
+		    _ignoredChars = ignoredChars;
+	    }
+
 	    public void MoveCaretToEnd() {
 		    StartCoroutine(MoveTextEnd_NextFrame());
 	    }
 
-	    public string GetCommandString()
-		{
-			var cmdString = text.Substring(prompt.Length);
+	    public string GetCommandString() {
+			var cmdString = text.Substring(_prompt.Length);
 			return cmdString;
 		}
 
-		public void GetFocus()
-		{
+		public void GetFocus() {
 			ActivateInputField();
 		}
 
-		public void SetReadOnly()
-		{
+		public void SetReadOnly() {
 			readOnly = true;
 		}
 
-		public void SetCommandString(string cmd)
-		{
-			var result = prompt + cmd;
+		public void SetCommandString(string cmd) {
+			var result = _prompt + cmd;
 			text = result;
 		}
 
@@ -92,24 +97,28 @@ namespace DevelopmentConsoleTool {
 
 	    #region EVENT HANDLERS
 
-	    private char ValidateInputHandler(string fieldText, int charIndex, char addedChar)
-	    {
-		    if (IgnoredChars.Contains(addedChar.ToString())) {
+	    private char ValidateInputHandler(string fieldText, int charIndex, char addedChar) {
+		    if (_ignoredChars.Contains(addedChar.ToString())) {
 			    return '\0';
 		    }
 		    return addedChar;
 	    }
 
-	    private void ValueChangedHandler(string value) {
+	    private void OnValueChanged(string value) {
 		    // prevent prompt to be deleted
-		    if (value.Length < prompt.Length) {
-			    text = prompt;
+		    if (value.Length < _prompt.Length) {
+			    text = _prompt;
 		    }
 
 		    // prevent caret from going onto the prompt
-		    if (caretPosition < prompt.Length) {
+		    if (caretPosition < _prompt.Length) {
 			    MoveTextEnd(false);
 		    }
+	    }
+
+	    public override void OnPointerClick(PointerEventData eventData) {
+			base.OnPointerClick(eventData);
+			MoveCaretToEnd();
 	    }
 
 	    #endregion

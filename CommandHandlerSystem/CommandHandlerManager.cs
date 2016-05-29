@@ -1,34 +1,79 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Reflection;
+using DevelopmentConsoleTool.Utilities;
 
 namespace DevelopmentConsoleTool.CommandHandlerSystem {
 
     public sealed class CommandHandlerManager {
 
-        private static readonly CommandHandlerManager instance 
+        private static readonly CommandHandlerManager _instance 
             = new CommandHandlerManager();
 
-        private readonly HashSet<Type> handlerTypes = new HashSet<Type>();
+        private readonly HashSet<Type> _handlerTypes = new HashSet<Type>();
 
-        private readonly Dictionary<string, CommandHandler> CommandHandlers =
+        private readonly Dictionary<string, CommandHandler> _commandHandlers =
             new Dictionary<string, CommandHandler>();
 
         public static CommandHandlerManager Instance {
-            get {
-                return instance;
-            }
+            get { return _instance; }
         }
 
         private CommandHandlerManager() {}
 
-        public void RegisterMethodHandlers(Type type, object obj) {
+        public void HandleCommand(string commandString) {
+            var splitData = SplitCommandString(commandString);
+            var commandName = splitData[0];
+            var commandHandler = GetHandlerByCommandName(commandName);
+            if (commandHandler != null) {
+                var parameters = splitData.GetRange(1, splitData.Count - 1);
+                commandHandler.Invoke(parameters.ToArray());
+            }
+        }
+
+        public List<string> GetCommandNames() {
+            var keyList = new List<string>(_commandHandlers.Keys);
+            return keyList;
+        } 
+
+        private static List<string> SplitCommandString(string commandString) {
+            var arguments = commandString.Split(null).ToList();
+            if (arguments.Count == 0) {
+                return null;
+            }
+            return arguments;
+        }
+
+        private CommandHandler GetHandlerByCommandName(string commandName) {
+            CommandHandler handler;
+            _commandHandlers.TryGetValue(commandName, out handler);
+            return handler;
+        }
+
+        public void RegisterCommandHandlers(Type type) {
+            RegisterCommandHandlers(type, null);
+        }
+
+        public void RegisterCommandHandlers(object obj) {
+            RegisterCommandHandlers(obj.GetType(), obj);
+        }
+
+        public void RegisterCommandHandlers(Type type, object obj) {
+            if (_handlerTypes.Contains(type)) {
+                return;
+            }
+
+            _handlerTypes.Add(type);
+            RegisterCommandHandlerMethods(type, obj);
+        }
+
+        public void RegisterCommandHandlerMethods(Type type, object obj) {
             var methods = GetMethodsFromType(type, obj);
 
             foreach (var method in methods) {
                 var customAttributes = method.GetCustomAttributes(
                     typeof (CommandHandlerAttribute), true);
-
                 if (customAttributes.Length <= 0) {
                     continue;
                 }
@@ -76,25 +121,8 @@ namespace DevelopmentConsoleTool.CommandHandlerSystem {
                 commandName = method.Name;
             }
 
-            var handler = new MethodCommandHandler(commandName, description, obj, type, method);
-            CommandHandlers.Add(commandName.ToLower(), handler);
-        }
-
-        public void HandleCommand(string commandString) {
-            CommandHandler commandHandler;
-            CommandHandlers.TryGetValue(commandString, out commandHandler);
-            if (commandHandler != null) {
-                commandHandler.Invoke();
-            }
-        }
-
-        public void RegisterCommandHandlers(Type type, object obj) {
-            if (handlerTypes.Contains(type)) {
-                return;
-            }
-
-            handlerTypes.Add(type);
-            RegisterMethodHandlers(type, obj);
+            var handler = new MethodCommandHandler(type, obj, method, commandName, description);
+            _commandHandlers.Add(commandName.ToLower(), handler);
         }
     }
 }
