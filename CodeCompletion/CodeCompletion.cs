@@ -31,8 +31,7 @@ namespace DevelopmentConsoleTool.CodeCompletion {
 	    #endregion
 
 	    private readonly List<GameObject> _options = new List<GameObject>();
-		// todo rename to _activeOptionIndex
-        private int _activeOption;
+        private int _activeOptionIndex;
         private Color _inactiveOptionColor = Color.white;
 	    private readonly PositionCalculator _positionCalculator
 			= new PositionCalculator();
@@ -59,7 +58,7 @@ namespace DevelopmentConsoleTool.CodeCompletion {
 			    {
 				    return null;
 			    }
-			    return _options[_activeOption];
+			    return _options[_activeOptionIndex];
 		    }
 	    }
 
@@ -76,8 +75,8 @@ namespace DevelopmentConsoleTool.CodeCompletion {
 	    private int PreviousOptionIndex {
 		    get {
 			    int result;
-			    if (_activeOption > 0) {
-				    result = _activeOption - 1;
+			    if (_activeOptionIndex > 0) {
+				    result = _activeOptionIndex - 1;
 				    return result;
 			    }
 			    result = _options.Count - 1;
@@ -125,7 +124,7 @@ namespace DevelopmentConsoleTool.CodeCompletion {
 			    var childTransform = (Transform) child;
 			    Destroy(childTransform.gameObject);
 		    }
-		    _activeOption = 0;
+		    _activeOptionIndex = 0;
 		    _options.Clear();
 	    }
 
@@ -184,14 +183,14 @@ namespace DevelopmentConsoleTool.CodeCompletion {
 	    #region INPUT
 
         private void OnTabKeyPressed() {
-            if (_activeOption < _options.Count - 1) {
-                _activeOption++;
+            if (_activeOptionIndex < _options.Count - 1) {
+                _activeOptionIndex++;
             }
-            else if (_activeOption == _options.Count - 1) {
-                _activeOption = 0;
+            else if (_activeOptionIndex == _options.Count - 1) {
+                _activeOptionIndex = 0;
             }
 
-            HighlightOption(_activeOption);
+            HighlightOption(_activeOptionIndex);
             UnhighlightOption(PreviousOptionIndex);
         }
 
@@ -211,7 +210,7 @@ namespace DevelopmentConsoleTool.CodeCompletion {
 
         private void OnOptionCreated(GameObject option, string text) {
             _options.Add(option);
-            HighlightOption(_activeOption);
+            HighlightOption(_activeOptionIndex);
 
             // update label
             var textCo = option.GetComponentInChildren<Text>();
