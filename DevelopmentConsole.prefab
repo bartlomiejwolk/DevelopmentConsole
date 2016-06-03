@@ -24,6 +24,7 @@ GameObject:
   m_Component:
   - 4: {fileID: 435484}
   - 114: {fileID: 11466704}
+  - 114: {fileID: 11467420}
   m_Layer: 0
   m_Name: DevelopmentConsole
   m_TagString: Untagged
@@ -236,6 +237,17 @@ MonoBehaviour:
   _codeCompletion: {fileID: 11499590}
   _canvas: {fileID: 22338762}
   _toggleConsoleWindowKey: 96
+--- !u!114 &11467420
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 137700}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 20f917f3f3bfd5a4c8da2ee5718c9adb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &11475382
 MonoBehaviour:
   m_ObjectHideFlags: 1
