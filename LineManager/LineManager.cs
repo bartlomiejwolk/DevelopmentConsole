@@ -75,6 +75,7 @@ namespace DevelopmentConsoleTool {
 
 	    public void InstantiateLine() {
 		    var cmdLineGo = Instantiate(_commandLineTemplate);
+            // todo prefab should be active by default
 		    cmdLineGo.gameObject.SetActive(true);
 		    cmdLineGo.transform.SetParent(_container, false);
 
