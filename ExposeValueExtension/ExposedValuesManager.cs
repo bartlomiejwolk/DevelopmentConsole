@@ -36,18 +36,20 @@ namespace DevelopmentConsoleTool.ExposeValueExtension {
             _valuesSources.Add(customName, valueSource);
         }
 
-        public void ShowValue(string valueName) {
+        public Func<object> GetSourceCallback(string sourceName) {
             ValueSource valueSource;
-            _valuesSources.TryGetValue(valueName, out valueSource);
-
+            _valuesSources.TryGetValue(sourceName, out valueSource);
             var callback = valueSource.Callback;
-            if (callback != null) {
-                Debug.Log(callback().ToString());
-            }
+            return callback;
         }
 
-        public void HideValue(string valueName) {
-            
+        public object GetSourceValue(string sourceName) {
+            var callback = GetSourceCallback(sourceName);
+            object value = null;
+            if (callback != null) {
+                value = callback();
+            }
+            return value;
         }
     }
 }
