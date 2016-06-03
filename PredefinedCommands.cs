@@ -6,7 +6,7 @@ namespace DevelopmentConsoleTool {
     public class PredefinedCommands : MonoBehaviour {
 
         private void Start() {
-            CommandHandlerManager.Instance.RegisterCommandHandlers(typeof(CommandHanderTest), this);
+            CommandHandlerManager.Instance.RegisterCommandHandlers(typeof(PredefinedCommands), this);
         }
 
         [CommandHandler]
