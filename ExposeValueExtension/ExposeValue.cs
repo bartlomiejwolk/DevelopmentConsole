@@ -6,9 +6,7 @@ using Debug = UnityEngine.Debug;
 namespace DevelopmentConsoleTool.ExposeValueExtension {
 
     public struct ValueSource {
-        public Func<string> StringDelegate;
-        public Func<int> IntDelegate;
-        public Func<float> FloatDelegate;
+        public Func<object> Callback; 
         public string Category;
     }
 
@@ -27,27 +25,25 @@ namespace DevelopmentConsoleTool.ExposeValueExtension {
 
         private ExposeValue() { }
 
-        // todo create overloads for other return types
         public void RegisterValue(
             string customName,
             string category,
-            Func<float> value) {
+            Func<object> value) {
             
             var valueSource = new ValueSource() {
-                FloatDelegate = value,
+                Callback = value,
                 Category = category
             };
             _valuesSources.Add(customName, valueSource);
         }
 
-        // todo make it work for other return types
         public void ShowValue(string valueName) {
             ValueSource valueSource;
             _valuesSources.TryGetValue(valueName, out valueSource);
 
-            var value = valueSource.FloatDelegate;
-            if (value != null) {
-                Debug.Log(value());
+            var callback = valueSource.Callback;
+            if (callback != null) {
+                Debug.Log(callback().ToString());
             }
         }
 
