@@ -11,7 +11,7 @@ namespace DevelopmentConsoleTool {
 
         [CommandHandler]
         private void ExposeValue(string valueName) {
-            ExposeValueExtension.ExposeValue.Instance.ShowValue(valueName);
+            ExposeValueExtension.ExposedValuesManager.Instance.ShowValue(valueName);
         }
     }
 }
