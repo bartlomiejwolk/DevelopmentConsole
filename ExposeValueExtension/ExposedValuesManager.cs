@@ -10,7 +10,7 @@ namespace DevelopmentConsoleTool.ExposeValueExtension {
 	// todo extract to file
     public class ExposedValue {
 		// todo change to properties
-	    public bool Enabled;
+	    public bool UpdateEnabled;
         public Func<object> Callback; 
         public string Category;
 	    public GameObject Go;

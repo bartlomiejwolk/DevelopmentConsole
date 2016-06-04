@@ -55,7 +55,7 @@ namespace DevelopmentConsoleTool.ExposeValueExtension {
 	    private void UpdateValues() {
 		    var values = _exposedValuesManager.ValuesSources;
 		    foreach (var exposedValue in values) {
-			    if (exposedValue.Value.Enabled) {
+			    if (exposedValue.Value.UpdateEnabled) {
 				    UpdateValue(exposedValue);
 			    }
 		    }
@@ -75,7 +75,7 @@ namespace DevelopmentConsoleTool.ExposeValueExtension {
 		    if (value.Go == null) {
 			    InstantiateValuePrefab(valueName);
 		    }
-		    value.Enabled = true;
+		    value.UpdateEnabled = true;
 		    if (value.Go != null) {
 			    value.Go.SetActive(true);
 		    }
@@ -89,7 +89,7 @@ namespace DevelopmentConsoleTool.ExposeValueExtension {
 
         public void HideValue(string valueName) {
 			var value = _exposedValuesManager.GetExposedValue(valueName);
-	        value.Enabled = false;
+	        value.UpdateEnabled = false;
 			value.Go.SetActive(false);
         }
 
