@@ -118,6 +118,17 @@ namespace DevelopmentConsoleTool {
 		    CodeCompletion.DisplayOptions(options, textCo);
 	    }
 
+	    private void UpdateTypedCommand(string input) {
+		    var cmdNames = CommandHandlerManager.Instance.GetCommandNames();
+		    foreach (var cmdName in cmdNames) {
+			    if (input.StartsWith(cmdName + " ")) {
+				    TypedCommand = cmdName;
+				    return;
+			    }
+		    }
+		    TypedCommand = null;
+	    }
+
 	    #region INPUT
 
         private void HandleInConsoleKeyboardInput() {
@@ -206,17 +217,6 @@ namespace DevelopmentConsoleTool {
 	        _argumentParser.ParseArguments(input);
 	        DisplayCodeAutoCompletionPanel(input);
         }
-
-	    private void UpdateTypedCommand(string input) {
-		    var cmdNames = CommandHandlerManager.Instance.GetCommandNames();
-		    foreach (var cmdName in cmdNames) {
-			    if (input.StartsWith(cmdName + " ")) {
-				    TypedCommand = cmdName;
-				    return;
-			    }
-		    }
-		    TypedCommand = null;
-	    }
 
 	    private void CodeCompletion_OnOptionSelected(
             object sender,
