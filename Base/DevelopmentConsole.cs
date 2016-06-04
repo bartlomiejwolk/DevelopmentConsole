@@ -218,7 +218,7 @@ namespace DevelopmentConsoleTool {
 	        DisplayCodeAutoCompletionPanel(input);
         }
 
-	    private void CodeCompletion_OnOptionSelected(
+	    protected virtual void CodeCompletion_OnOptionSelected(
             object sender,
             SelectedOptionEventArgs selectedOptionEventArgs) {
 

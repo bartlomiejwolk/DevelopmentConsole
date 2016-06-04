@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using DevelopmentConsoleTool.CodeCompletionModule;
 using DevelopmentConsoleTool.ValueExposerExtension;
 
 namespace DevelopmentConsoleTool {
@@ -33,6 +34,21 @@ namespace DevelopmentConsoleTool {
 			}
 			var textCo = LineManager.CurrentLine.textComponent;
 			CodeCompletion.DisplayOptions(options, textCo);
+		}
+
+		protected override void CodeCompletion_OnOptionSelected(
+			object sender, SelectedOptionEventArgs selectedOptionEventArgs) {
+
+			var option = selectedOptionEventArgs.Option;
+			string fullCmd;
+			if (TypedCommand != null) {
+				fullCmd = TypedCommand + " " + option;
+			}
+			else {
+				fullCmd = option;
+			}
+			LineManager.SetCommandString(fullCmd);
+			LineManager.SetFocus();
 		}
 	}
 }
