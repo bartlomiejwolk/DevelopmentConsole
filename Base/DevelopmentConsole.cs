@@ -97,7 +97,7 @@ namespace DevelopmentConsoleTool {
 		    _canvas.gameObject.SetActive(false);
 	    }
 
-	    private void DisplayCodeCompletionPanel(string typedChars) {
+	    private void DisplayCodeAutoCompletionPanel(string typedChars) {
 		    _codeCompletion.ClearResults();
 
 			var names = CommandHandlerManager.Instance.GetCommandNames();
@@ -194,7 +194,7 @@ namespace DevelopmentConsoleTool {
             object sender,
             LineValueChangedEventArgs eventArgs) {
 
-	        DisplayCodeCompletionPanel(eventArgs.Value);
+	        DisplayCodeAutoCompletionPanel(eventArgs.Value);
         }
 
 	    private void CodeCompletion_OnOptionSelected(
