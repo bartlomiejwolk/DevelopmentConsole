@@ -2,6 +2,7 @@
 using DevelopmentConsoleTool.CommandHandlerSystem;
 
 namespace DevelopmentConsoleTool {
+
     public class PredefinedCommands : MonoBehaviour {
 
         private void Start() {

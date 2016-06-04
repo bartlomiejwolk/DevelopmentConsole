@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using DevelopmentConsoleTool.CodeCompletionModule;
 using DevelopmentConsoleTool.CommandHandlerSystem;
@@ -22,7 +23,7 @@ namespace DevelopmentConsoleTool {
         private bool _dontDestroyOnLoad = true;
 
 	    [SerializeField]
-	    private LineManager _lineManager;
+	    protected LineManager LineManager;
 
 	    [SerializeField]
 	    protected CodeCompletion CodeCompletion;
@@ -45,24 +46,31 @@ namespace DevelopmentConsoleTool {
 	    #endregion
 
 	    private readonly CommandHistory _commandHistory = new CommandHistory();
-        private readonly FuzzySearch _fuzzySearch = new FuzzySearch();
-	    protected string TypedCommand;
+        protected readonly FuzzySearch FuzzySearch = new FuzzySearch();
+		private readonly CommandLineArgumentParser _argumentParser
+			= new CommandLineArgumentParser();
+
+		protected string TypedCommand;
 
         private bool IsConsoleWindowOpen {
             get { return _canvas.gameObject.activeSelf; }
         }
 
+	    protected List<string> Arguments {
+		    get { return _argumentParser.Arguments; }
+	    }
+
         #region UNITY MESSAGES
 
         private void Awake() {
-            Assert.IsNotNull(_lineManager);
+            Assert.IsNotNull(LineManager);
             Assert.IsNotNull(CodeCompletion);
             Assert.IsNotNull(_canvas);
             
             SubscribeEventHandlers();
 
 	        var keyChar = (char)_toggleConsoleWindowKey;
-            _lineManager.IgnoredChars = keyChar.ToString();
+            LineManager.IgnoredChars = keyChar.ToString();
         }
 
 	    private void Update() {
@@ -71,14 +79,14 @@ namespace DevelopmentConsoleTool {
         }
 
         private void OnDestroy() {
-            _lineManager.LineValueChanged -= LineManager_OnLineValueChanged;
+            LineManager.LineValueChanged -= LineManager_OnLineValueChanged;
             CodeCompletion.OptionSelected -= CodeCompletion_OnOptionSelected;
         }
 
         #endregion
 
 	    private void SubscribeEventHandlers() {
-		    _lineManager.LineValueChanged += LineManager_OnLineValueChanged;
+		    LineManager.LineValueChanged += LineManager_OnLineValueChanged;
 		    CodeCompletion.OptionSelected += CodeCompletion_OnOptionSelected;
 
 		    _toggleConsoleWindowKeyPressed = OnToggleConsoleWindowKeyPressed;
@@ -89,7 +97,7 @@ namespace DevelopmentConsoleTool {
 
 	    private void OpenConsoleWindow() {
 		    _canvas.gameObject.SetActive(true);
-		    _lineManager.SetFocus();
+		    LineManager.SetFocus();
 	    }
 
 	    private void CloseConsoleWindow() {
@@ -100,13 +108,13 @@ namespace DevelopmentConsoleTool {
 		    CodeCompletion.ClearResults();
 
 			var names = CommandHandlerManager.Instance.GetCommandNames();
-			var matches = _fuzzySearch.MatchResultSet(names, typedChars);
+			var matches = FuzzySearch.MatchResultSet(names, typedChars);
 			if (matches == null) {
 			    return;
 		    }
-		    _lineManager.CurrentLine.ForceLabelUpdate();
+		    LineManager.CurrentLine.ForceLabelUpdate();
 		    var options = matches.Select(match => match.TextValue).ToList();
-		    var textCo = _lineManager.CurrentLine.textComponent;
+		    var textCo = LineManager.CurrentLine.textComponent;
 		    CodeCompletion.DisplayOptions(options, textCo);
 	    }
 
@@ -155,9 +163,9 @@ namespace DevelopmentConsoleTool {
 		    if (CodeCompletion.IsOpen) {
 			    return;
 		    }
-		    _commandHistory.AddCommand(_lineManager.CommandString);
-		    CommandHandlerManager.Instance.HandleCommand(_lineManager.CommandString);
-		    _lineManager.InstantiateLine();
+		    _commandHistory.AddCommand(LineManager.CommandString);
+		    CommandHandlerManager.Instance.HandleCommand(LineManager.CommandString);
+		    LineManager.InstantiateLine();
 	    }
 
 	    private void OnToggleConsoleWindowKeyPressed() {
@@ -174,7 +182,7 @@ namespace DevelopmentConsoleTool {
 		    if (nextInput == null) {
 			    return;
 		    }
-		    _lineManager.SetCommandString(nextInput);
+		    LineManager.SetCommandString(nextInput);
 	    }
 
 	    private void OnArrowDownPressed() {
@@ -182,7 +190,7 @@ namespace DevelopmentConsoleTool {
 		    if (previousInput == null) {
 			    return;
 		    }
-		    _lineManager.SetCommandString(previousInput);
+		    LineManager.SetCommandString(previousInput);
 	    }
 
 	    #endregion
@@ -193,8 +201,10 @@ namespace DevelopmentConsoleTool {
             object sender,
             LineValueChangedEventArgs eventArgs) {
 
-	        UpdateTypedCommand(eventArgs.Value);
-	        DisplayCodeAutoCompletionPanel(eventArgs.Value);
+	        var input = eventArgs.Value;
+	        UpdateTypedCommand(input);
+	        _argumentParser.ParseArguments(input);
+	        DisplayCodeAutoCompletionPanel(input);
         }
 
 	    private void UpdateTypedCommand(string input) {
@@ -213,8 +223,8 @@ namespace DevelopmentConsoleTool {
             SelectedOptionEventArgs selectedOptionEventArgs) {
 
             var option = selectedOptionEventArgs.Option;
-            _lineManager.SetCommandString(option);
-            _lineManager.SetFocus();
+            LineManager.SetCommandString(option);
+            LineManager.SetFocus();
         }
 
         #endregion
