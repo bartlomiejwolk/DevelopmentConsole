@@ -21,10 +21,8 @@ namespace DevelopmentConsoleTool.ExposeValueExtension {
                 if (_instance != null) {
                     return _instance;
                 }
-
-                var go = new GameObject();
-                var component = go.AddComponent<ExposeValue>();
-                return component;
+				Debug.LogWarning("Add ExposeValue prefab to the scene!");
+	            return null;
             }
         }
 
