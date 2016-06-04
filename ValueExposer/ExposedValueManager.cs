@@ -3,17 +3,17 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using Debug = UnityEngine.Debug;
 
-namespace DevelopmentConsoleTool.ExposeValueExtension {
+namespace DevelopmentConsoleTool.ValueExposerExtension {
 
-	public class ExposedValuesManager {
+	public class ExposedValueManager {
 
-        private static readonly ExposedValuesManager _instance
-            = new ExposedValuesManager();
+        private static readonly ExposedValueManager _instance
+            = new ExposedValueManager();
 
         private readonly Dictionary<string, ExposedValue> _exposedValues
             = new Dictionary<string, ExposedValue>();
 
-        public static ExposedValuesManager Instance {
+        public static ExposedValueManager Instance {
             get { return _instance; }
         }
 
@@ -21,7 +21,7 @@ namespace DevelopmentConsoleTool.ExposeValueExtension {
 		    get { return _exposedValues; }
 	    }
 
-	    private ExposedValuesManager() { }
+	    private ExposedValueManager() { }
 
         public void RegisterValue(
             string customName,

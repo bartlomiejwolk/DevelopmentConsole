@@ -5,8 +5,8 @@ using UnityEngine.Assertions;
 using UnityEngine.UI;
 #pragma warning disable 649
 
-namespace DevelopmentConsoleTool.ExposeValueExtension {
-    public class ExposeValue : MonoBehaviour {
+namespace DevelopmentConsoleTool.ValueExposerExtension {
+    public class ValueExposer : MonoBehaviour {
 	    #region INSPECTOR FIELDS
 
 	    [SerializeField]
@@ -17,13 +17,13 @@ namespace DevelopmentConsoleTool.ExposeValueExtension {
 
 	    #endregion
 
-	    private static ExposeValue _instance;
+	    private static ValueExposer _instance;
 
-	    private ExposedValuesManager _exposedValuesManager;
+	    private ExposedValueManager _exposedValueManager;
 
 		public event EventHandler<ValueInstantiatedEventArgs> ValueInstantiated;
 
-		public static ExposeValue Instance {
+		public static ValueExposer Instance {
             get {
                 if (_instance != null) {
                     return _instance;
@@ -37,7 +37,7 @@ namespace DevelopmentConsoleTool.ExposeValueExtension {
 
 	    private void Awake() {
             _instance = this;
-            _exposedValuesManager = ExposedValuesManager.Instance;
+            _exposedValueManager = ExposedValueManager.Instance;
 
             Assert.IsNotNull(_valuePrefab);
             Assert.IsNotNull(_container);
@@ -52,7 +52,7 @@ namespace DevelopmentConsoleTool.ExposeValueExtension {
 	    #endregion
 
 	    public void ShowValue(string valueName) {
-		    var value = _exposedValuesManager.GetExposedValue(valueName);
+		    var value = _exposedValueManager.GetExposedValue(valueName);
 		    if (value == null) {
 			    return;
 		    }
@@ -63,7 +63,7 @@ namespace DevelopmentConsoleTool.ExposeValueExtension {
 	    }
 
 	    public void HideValue(string valueName) {
-		    var value = _exposedValuesManager.GetExposedValue(valueName);
+		    var value = _exposedValueManager.GetExposedValue(valueName);
 		    value.UpdateEnabled = false;
 	    }
 
@@ -74,7 +74,7 @@ namespace DevelopmentConsoleTool.ExposeValueExtension {
 	    }
 
 	    private void UpdateValues() {
-		    var values = _exposedValuesManager.ExposedValues;
+		    var values = _exposedValueManager.ExposedValues;
 		    foreach (var value in values) {
 			    if (value.Value.UpdateEnabled) {
 				    UpdateValue(value);
@@ -110,7 +110,7 @@ namespace DevelopmentConsoleTool.ExposeValueExtension {
 		    object sender,
 		    ValueInstantiatedEventArgs eventArgs) {
 
-		    var exposedValue = _exposedValuesManager.GetExposedValue(
+		    var exposedValue = _exposedValueManager.GetExposedValue(
 			    eventArgs.ValueName);
 		    exposedValue.Go = eventArgs.Go;
 	    }

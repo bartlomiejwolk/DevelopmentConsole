@@ -11,7 +11,7 @@ namespace DevelopmentConsoleTool {
 
         [CommandHandler]
         private void ExposeValue(string valueName) {
-	        var instance = ExposeValueExtension.ExposeValue.Instance;
+	        var instance = ValueExposerExtension.ValueExposer.Instance;
 			if (instance != null) {
 				instance.ShowValue(valueName);
 			}
@@ -19,7 +19,7 @@ namespace DevelopmentConsoleTool {
 
 	    [CommandHandler]
 	    private void HideExposedValue(string valueName) {
-			var instance = ExposeValueExtension.ExposeValue.Instance;
+			var instance = ValueExposerExtension.ValueExposer.Instance;
 			if (instance != null)
 			{
 				instance.HideValue(valueName);

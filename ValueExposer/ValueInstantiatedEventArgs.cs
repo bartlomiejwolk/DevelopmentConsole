@@ -1,7 +1,7 @@
 using System;
 using UnityEngine;
 
-namespace DevelopmentConsoleTool.ExposeValueExtension {
+namespace DevelopmentConsoleTool.ValueExposerExtension {
 	public class ValueInstantiatedEventArgs : EventArgs {
 		public string ValueName { get; private set; }
 		public GameObject Go { get; private set; }
