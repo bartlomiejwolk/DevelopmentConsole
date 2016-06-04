@@ -4,8 +4,8 @@ using UnityEngine.UI;
 
 namespace DevelopmentConsoleTool.ExposeValueExtension {
 	public class ExposedValue {
-		// todo change to properties
 		private bool _updateEnabled;
+
 		public bool UpdateEnabled {
 			get { return _updateEnabled; }
 			set {
@@ -16,9 +16,9 @@ namespace DevelopmentConsoleTool.ExposeValueExtension {
 			}
 		}
 
-		public Func<object> Callback; 
-		public string Category;
-		public GameObject Go;
+		public Func<object> Callback { get; set; }
+		public string Category { get; set; }
+		public GameObject Go { get; set; }
 
 		public Text TextComponent {
 			get {
