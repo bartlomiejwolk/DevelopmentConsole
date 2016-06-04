@@ -43,11 +43,9 @@ namespace DevelopmentConsoleTool.ExposeValueExtension {
 			object sender,
 			ValueInstantiatedEventArgs eventArgs) {
 
-			var exposedValue =
-				_exposedValuesManager.GetExposedValue(eventArgs.ValueName);
-			exposedValue.Enabled = true;
-			var textCo = eventArgs.GameObject.GetComponentInChildren<Text>();
-			exposedValue.TextComponent = textCo;
+			var exposedValue = _exposedValuesManager.GetExposedValue(
+				eventArgs.ValueName);
+			exposedValue.Go = eventArgs.GameObject;
 		}
 
 	    private void Update() {
@@ -73,24 +71,33 @@ namespace DevelopmentConsoleTool.ExposeValueExtension {
 	    }
 
 	    public void ShowValue(string valueName) {
-            InstantiateValuePrefab(valueName);
+		    var value = _exposedValuesManager.GetExposedValue(valueName);
+		    if (value.Go == null) {
+			    InstantiateValuePrefab(valueName);
+		    }
+		    value.Enabled = true;
+		    if (value.Go != null) {
+			    value.Go.SetActive(true);
+		    }
 	    }
 
-        private void InstantiateValuePrefab(string valueName) {
+		private void InstantiateValuePrefab(string valueName) {
             var valueGo = Instantiate(_valuePrefab);
             valueGo.transform.SetParent(_container, false);
 			InvokeValueInstantiatedEvent(valueName, valueGo);
         }
 
         public void HideValue(string valueName) {
-
+			var value = _exposedValuesManager.GetExposedValue(valueName);
+	        value.Enabled = false;
+			value.Go.SetActive(false);
         }
 
-	    protected virtual void InvokeValueInstantiatedEvent(
+		protected virtual void InvokeValueInstantiatedEvent(
 			string valueName,
-			GameObject gameObject) {
+			GameObject go) {
 
-		    var args = new ValueInstantiatedEventArgs(valueName, gameObject);
+		    var args = new ValueInstantiatedEventArgs(valueName, go);
 		    var handler = ValueInstantiated;
 		    if (handler != null) handler(this, args);
 	    }

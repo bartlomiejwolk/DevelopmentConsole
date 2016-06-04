@@ -16,5 +16,14 @@ namespace DevelopmentConsoleTool {
 				instance.ShowValue(valueName);
 			}
 		}
+
+	    [CommandHandler]
+	    private void HideExposedValue(string valueName) {
+			var instance = ExposeValueExtension.ExposeValue.Instance;
+			if (instance != null)
+			{
+				instance.HideValue(valueName);
+			}
+		}
     }
 }

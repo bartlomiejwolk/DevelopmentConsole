@@ -1,16 +1,29 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using UnityEngine;
 using UnityEngine.UI;
 using Debug = UnityEngine.Debug;
 
 namespace DevelopmentConsoleTool.ExposeValueExtension {
 
+	// todo extract to file
     public class ExposedValue {
+		// todo change to properties
 	    public bool Enabled;
         public Func<object> Callback; 
         public string Category;
-	    public Text TextComponent;
+	    public GameObject Go;
+
+	    public Text TextComponent {
+		    get {
+			    if (Go == null) {
+				    return null;
+			    }
+			    var textCo = Go.GetComponentInChildren<Text>();
+			    return textCo;
+		    }
+	    }
 
 	    public string ValueString {
 		    get {
