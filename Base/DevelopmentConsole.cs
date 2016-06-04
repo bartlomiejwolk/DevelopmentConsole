@@ -46,6 +46,7 @@ namespace DevelopmentConsoleTool {
 
 	    private readonly CommandHistory _commandHistory = new CommandHistory();
         private readonly FuzzySearch _fuzzySearch = new FuzzySearch();
+	    private string _typedCommand;
 
         private bool IsConsoleWindowOpen {
             get { return _canvas.gameObject.activeSelf; }
@@ -192,8 +193,20 @@ namespace DevelopmentConsoleTool {
             object sender,
             LineValueChangedEventArgs eventArgs) {
 
+	        UpdateTypedCommand(eventArgs.Value);
 	        DisplayCodeAutoCompletionPanel(eventArgs.Value);
         }
+
+	    private void UpdateTypedCommand(string input) {
+		    var cmdNames = CommandHandlerManager.Instance.GetCommandNames();
+		    foreach (var cmdName in cmdNames) {
+			    if (input == cmdName + " ") {
+				    _typedCommand = cmdName;
+				    return;
+			    }
+		    }
+		    _typedCommand = null;
+	    }
 
 	    private void CodeCompletion_OnOptionSelected(
             object sender,
