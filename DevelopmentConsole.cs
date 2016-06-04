@@ -30,7 +30,7 @@ namespace DevelopmentConsoleTool {
 	    private CodeCompletion.CodeCompletion _codeCompletion;
 
 	    [SerializeField]
-	    private Transform _container;
+	    private Canvas _canvas;
 
 	    [SerializeField]
 	    private KeyCode _toggleConsoleWindowKey = KeyCode.BackQuote;
@@ -50,7 +50,7 @@ namespace DevelopmentConsoleTool {
         private readonly FuzzySearch _fuzzySearch = new FuzzySearch();
 
         private bool IsConsoleWindowOpen {
-            get { return _container.gameObject.activeSelf; }
+            get { return _canvas.gameObject.activeSelf; }
         }
 
         #region UNITY MESSAGES
@@ -58,7 +58,7 @@ namespace DevelopmentConsoleTool {
         private void Awake() {
             Assert.IsNotNull(_lineManager);
             Assert.IsNotNull(_codeCompletion);
-            Assert.IsNotNull(_container);
+            Assert.IsNotNull(_canvas);
             
             SubscribeEventHandlers();
 
@@ -89,12 +89,12 @@ namespace DevelopmentConsoleTool {
 	    }
 
 	    private void OpenConsoleWindow() {
-		    _container.gameObject.SetActive(true);
+		    _canvas.gameObject.SetActive(true);
 		    _lineManager.SetFocus();
 	    }
 
 	    private void CloseConsoleWindow() {
-		    _container.gameObject.SetActive(false);
+		    _canvas.gameObject.SetActive(false);
 	    }
 
 	    private void DisplayCodeCompletionPanel(List<Match> matches) {
