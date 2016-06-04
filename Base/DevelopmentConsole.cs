@@ -27,7 +27,7 @@ namespace DevelopmentConsoleTool {
 	    private LineManager _lineManager;
 
 	    [SerializeField]
-	    private CodeCompletion.CodeCompletion _codeCompletion;
+	    protected CodeCompletion.CodeCompletion CodeCompletion;
 
 	    [SerializeField]
 	    private Canvas _canvas;
@@ -57,7 +57,7 @@ namespace DevelopmentConsoleTool {
 
         private void Awake() {
             Assert.IsNotNull(_lineManager);
-            Assert.IsNotNull(_codeCompletion);
+            Assert.IsNotNull(CodeCompletion);
             Assert.IsNotNull(_canvas);
             
             SubscribeEventHandlers();
@@ -73,14 +73,14 @@ namespace DevelopmentConsoleTool {
 
         private void OnDestroy() {
             _lineManager.LineValueChanged -= LineManager_OnLineValueChanged;
-            _codeCompletion.OptionSelected -= CodeCompletion_OnOptionSelected;
+            CodeCompletion.OptionSelected -= CodeCompletion_OnOptionSelected;
         }
 
         #endregion
 
 	    private void SubscribeEventHandlers() {
 		    _lineManager.LineValueChanged += LineManager_OnLineValueChanged;
-		    _codeCompletion.OptionSelected += CodeCompletion_OnOptionSelected;
+		    CodeCompletion.OptionSelected += CodeCompletion_OnOptionSelected;
 
 		    _toggleConsoleWindowKeyPressed = OnToggleConsoleWindowKeyPressed;
 		    _returnKeyPressed = OnReturnKeyPressed;
@@ -98,7 +98,7 @@ namespace DevelopmentConsoleTool {
 	    }
 
 	    private void DisplayCodeAutoCompletionPanel(string typedChars) {
-		    _codeCompletion.ClearResults();
+		    CodeCompletion.ClearResults();
 
 			var names = CommandHandlerManager.Instance.GetCommandNames();
 			var matches = _fuzzySearch.MatchResultSet(names, typedChars);
@@ -108,7 +108,7 @@ namespace DevelopmentConsoleTool {
 		    _lineManager.CurrentLine.ForceLabelUpdate();
 		    var options = matches.Select(match => match.TextValue).ToList();
 		    var textCo = _lineManager.CurrentLine.textComponent;
-		    _codeCompletion.DisplayOptions(options, textCo);
+		    CodeCompletion.DisplayOptions(options, textCo);
 	    }
 
 	    #region INPUT
@@ -153,7 +153,7 @@ namespace DevelopmentConsoleTool {
 
 	    private void OnReturnKeyPressed() {
 		    // let the code completion handle this
-		    if (_codeCompletion.IsOpen) {
+		    if (CodeCompletion.IsOpen) {
 			    return;
 		    }
 		    _commandHistory.AddCommand(_lineManager.CommandString);
