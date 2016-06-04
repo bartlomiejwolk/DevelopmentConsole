@@ -1,14 +1,24 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using UnityEngine.UI;
 using Debug = UnityEngine.Debug;
 
 namespace DevelopmentConsoleTool.ExposeValueExtension {
 
-    public struct ExposedValue {
+    public class ExposedValue {
 	    public bool Enabled;
         public Func<object> Callback; 
         public string Category;
+	    public Text TextComponent;
+
+	    public string ValueString {
+		    get {
+			    var value = Callback();
+			    var result = value.ToString();
+			    return result;
+		    }
+	    }
     }
 
     public class ExposedValuesManager {
@@ -23,7 +33,11 @@ namespace DevelopmentConsoleTool.ExposeValueExtension {
             get { return _instance; }
         }
 
-        private ExposedValuesManager() { }
+	    public Dictionary<string, ExposedValue> ValuesSources {
+		    get { return _valuesSources; }
+	    }
+
+	    private ExposedValuesManager() { }
 
         public void RegisterValue(
             string customName,
@@ -52,5 +66,11 @@ namespace DevelopmentConsoleTool.ExposeValueExtension {
             }
             return value;
         }
+
+	    public ExposedValue GetExposedValue(string valueName) {
+			ExposedValue exposedValue;
+			_valuesSources.TryGetValue(valueName, out exposedValue);
+			return exposedValue;
+		}
     }
 }

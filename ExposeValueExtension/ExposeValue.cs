@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System.Collections.Generic;
+using UnityEngine;
 using UnityEngine.Assertions;
 using UnityEngine.UI;
 #pragma warning disable 649
@@ -33,14 +34,37 @@ namespace DevelopmentConsoleTool.ExposeValueExtension {
             Assert.IsNotNull(_container);
         }
 
-        public void ShowValue(string valueName) {
+	    private void Update() {
+		    UpdateValues();
+	    }
+
+	    private void UpdateValues() {
+		    var values = _exposedValuesManager.ValuesSources;
+		    foreach (var exposedValue in values) {
+			    if (exposedValue.Value.Enabled) {
+				    UpdateValue(exposedValue);
+			    }
+		    }
+	    }
+
+	    private void UpdateValue(KeyValuePair<string, ExposedValue> exposedValue) {
+		    var textCo = exposedValue.Value.TextComponent;
+		    if (textCo == null) {
+			    return;
+		    }
+		    var valueString = exposedValue.Value.ValueString;
+		    textCo.text = valueString;
+	    }
+
+	    public void ShowValue(string valueName) {
             var go = InstantiateValuePrefab();
-            var value = _exposedValuesManager.GetSourceValue(valueName);
-	        var textCo = go.GetComponentInChildren<Text>();
-            if (textCo != null) {
-                textCo.text = value.ToString();
-            }
-        }
+			
+			// todo move to OnValueInstantiated event handler
+		    var exposedValue = _exposedValuesManager.GetExposedValue(valueName);
+		    exposedValue.Enabled = true;
+		    var textCo = go.GetComponentInChildren<Text>();
+		    exposedValue.TextComponent = textCo;
+	    }
 
         private GameObject InstantiateValuePrefab() {
             var valueGo = Instantiate(_valuePrefab);
