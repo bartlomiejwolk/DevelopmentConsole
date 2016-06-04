@@ -1,51 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
-using UnityEngine;
-using UnityEngine.UI;
 using Debug = UnityEngine.Debug;
 
 namespace DevelopmentConsoleTool.ExposeValueExtension {
 
 	// todo extract to file
 	// todo move Unity API to ExposeValue class
-    public class ExposedValue {
-		// todo change to properties
-	    private bool _updateEnabled;
-	    public bool UpdateEnabled {
-		    get { return _updateEnabled; }
-		    set {
-			    _updateEnabled = true;
-			    if (Go != null) {
-				    Go.SetActive(value);
-			    }
-		    }
-	    }
 
-        public Func<object> Callback; 
-        public string Category;
-	    public GameObject Go;
-
-	    public Text TextComponent {
-		    get {
-			    if (Go == null) {
-				    return null;
-			    }
-			    var textCo = Go.GetComponentInChildren<Text>();
-			    return textCo;
-		    }
-	    }
-
-	    public string ValueString {
-		    get {
-			    var value = Callback();
-			    var result = value.ToString();
-			    return result;
-		    }
-	    }
-    }
-
-    public class ExposedValuesManager {
+	public class ExposedValuesManager {
 
         private static readonly ExposedValuesManager _instance
             = new ExposedValuesManager();
