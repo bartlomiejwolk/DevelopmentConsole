@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Assertions;
 using UnityEngine.UI;
@@ -16,7 +17,9 @@ namespace DevelopmentConsoleTool.ExposeValueExtension {
         private static ExposeValue _instance;
         private ExposedValuesManager _exposedValuesManager;
 
-        public static ExposeValue Instance {
+		public event EventHandler<ValueInstantiatedEventArgs> ValueInstantiated;
+
+		public static ExposeValue Instance {
             get {
                 if (_instance != null) {
                     return _instance;
@@ -32,7 +35,20 @@ namespace DevelopmentConsoleTool.ExposeValueExtension {
 
             Assert.IsNotNull(_valuePrefab);
             Assert.IsNotNull(_container);
+
+			ValueInstantiated += OnValueInstantiated;
         }
+
+		private void OnValueInstantiated(
+			object sender,
+			ValueInstantiatedEventArgs eventArgs) {
+
+			var exposedValue =
+				_exposedValuesManager.GetExposedValue(eventArgs.ValueName);
+			exposedValue.Enabled = true;
+			var textCo = eventArgs.GameObject.GetComponentInChildren<Text>();
+			exposedValue.TextComponent = textCo;
+		}
 
 	    private void Update() {
 		    UpdateValues();
@@ -57,23 +73,39 @@ namespace DevelopmentConsoleTool.ExposeValueExtension {
 	    }
 
 	    public void ShowValue(string valueName) {
-            var go = InstantiateValuePrefab();
-			
-			// todo move to OnValueInstantiated event handler
-		    var exposedValue = _exposedValuesManager.GetExposedValue(valueName);
-		    exposedValue.Enabled = true;
-		    var textCo = go.GetComponentInChildren<Text>();
-		    exposedValue.TextComponent = textCo;
+            InstantiateValuePrefab(valueName);
 	    }
 
-        private GameObject InstantiateValuePrefab() {
+        private void InstantiateValuePrefab(string valueName) {
             var valueGo = Instantiate(_valuePrefab);
             valueGo.transform.SetParent(_container, false);
-            return valueGo;
+			InvokeValueInstantiatedEvent(valueName, valueGo);
         }
 
         public void HideValue(string valueName) {
 
         }
+
+	    protected virtual void InvokeValueInstantiatedEvent(
+			string valueName,
+			GameObject gameObject) {
+
+		    var args = new ValueInstantiatedEventArgs(valueName, gameObject);
+		    var handler = ValueInstantiated;
+		    if (handler != null) handler(this, args);
+	    }
     }
+
+	public class ValueInstantiatedEventArgs : EventArgs {
+		public string ValueName { get; private set; }
+		public GameObject GameObject { get; private set; }
+
+		public ValueInstantiatedEventArgs(
+			string valueName,
+			GameObject gameObject) {
+
+			ValueName = valueName;
+			GameObject = gameObject;
+		}
+	}
 }
