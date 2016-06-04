@@ -11,10 +11,10 @@ namespace DevelopmentConsoleTool {
 			object sender, LineValueChangedEventArgs eventArgs) {
 
 			base.LineManager_OnLineValueChanged(sender, eventArgs);
-			DisplayValueExposerAutoCompletionPanel(eventArgs.Value);
+			DisplayValueExposerAutoCompletionPanel();
 		}
 
-		private void DisplayValueExposerAutoCompletionPanel(string input) {
+		private void DisplayValueExposerAutoCompletionPanel() {
 			// todo in PredefinedCommands create enum with command names.
 			if (TypedCommand != "exposevalue") {
 				return;
