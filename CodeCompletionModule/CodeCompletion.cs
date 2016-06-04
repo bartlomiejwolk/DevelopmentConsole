@@ -5,7 +5,7 @@ using UnityEngine.Assertions;
 using UnityEngine.UI;
 #pragma warning disable 649
 
-namespace DevelopmentConsoleTool.CodeCompletion {
+namespace DevelopmentConsoleTool.CodeCompletionModule {
     
     public class CodeCompletion : MonoBehaviour {
 	    #region INSPECTOR

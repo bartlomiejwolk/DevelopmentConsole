@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using DevelopmentConsole.FuzzySearch;
-using DevelopmentConsoleTool.CodeCompletion;
+using DevelopmentConsoleTool.CodeCompletionModule;
 using DevelopmentConsoleTool.CommandHandlerSystem;
 using DevelopmentConsoleTool.FuzzySearchTool;
 using UnityEngine;
@@ -27,7 +27,7 @@ namespace DevelopmentConsoleTool {
 	    private LineManager _lineManager;
 
 	    [SerializeField]
-	    protected CodeCompletion.CodeCompletion CodeCompletion;
+	    protected CodeCompletion CodeCompletion;
 
 	    [SerializeField]
 	    private Canvas _canvas;
