@@ -53,6 +53,9 @@ namespace DevelopmentConsoleTool.ExposeValueExtension {
 
 	    public void ShowValue(string valueName) {
 		    var value = _exposedValuesManager.GetExposedValue(valueName);
+		    if (value == null) {
+			    return;
+		    }
 		    if (value.Go == null) {
 			    InstantiateValuePrefab(valueName);
 		    }
