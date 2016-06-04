@@ -10,15 +10,15 @@ namespace DevelopmentConsoleTool.ExposeValueExtension {
         private static readonly ExposedValuesManager _instance
             = new ExposedValuesManager();
 
-        private readonly Dictionary<string, ExposedValue> _valuesSources
+        private readonly Dictionary<string, ExposedValue> _exposedValues
             = new Dictionary<string, ExposedValue>();
 
         public static ExposedValuesManager Instance {
             get { return _instance; }
         }
 
-	    public Dictionary<string, ExposedValue> ValuesSources {
-		    get { return _valuesSources; }
+	    public Dictionary<string, ExposedValue> ExposedValues {
+		    get { return _exposedValues; }
 	    }
 
 	    private ExposedValuesManager() { }
@@ -32,12 +32,12 @@ namespace DevelopmentConsoleTool.ExposeValueExtension {
                 Callback = value,
                 Category = category
             };
-            _valuesSources.Add(customName, valueSource);
+            _exposedValues.Add(customName, valueSource);
         }
 
         public Func<object> GetSourceCallback(string sourceName) {
             ExposedValue exposedValue;
-            _valuesSources.TryGetValue(sourceName, out exposedValue);
+            _exposedValues.TryGetValue(sourceName, out exposedValue);
 	        if (exposedValue == null || exposedValue.Callback == null) {
 		        return null;
 	        }
@@ -56,7 +56,7 @@ namespace DevelopmentConsoleTool.ExposeValueExtension {
 
 	    public ExposedValue GetExposedValue(string valueName) {
 			ExposedValue exposedValue;
-			_valuesSources.TryGetValue(valueName, out exposedValue);
+			_exposedValues.TryGetValue(valueName, out exposedValue);
 			return exposedValue;
 		}
     }
