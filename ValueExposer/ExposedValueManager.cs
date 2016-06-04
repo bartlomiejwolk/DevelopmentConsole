@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Diagnostics;
-using Debug = UnityEngine.Debug;
+using System.Linq;
 
 namespace DevelopmentConsoleTool.ValueExposerExtension {
 
@@ -59,5 +58,10 @@ namespace DevelopmentConsoleTool.ValueExposerExtension {
 			_exposedValues.TryGetValue(valueName, out exposedValue);
 			return exposedValue;
 		}
-    }
+
+		public List<string> GetValueNames() {
+			var names = _exposedValues.Keys.ToList();
+			return names;
+		}
+	}
 }
