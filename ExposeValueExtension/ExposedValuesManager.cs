@@ -8,9 +8,20 @@ using Debug = UnityEngine.Debug;
 namespace DevelopmentConsoleTool.ExposeValueExtension {
 
 	// todo extract to file
+	// todo move Unity API to ExposeValue class
     public class ExposedValue {
 		// todo change to properties
-	    public bool UpdateEnabled;
+	    private bool _updateEnabled;
+	    public bool UpdateEnabled {
+		    get { return _updateEnabled; }
+		    set {
+			    _updateEnabled = true;
+			    if (Go != null) {
+				    Go.SetActive(value);
+			    }
+		    }
+	    }
+
         public Func<object> Callback; 
         public string Category;
 	    public GameObject Go;

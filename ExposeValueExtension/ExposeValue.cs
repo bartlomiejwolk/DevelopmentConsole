@@ -76,9 +76,6 @@ namespace DevelopmentConsoleTool.ExposeValueExtension {
 			    InstantiateValuePrefab(valueName);
 		    }
 		    value.UpdateEnabled = true;
-		    if (value.Go != null) {
-			    value.Go.SetActive(true);
-		    }
 	    }
 
 		private void InstantiateValuePrefab(string valueName) {
