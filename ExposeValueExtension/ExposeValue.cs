@@ -36,7 +36,7 @@ namespace DevelopmentConsoleTool.ExposeValueExtension {
         public void ShowValue(string valueName) {
             var go = InstantiateValuePrefab();
             var value = _exposedValuesManager.GetSourceValue(valueName);
-            var textCo = go.GetComponent<Text>();
+	        var textCo = go.GetComponentInChildren<Text>();
             if (textCo != null) {
                 textCo.text = value.ToString();
             }
