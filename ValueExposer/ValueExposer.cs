@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Assertions;
-using UnityEngine.UI;
+
 #pragma warning disable 649
 
 namespace DevelopmentConsoleTool.ValueExposerExtension {
