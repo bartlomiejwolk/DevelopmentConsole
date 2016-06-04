@@ -73,9 +73,9 @@ namespace DevelopmentConsoleTool.ExposeValueExtension {
 
 	    private void UpdateValues() {
 		    var values = _exposedValuesManager.ExposedValues;
-		    foreach (var exposedValue in values) {
-			    if (exposedValue.Value.UpdateEnabled) {
-				    UpdateValue(exposedValue);
+		    foreach (var value in values) {
+			    if (value.Value.UpdateEnabled) {
+				    UpdateValue(value);
 			    }
 		    }
 	    }
