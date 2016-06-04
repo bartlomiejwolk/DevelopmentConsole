@@ -14,7 +14,6 @@ namespace DevelopmentConsoleTool.ExposeValueExtension {
 
         private static ExposeValue _instance;
         private ExposedValuesManager _exposedValuesManager;
-        private Canvas _canvas;
 
         public static ExposeValue Instance {
             get {
@@ -29,11 +28,9 @@ namespace DevelopmentConsoleTool.ExposeValueExtension {
         private void Awake() {
             _instance = this;
             _exposedValuesManager = ExposedValuesManager.Instance;
-            _canvas = FindObjectOfType<Canvas>();
 
             Assert.IsNotNull(_valuePrefab);
             Assert.IsNotNull(_container);
-            Assert.IsNotNull(_canvas, "No Canvas in the scene!");
         }
 
         public void ShowValue(string valueName) {
