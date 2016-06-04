@@ -97,9 +97,12 @@ namespace DevelopmentConsoleTool {
 		    _canvas.gameObject.SetActive(false);
 	    }
 
-	    private void DisplayCodeCompletionPanel(List<Match> matches) {
+	    private void DisplayCodeCompletionPanel(string typedChars) {
 		    _codeCompletion.ClearResults();
-		    if (matches == null) {
+
+			var names = CommandHandlerManager.Instance.GetCommandNames();
+			var matches = _fuzzySearch.MatchResultSet(names, typedChars);
+			if (matches == null) {
 			    return;
 		    }
 		    _lineManager.CurrentLine.ForceLabelUpdate();
@@ -187,16 +190,11 @@ namespace DevelopmentConsoleTool {
 
 	    #region EVENT HANDLERS
 
-        private void LineManager_OnLineValueChanged(
+        protected virtual void LineManager_OnLineValueChanged(
             object sender,
             LineValueChangedEventArgs eventArgs) {
 
-			// find matching commands
-            var typedChars = eventArgs.Value;
-            var names = CommandHandlerManager.Instance.GetCommandNames();
-            var matches = _fuzzySearch.MatchResultSet(names, typedChars);
-
-	        DisplayCodeCompletionPanel(matches);
+	        DisplayCodeCompletionPanel(eventArgs.Value);
         }
 
 	    private void CodeCompletion_OnOptionSelected(
