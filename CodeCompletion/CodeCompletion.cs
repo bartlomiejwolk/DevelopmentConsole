@@ -157,7 +157,7 @@ namespace DevelopmentConsoleTool.CodeCompletion {
             _inactiveOptionColor = imageCo.color;
         }
 
-	    protected virtual void InvokeOptionSelected(SelectedOptionEventArgs e) {
+	    protected virtual void InvokeOptionSelectedEvent(SelectedOptionEventArgs e) {
 		    var handler = OptionSelected;
 		    if (handler != null) handler(this, e);
 	    }
@@ -199,7 +199,7 @@ namespace DevelopmentConsoleTool.CodeCompletion {
                 return;
             }
             var args = new SelectedOptionEventArgs(CurrentOptionLabel.text);
-            InvokeOptionSelected(args);
+            InvokeOptionSelectedEvent(args);
 
             ClearResults();
         }
