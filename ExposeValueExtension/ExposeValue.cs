@@ -62,7 +62,6 @@ namespace DevelopmentConsoleTool.ExposeValueExtension {
 	    public void HideValue(string valueName) {
 		    var value = _exposedValuesManager.GetExposedValue(valueName);
 		    value.UpdateEnabled = false;
-		    value.Go.SetActive(false);
 	    }
 
 	    private void InstantiateValuePrefab(string valueName) {

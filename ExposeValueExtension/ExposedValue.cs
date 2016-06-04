@@ -11,7 +11,7 @@ namespace DevelopmentConsoleTool.ExposeValueExtension {
 		public bool UpdateEnabled {
 			get { return _updateEnabled; }
 			set {
-				_updateEnabled = true;
+				_updateEnabled = value;
 				if (Go != null) {
 					Go.SetActive(value);
 				}
