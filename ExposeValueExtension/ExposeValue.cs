@@ -29,7 +29,9 @@ namespace DevelopmentConsoleTool.ExposeValueExtension {
             }
         }
 
-        private void Awake() {
+	    #region UNITY MESSAGES
+
+	    private void Awake() {
             _instance = this;
             _exposedValuesManager = ExposedValuesManager.Instance;
 
@@ -39,18 +41,20 @@ namespace DevelopmentConsoleTool.ExposeValueExtension {
 			ValueInstantiated += OnValueInstantiated;
         }
 
-		private void OnValueInstantiated(
+	    private void Update() {
+		    UpdateValues();
+	    }
+
+	    #endregion
+
+	    private void OnValueInstantiated(
 			object sender,
 			ValueInstantiatedEventArgs eventArgs) {
 
 			var exposedValue = _exposedValuesManager.GetExposedValue(
 				eventArgs.ValueName);
-			exposedValue.Go = eventArgs.GameObject;
+			exposedValue.Go = eventArgs.Go;
 		}
-
-	    private void Update() {
-		    UpdateValues();
-	    }
 
 	    private void UpdateValues() {
 		    var values = _exposedValuesManager.ValuesSources;
@@ -99,17 +103,4 @@ namespace DevelopmentConsoleTool.ExposeValueExtension {
 		    if (handler != null) handler(this, args);
 	    }
     }
-
-	public class ValueInstantiatedEventArgs : EventArgs {
-		public string ValueName { get; private set; }
-		public GameObject GameObject { get; private set; }
-
-		public ValueInstantiatedEventArgs(
-			string valueName,
-			GameObject gameObject) {
-
-			ValueName = valueName;
-			GameObject = gameObject;
-		}
-	}
 }
