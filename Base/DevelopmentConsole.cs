@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using Assets.DevelopmentConsole.FuzzySearch;
+using DevelopmentConsole.FuzzySearch;
 using DevelopmentConsoleTool.CodeCompletion;
 using DevelopmentConsoleTool.CommandHandlerSystem;
 using DevelopmentConsoleTool.FuzzySearchTool;

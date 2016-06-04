@@ -1,5 +1,5 @@
 ﻿using System.Collections.Generic;
-using Assets.DevelopmentConsole.FuzzySearch;
+using DevelopmentConsole.FuzzySearch;
 
 namespace DevelopmentConsoleTool.FuzzySearchTool {
 	public class FuzzySearch {

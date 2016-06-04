@@ -1,6 +1,6 @@
 using System.Collections.Generic;
 
-namespace Assets.DevelopmentConsole.FuzzySearch {
+namespace DevelopmentConsole.FuzzySearch {
 	public struct Match {
 		public string TextValue;
 		public List<int> Positions;
