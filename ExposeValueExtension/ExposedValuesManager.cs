@@ -5,7 +5,8 @@ using Debug = UnityEngine.Debug;
 
 namespace DevelopmentConsoleTool.ExposeValueExtension {
 
-    public struct ValueSource {
+    public struct ExposedValue {
+	    public bool Enabled;
         public Func<object> Callback; 
         public string Category;
     }
@@ -15,8 +16,8 @@ namespace DevelopmentConsoleTool.ExposeValueExtension {
         private static readonly ExposedValuesManager _instance
             = new ExposedValuesManager();
 
-        private readonly Dictionary<string, ValueSource> _valuesSources
-            = new Dictionary<string, ValueSource>();
+        private readonly Dictionary<string, ExposedValue> _valuesSources
+            = new Dictionary<string, ExposedValue>();
 
         public static ExposedValuesManager Instance {
             get { return _instance; }
@@ -29,7 +30,7 @@ namespace DevelopmentConsoleTool.ExposeValueExtension {
             string category,
             Func<object> value) {
             
-            var valueSource = new ValueSource() {
+            var valueSource = new ExposedValue() {
                 Callback = value,
                 Category = category
             };
@@ -37,9 +38,9 @@ namespace DevelopmentConsoleTool.ExposeValueExtension {
         }
 
         public Func<object> GetSourceCallback(string sourceName) {
-            ValueSource valueSource;
-            _valuesSources.TryGetValue(sourceName, out valueSource);
-            var callback = valueSource.Callback;
+            ExposedValue exposedValue;
+            _valuesSources.TryGetValue(sourceName, out exposedValue);
+            var callback = exposedValue.Callback;
             return callback;
         }
 
