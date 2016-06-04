@@ -5,9 +5,6 @@ using Debug = UnityEngine.Debug;
 
 namespace DevelopmentConsoleTool.ExposeValueExtension {
 
-	// todo extract to file
-	// todo move Unity API to ExposeValue class
-
 	public class ExposedValuesManager {
 
         private static readonly ExposedValuesManager _instance

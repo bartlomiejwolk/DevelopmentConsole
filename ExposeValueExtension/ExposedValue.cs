@@ -3,7 +3,9 @@ using UnityEngine;
 using UnityEngine.UI;
 
 namespace DevelopmentConsoleTool.ExposeValueExtension {
+
 	public class ExposedValue {
+
 		private bool _updateEnabled;
 
 		public bool UpdateEnabled {
