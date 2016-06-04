@@ -7,15 +7,19 @@ using UnityEngine.UI;
 
 namespace DevelopmentConsoleTool.ExposeValueExtension {
     public class ExposeValue : MonoBehaviour {
+	    #region INSPECTOR FIELDS
 
-        [SerializeField]
+	    [SerializeField]
         private GameObject _valuePrefab;
 
-        [SerializeField]
-        private Transform _container;
+	    [SerializeField]
+	    private Transform _container;
 
-        private static ExposeValue _instance;
-        private ExposedValuesManager _exposedValuesManager;
+	    #endregion
+
+	    private static ExposeValue _instance;
+
+	    private ExposedValuesManager _exposedValuesManager;
 
 		public event EventHandler<ValueInstantiatedEventArgs> ValueInstantiated;
 
@@ -47,14 +51,25 @@ namespace DevelopmentConsoleTool.ExposeValueExtension {
 
 	    #endregion
 
-	    private void OnValueInstantiated(
-			object sender,
-			ValueInstantiatedEventArgs eventArgs) {
+	    public void ShowValue(string valueName) {
+		    var value = _exposedValuesManager.GetExposedValue(valueName);
+		    if (value.Go == null) {
+			    InstantiateValuePrefab(valueName);
+		    }
+		    value.UpdateEnabled = true;
+	    }
 
-			var exposedValue = _exposedValuesManager.GetExposedValue(
-				eventArgs.ValueName);
-			exposedValue.Go = eventArgs.Go;
-		}
+	    public void HideValue(string valueName) {
+		    var value = _exposedValuesManager.GetExposedValue(valueName);
+		    value.UpdateEnabled = false;
+		    value.Go.SetActive(false);
+	    }
+
+	    private void InstantiateValuePrefab(string valueName) {
+		    var valueGo = Instantiate(_valuePrefab);
+		    valueGo.transform.SetParent(_container, false);
+		    InvokeValueInstantiatedEvent(valueName, valueGo);
+	    }
 
 	    private void UpdateValues() {
 		    var values = _exposedValuesManager.ValuesSources;
@@ -74,27 +89,9 @@ namespace DevelopmentConsoleTool.ExposeValueExtension {
 		    textCo.text = valueString;
 	    }
 
-	    public void ShowValue(string valueName) {
-		    var value = _exposedValuesManager.GetExposedValue(valueName);
-		    if (value.Go == null) {
-			    InstantiateValuePrefab(valueName);
-		    }
-		    value.UpdateEnabled = true;
-	    }
+	    #region EVENT INVOCATORS
 
-		private void InstantiateValuePrefab(string valueName) {
-            var valueGo = Instantiate(_valuePrefab);
-            valueGo.transform.SetParent(_container, false);
-			InvokeValueInstantiatedEvent(valueName, valueGo);
-        }
-
-        public void HideValue(string valueName) {
-			var value = _exposedValuesManager.GetExposedValue(valueName);
-	        value.UpdateEnabled = false;
-			value.Go.SetActive(false);
-        }
-
-		protected virtual void InvokeValueInstantiatedEvent(
+	    protected virtual void InvokeValueInstantiatedEvent(
 			string valueName,
 			GameObject go) {
 
@@ -102,5 +99,20 @@ namespace DevelopmentConsoleTool.ExposeValueExtension {
 		    var handler = ValueInstantiated;
 		    if (handler != null) handler(this, args);
 	    }
+
+	    #endregion
+
+	    #region EVENT HANDLERS
+
+	    private void OnValueInstantiated(
+		    object sender,
+		    ValueInstantiatedEventArgs eventArgs) {
+
+		    var exposedValue = _exposedValuesManager.GetExposedValue(
+			    eventArgs.ValueName);
+		    exposedValue.Go = eventArgs.Go;
+	    }
+
+	    #endregion
     }
 }
