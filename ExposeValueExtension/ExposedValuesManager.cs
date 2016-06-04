@@ -54,7 +54,10 @@ namespace DevelopmentConsoleTool.ExposeValueExtension {
         public Func<object> GetSourceCallback(string sourceName) {
             ExposedValue exposedValue;
             _valuesSources.TryGetValue(sourceName, out exposedValue);
-            var callback = exposedValue.Callback;
+	        if (exposedValue == null || exposedValue.Callback == null) {
+		        return null;
+	        }
+	        var callback = exposedValue.Callback;
             return callback;
         }
 
