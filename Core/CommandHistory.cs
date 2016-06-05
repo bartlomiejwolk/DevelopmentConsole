@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace DevelopmentConsoleTool {
+namespace DevelopmentConsole.Core {
 
     public class CommandHistory {
 

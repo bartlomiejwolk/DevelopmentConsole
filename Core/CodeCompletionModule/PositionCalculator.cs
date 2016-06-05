@@ -2,7 +2,7 @@
 using UnityEngine;
 using UnityEngine.UI;
 
-namespace DevelopmentConsoleTool.CodeCompletionModule {
+namespace DevelopmentConsole.Core.CodeCompletionModule {
 
 	public class PositionCalculator {
 

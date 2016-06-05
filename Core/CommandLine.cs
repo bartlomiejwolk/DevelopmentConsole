@@ -4,7 +4,7 @@ using UnityEngine.EventSystems;
 using UnityEngine.UI;
 #pragma warning disable 649
 
-namespace DevelopmentConsoleTool {
+namespace DevelopmentConsole.Core {
 
     public class CommandLine : InputField {
 	    

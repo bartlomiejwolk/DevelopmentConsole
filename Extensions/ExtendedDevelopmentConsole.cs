@@ -1,11 +1,12 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-using DevelopmentConsoleTool.CodeCompletionModule;
-using DevelopmentConsoleTool.ValueExposerExtension;
+using DevelopmentConsole.Core.CodeCompletionModule;
+using DevelopmentConsole.Core.LineManagerModule;
+using DevelopmentConsole.Extensions.ValueExposerModule;
 
-namespace DevelopmentConsoleTool {
+namespace DevelopmentConsole.Extensions {
 
-	public class ExtendedDevelopmentConsole : DevelopmentConsole {
+	public class ExtendedDevelopmentConsole : Core.DevelopmentConsole {
 
 		protected override void LineManager_OnLineValueChanged(
 			object sender, LineValueChangedEventArgs eventArgs) {

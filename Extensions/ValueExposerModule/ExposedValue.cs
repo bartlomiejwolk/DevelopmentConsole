@@ -2,7 +2,7 @@ using System;
 using UnityEngine;
 using UnityEngine.UI;
 
-namespace DevelopmentConsoleTool.ValueExposerExtension {
+namespace DevelopmentConsole.Extensions.ValueExposerModule {
 
 	public class ExposedValue {
 

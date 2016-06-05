@@ -1,6 +1,6 @@
 using System;
 
-namespace DevelopmentConsoleTool.CodeCompletionModule {
+namespace DevelopmentConsole.Core.CodeCompletionModule {
 
 	public class SelectedOptionEventArgs : EventArgs {
 

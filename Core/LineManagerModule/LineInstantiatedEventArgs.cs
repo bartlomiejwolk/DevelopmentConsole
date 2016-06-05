@@ -1,7 +1,7 @@
 using System;
 using UnityEngine;
 
-namespace DevelopmentConsoleTool {
+namespace DevelopmentConsole.Core.LineManagerModule {
 
 	public class LineInstantiatedEventArgs : EventArgs {
 

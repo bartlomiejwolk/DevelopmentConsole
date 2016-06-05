@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 
-namespace DevelopmentConsoleTool.ValueExposerExtension {
+namespace DevelopmentConsole.Extensions.ValueExposerModule {
 
 	public class ExposedValueManager {
 

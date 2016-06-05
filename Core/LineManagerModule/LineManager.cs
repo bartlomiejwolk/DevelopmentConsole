@@ -7,7 +7,7 @@ using UnityEngine.Assertions;
 #pragma warning disable 169
 #pragma warning disable 649
 
-namespace DevelopmentConsoleTool {
+namespace DevelopmentConsole.Core.LineManagerModule {
 
     /// <summary>
     /// Class responsible for handling command lines displayed on the screen.

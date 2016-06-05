@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
-using DevelopmentConsole.FuzzySearch;
 
-namespace DevelopmentConsoleTool.FuzzySearchTool {
+namespace DevelopmentConsole.Core.FuzzySearchModule {
+
 	public class FuzzySearch {
 
         public List<Match> MatchResultSet(List<string> resultSet, string query) {

@@ -1,7 +1,7 @@
 using System;
 using UnityEngine;
 
-namespace DevelopmentConsoleTool.ValueExposerExtension {
+namespace DevelopmentConsole.Extensions.ValueExposerModule {
 
 	public class ValueInstantiatedEventArgs : EventArgs {
 

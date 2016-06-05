@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Reflection;
 using Debug = UnityEngine.Debug;
 
-namespace DevelopmentConsoleTool.CommandHandlerSystem {
+namespace DevelopmentConsole.Core.CommandHandlerSystem {
 
     public class MethodCommandHandler : CommandHandler {
 

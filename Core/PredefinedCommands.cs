@@ -1,7 +1,7 @@
-﻿using UnityEngine;
-using DevelopmentConsoleTool.CommandHandlerSystem;
+﻿using DevelopmentConsole.Core.CommandHandlerSystem;
+using UnityEngine;
 
-namespace DevelopmentConsoleTool {
+namespace DevelopmentConsole.Core {
 
     public class PredefinedCommands : MonoBehaviour {
 

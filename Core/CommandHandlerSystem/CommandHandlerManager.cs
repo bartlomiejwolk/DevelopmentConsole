@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 
-namespace DevelopmentConsoleTool.CommandHandlerSystem {
+namespace DevelopmentConsole.Core.CommandHandlerSystem {
 
     public sealed class CommandHandlerManager {
 

@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace DevelopmentConsoleTool {
+namespace DevelopmentConsole.Core.LineManagerModule {
 
 	public class LineValueChangedEventArgs : EventArgs {
         

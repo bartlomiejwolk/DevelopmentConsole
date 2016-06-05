@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Reflection;
 
-namespace DevelopmentConsoleTool.CommandHandlerSystem {
+namespace DevelopmentConsole.Core.CommandHandlerSystem {
     
     public struct ParamInfo {
 

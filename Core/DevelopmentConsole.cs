@@ -1,9 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using DevelopmentConsoleTool.CodeCompletionModule;
-using DevelopmentConsoleTool.CommandHandlerSystem;
-using DevelopmentConsoleTool.FuzzySearchTool;
+using DevelopmentConsole.Core.CodeCompletionModule;
+using DevelopmentConsole.Core.CommandHandlerSystem;
+using DevelopmentConsole.Core.FuzzySearchModule;
+using DevelopmentConsole.Core.LineManagerModule;
 using UnityEngine;
 using UnityEngine.Assertions;
 
@@ -11,7 +12,7 @@ using UnityEngine.Assertions;
 #pragma warning disable 649
 #pragma warning disable 0414
 
-namespace DevelopmentConsoleTool {
+namespace DevelopmentConsole.Core {
 
     /// <summary>
     /// The main class of the DevelopmentConsole tool.

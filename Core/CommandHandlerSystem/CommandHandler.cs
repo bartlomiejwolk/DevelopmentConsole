@@ -2,7 +2,7 @@ using System;
 
 #pragma warning disable 414
 
-namespace DevelopmentConsoleTool.CommandHandlerSystem {
+namespace DevelopmentConsole.Core.CommandHandlerSystem {
 
     public  abstract class CommandHandler {
 

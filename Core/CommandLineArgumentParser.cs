@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 
-namespace DevelopmentConsoleTool {
+namespace DevelopmentConsole.Core {
 
 	public class CommandLineArgumentParser {
 
