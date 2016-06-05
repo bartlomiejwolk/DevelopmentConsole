@@ -106,12 +106,11 @@ namespace DevelopmentConsoleTool {
 	    }
 
 	    private void DisplayCodeAutoCompletionPanel(string typedChars) {
-		    CodeCompletion.ClearResults();
-
 			var names = CommandHandlerManager.Instance.GetCommandNames();
 			var matches = FuzzySearch.MatchResultSet(names, typedChars);
 			if (matches == null) {
-			    return;
+				CodeCompletion.ClearResults();
+				return;
 		    }
 		    LineManager.CurrentLine.ForceLabelUpdate();
 		    var options = matches.Select(match => match.TextValue).ToList();

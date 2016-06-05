@@ -20,7 +20,6 @@ namespace DevelopmentConsoleTool {
 
 				return;
 			}
-			CodeCompletion.ClearResults();
 
 			var names = ExposedValueManager.Instance.GetValueNames();
 			var arg = Arguments[0];
