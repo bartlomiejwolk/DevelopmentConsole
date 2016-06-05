@@ -10,18 +10,22 @@ namespace DevelopmentConsoleTool {
 		protected override void LineManager_OnLineValueChanged(
 			object sender, LineValueChangedEventArgs eventArgs) {
 
-			// todo autocomplete for the command is also called. Only autocomplete for the arg. should be called here.
 			base.LineManager_OnLineValueChanged(sender, eventArgs);
-			DisplayValueExposerAutoCompletionPanel();
+			HandleDisplayValueExposerAutoCompletePanel();
 		}
 
-		private void DisplayValueExposerAutoCompletionPanel() {
+		protected override void OnLeftCtrlSpacePressed() {
+			base.OnLeftCtrlSpacePressed();
+			HandleDisplayValueExposerAutoCompletePanel();
+		}
+
+		// todo refactor
+		private void HandleDisplayValueExposerAutoCompletePanel() {
 			if (TypedCommand != "exposevalue"
 				&& TypedCommand != "hideexposedvalue") {
 
 				return;
 			}
-
 			var names = ExposedValueManager.Instance.GetValueNames();
 			var arg = Arguments[0];
 			var matches = FuzzySearch.MatchResultSet(names, arg);
@@ -37,6 +41,7 @@ namespace DevelopmentConsoleTool {
 			CodeCompletion.DisplayOptions(options, textCo);
 		}
 
+		// todo check if you can use base call
 		protected override void CodeCompletion_OnOptionSelected(
 			object sender, SelectedOptionEventArgs selectedOptionEventArgs) {
 

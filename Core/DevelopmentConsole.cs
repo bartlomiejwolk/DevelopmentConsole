@@ -223,7 +223,7 @@ namespace DevelopmentConsoleTool {
 		    LineManager.SetCommandString(previousInput);
 	    }
 
-	    private void OnLeftCtrlSpacePressed() {
+	    protected virtual void OnLeftCtrlSpacePressed() {
 		    HandleDisplayCommandAutoCompletePanel(string.Empty);
 	    }
 
