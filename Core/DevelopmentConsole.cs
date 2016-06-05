@@ -105,7 +105,7 @@ namespace DevelopmentConsoleTool {
 		    _canvas.gameObject.SetActive(false);
 	    }
 
-	    private void DisplayCodeAutoCompletionPanel(string typedChars) {
+	    private void DisplayAutoCompletionPanel(string typedChars) {
 			var names = CommandHandlerManager.Instance.GetCommandNames();
 			var matches = FuzzySearch.MatchResultSet(names, typedChars);
 			if (matches == null) {
@@ -215,8 +215,7 @@ namespace DevelopmentConsoleTool {
 	        var input = eventArgs.Value;
 	        UpdateTypedCommand(input);
 	        _argumentParser.ParseArguments(input);
-			// todo rename to DisplayAutoCompletionPanel
-	        DisplayCodeAutoCompletionPanel(input);
+	        DisplayAutoCompletionPanel(input);
         }
 
 	    protected virtual void CodeCompletion_OnOptionSelected(
