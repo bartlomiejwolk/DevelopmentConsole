@@ -31,6 +31,7 @@ namespace DevelopmentConsole.Extensions.ValueExposerModule.Core {
             _exposedValues.Add(customName, valueSource);
         }
 
+        // todo rename to GetValueDelegate
         public Func<object> GetSourceCallback(string sourceName) {
             ExposedValue exposedValue;
             _exposedValues.TryGetValue(sourceName, out exposedValue);

@@ -19,8 +19,6 @@ namespace DevelopmentConsole.Extensions.ValueExposerModule.Core {
 
         private static ValueExposer _instance;
 
-        private ExposedValueManager _exposedValueManager;
-
         public event EventHandler<ValueInstantiatedEventArgs> ValueInstantiated;
 
         public static ValueExposer Instance {
@@ -33,11 +31,18 @@ namespace DevelopmentConsole.Extensions.ValueExposerModule.Core {
             }
         }
 
+        protected Transform Container {
+            get { return _container; }
+        }
+
+        // todo remove. Use ExposedValueManager.Instance instead
+        protected ExposedValueManager ExposedValueManager { get; private set; }
+
         #region UNITY MESSAGES
 
         private void Awake() {
             _instance = this;
-            _exposedValueManager = ExposedValueManager.Instance;
+            ExposedValueManager = ExposedValueManager.Instance;
 
             Assert.IsNotNull(_valuePrefab);
             Assert.IsNotNull(_container);
@@ -51,19 +56,22 @@ namespace DevelopmentConsole.Extensions.ValueExposerModule.Core {
 
         #endregion
 
-        public void ShowValue(string valueName) {
-            var value = _exposedValueManager.GetExposedValue(valueName);
+        public virtual void ShowValue(string valueName) {
+            // get value by name
+            var value = ExposedValueManager.GetExposedValue(valueName);
             if (value == null) {
                 return;
             }
+            // enable
+            value.UpdateEnabled = true;
+            // instantiate prefab
             if (value.Go == null) {
                 InstantiateValuePrefab(valueName);
             }
-            value.UpdateEnabled = true;
         }
 
         public void HideValue(string valueName) {
-            var value = _exposedValueManager.GetExposedValue(valueName);
+            var value = ExposedValueManager.GetExposedValue(valueName);
             if (value == null) {
                 return;
             }
@@ -77,7 +85,7 @@ namespace DevelopmentConsole.Extensions.ValueExposerModule.Core {
         }
 
         private void UpdateValues() {
-            var exposedValues = _exposedValueManager.ExposedValues;
+            var exposedValues = ExposedValueManager.ExposedValues;
             foreach (var exposedValue in exposedValues.Values) {
                 if (exposedValue.UpdateEnabled) {
                     UpdateValue(exposedValue);
@@ -114,7 +122,7 @@ namespace DevelopmentConsole.Extensions.ValueExposerModule.Core {
         private void OnValueInstantiated(
             object sender,
             ValueInstantiatedEventArgs eventArgs) {
-            var exposedValue = _exposedValueManager.GetExposedValue(
+            var exposedValue = ExposedValueManager.GetExposedValue(
                 eventArgs.ValueName);
             exposedValue.Go = eventArgs.Go;
         }
