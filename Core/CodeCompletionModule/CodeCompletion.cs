@@ -157,11 +157,6 @@ namespace DevelopmentConsole.Core.CodeCompletionModule {
             _inactiveOptionColor = imageCo.color;
         }
 
-	    protected virtual void InvokeOptionSelectedEvent(SelectedOptionEventArgs e) {
-		    var handler = OptionSelected;
-		    if (handler != null) handler(this, e);
-	    }
-
 	    private void HighlightOption(int index) {
 		    if (_options.Count == 0) {
 			    return;
@@ -180,7 +175,7 @@ namespace DevelopmentConsole.Core.CodeCompletionModule {
 		    imageCo.color = _inactiveOptionColor;
 	    }
 
-	    #region INPUT
+	    #region INPUT HANDLERS
 
         private void OnTabKeyPressed() {
             if (_activeOptionIndex < _options.Count - 1) {
@@ -189,7 +184,6 @@ namespace DevelopmentConsole.Core.CodeCompletionModule {
             else if (_activeOptionIndex == _options.Count - 1) {
                 _activeOptionIndex = 0;
             }
-
             HighlightOption(_activeOptionIndex);
             UnhighlightOption(PreviousOptionIndex);
         }
@@ -202,11 +196,19 @@ namespace DevelopmentConsole.Core.CodeCompletionModule {
 	            Option = CurrentOptionLabel.text
 			};
             InvokeOptionSelectedEvent(args);
-
             ClearResults();
         }
 
         #endregion
+
+	    #region EVENT INVOCATORS
+
+	    protected virtual void InvokeOptionSelectedEvent(SelectedOptionEventArgs e) {
+		    var handler = OptionSelected;
+		    if (handler != null) handler(this, e);
+	    }
+
+	    #endregion
 
 	    #region EVENT HANDLERS
 
