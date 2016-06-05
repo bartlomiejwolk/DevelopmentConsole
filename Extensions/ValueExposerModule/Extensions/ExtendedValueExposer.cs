@@ -13,7 +13,8 @@ namespace DevelopmentConsole.Extensions.ValueExposerModule.Extensions {
 
         #endregion
 
-        private void Awake() {
+        protected override void Awake() {
+            base.Awake();
             Assert.IsNotNull(_valueVisualizer);
         }
 

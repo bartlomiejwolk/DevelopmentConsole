@@ -41,7 +41,7 @@ namespace DevelopmentConsole.Extensions.ValueExposerModule.Core {
 
         #region UNITY MESSAGES
 
-        private void Awake() {
+        protected virtual void Awake() {
             _instance = this;
             ExposedValueManager = ExposedValueManager.Instance;
 
@@ -51,7 +51,7 @@ namespace DevelopmentConsole.Extensions.ValueExposerModule.Core {
             ValueInstantiated += OnValueInstantiated;
         }
 
-        private void Update() {
+        protected virtual void Update() {
             UpdateValues();
         }
 
