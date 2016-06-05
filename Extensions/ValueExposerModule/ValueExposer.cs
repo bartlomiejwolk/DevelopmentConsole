@@ -7,121 +7,118 @@ using UnityEngine.Assertions;
 
 namespace DevelopmentConsole.Extensions.ValueExposerModule {
     public class ValueExposer : MonoBehaviour {
-	    
-		#region INSPECTOR FIELDS
+        #region INSPECTOR FIELDS
 
-	    [SerializeField]
+        [SerializeField]
         private GameObject _valuePrefab;
 
-	    [SerializeField]
-	    private Transform _container;
+        [SerializeField]
+        private Transform _container;
 
-	    #endregion
+        #endregion
 
-	    private static ValueExposer _instance;
+        private static ValueExposer _instance;
 
-	    private ExposedValueManager _exposedValueManager;
+        private ExposedValueManager _exposedValueManager;
 
-		public event EventHandler<ValueInstantiatedEventArgs> ValueInstantiated;
+        public event EventHandler<ValueInstantiatedEventArgs> ValueInstantiated;
 
-		public static ValueExposer Instance {
+        public static ValueExposer Instance {
             get {
                 if (_instance != null) {
                     return _instance;
                 }
-				Debug.LogWarning("Add ExposeValue prefab to the scene!");
-	            return null;
+                Debug.LogWarning("Add ExposeValue prefab to the scene!");
+                return null;
             }
         }
 
-	    #region UNITY MESSAGES
+        #region UNITY MESSAGES
 
-	    private void Awake() {
+        private void Awake() {
             _instance = this;
             _exposedValueManager = ExposedValueManager.Instance;
 
             Assert.IsNotNull(_valuePrefab);
             Assert.IsNotNull(_container);
 
-			ValueInstantiated += OnValueInstantiated;
+            ValueInstantiated += OnValueInstantiated;
         }
 
-	    private void Update() {
-		    UpdateValues();
-	    }
+        private void Update() {
+            UpdateValues();
+        }
 
-	    #endregion
+        #endregion
 
-	    public void ShowValue(string valueName) {
-		    var value = _exposedValueManager.GetExposedValue(valueName);
-		    if (value == null) {
-			    return;
-		    }
-		    if (value.Go == null) {
-			    InstantiateValuePrefab(valueName);
-		    }
-		    value.UpdateEnabled = true;
-	    }
+        public void ShowValue(string valueName) {
+            var value = _exposedValueManager.GetExposedValue(valueName);
+            if (value == null) {
+                return;
+            }
+            if (value.Go == null) {
+                InstantiateValuePrefab(valueName);
+            }
+            value.UpdateEnabled = true;
+        }
 
-	    public void HideValue(string valueName) {
-		    var value = _exposedValueManager.GetExposedValue(valueName);
-		    if (value == null) {
-			    return;
-		    }
-		    value.UpdateEnabled = false;
-	    }
+        public void HideValue(string valueName) {
+            var value = _exposedValueManager.GetExposedValue(valueName);
+            if (value == null) {
+                return;
+            }
+            value.UpdateEnabled = false;
+        }
 
-	    private void InstantiateValuePrefab(string valueName) {
-		    var valueGo = Instantiate(_valuePrefab);
-		    valueGo.transform.SetParent(_container, false);
-		    InvokeValueInstantiatedEvent(valueName, valueGo);
-	    }
+        private void InstantiateValuePrefab(string valueName) {
+            var valueGo = Instantiate(_valuePrefab);
+            valueGo.transform.SetParent(_container, false);
+            InvokeValueInstantiatedEvent(valueName, valueGo);
+        }
 
-	    private void UpdateValues() {
-		    var exposedValues = _exposedValueManager.ExposedValues;
-		    foreach (var exposedValue in exposedValues.Values) {
-			    if (exposedValue.UpdateEnabled) {
-				    UpdateValue(exposedValue);
-			    }
-		    }
-	    }
+        private void UpdateValues() {
+            var exposedValues = _exposedValueManager.ExposedValues;
+            foreach (var exposedValue in exposedValues.Values) {
+                if (exposedValue.UpdateEnabled) {
+                    UpdateValue(exposedValue);
+                }
+            }
+        }
 
-	    private void UpdateValue(ExposedValue exposedValue) {
-		    var textCo = exposedValue.TextComponent;
-		    if (textCo == null) {
-			    return;
-		    }
-		    var text = exposedValue.ValueString;
-		    textCo.text = text;
-	    }
+        private void UpdateValue(ExposedValue exposedValue) {
+            var textCo = exposedValue.TextComponent;
+            if (textCo == null) {
+                return;
+            }
+            var text = exposedValue.ValueString;
+            textCo.text = text;
+        }
 
-	    #region EVENT INVOCATORS
+        #region EVENT INVOCATORS
 
-	    protected virtual void InvokeValueInstantiatedEvent(
-			string valueName,
-			GameObject go) {
+        protected virtual void InvokeValueInstantiatedEvent(
+            string valueName,
+            GameObject go) {
+            var args = new ValueInstantiatedEventArgs() {
+                ValueName = valueName,
+                Go = go
+            };
+            var handler = ValueInstantiated;
+            if (handler != null) handler(this, args);
+        }
 
-		    var args = new ValueInstantiatedEventArgs() {
-			    ValueName = valueName,
-				Go = go
-		    };
-		    var handler = ValueInstantiated;
-		    if (handler != null) handler(this, args);
-	    }
+        #endregion
 
-	    #endregion
+        #region EVENT HANDLERS
 
-	    #region EVENT HANDLERS
+        private void OnValueInstantiated(
+            object sender,
+            ValueInstantiatedEventArgs eventArgs) {
+            var exposedValue = _exposedValueManager.GetExposedValue(
+                eventArgs.ValueName);
+            exposedValue.Go = eventArgs.Go;
+        }
 
-	    private void OnValueInstantiated(
-		    object sender,
-		    ValueInstantiatedEventArgs eventArgs) {
-
-		    var exposedValue = _exposedValueManager.GetExposedValue(
-			    eventArgs.ValueName);
-		    exposedValue.Go = eventArgs.Go;
-	    }
-
-	    #endregion
+        #endregion
     }
 }

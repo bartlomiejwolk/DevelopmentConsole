@@ -3,9 +3,7 @@ using System;
 #pragma warning disable 414
 
 namespace DevelopmentConsole.Core.CommandHandlerSystem {
-
-    public  abstract class CommandHandler {
-
+    public abstract class CommandHandler {
         protected readonly string CommandName;
         protected readonly string Description;
         protected readonly WeakReference ObjectReference;
@@ -17,7 +15,6 @@ namespace DevelopmentConsole.Core.CommandHandlerSystem {
             object obj,
             string commandName,
             string description) {
-            
             Type = type;
             if (obj != null) {
                 ObjectReference = new WeakReference(obj);

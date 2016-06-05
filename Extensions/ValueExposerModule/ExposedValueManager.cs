@@ -3,9 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 
 namespace DevelopmentConsole.Extensions.ValueExposerModule {
-
-	public class ExposedValueManager {
-
+    public class ExposedValueManager {
         private static readonly ExposedValueManager _instance
             = new ExposedValueManager();
 
@@ -16,17 +14,16 @@ namespace DevelopmentConsole.Extensions.ValueExposerModule {
             get { return _instance; }
         }
 
-	    public Dictionary<string, ExposedValue> ExposedValues {
-		    get { return _exposedValues; }
-	    }
+        public Dictionary<string, ExposedValue> ExposedValues {
+            get { return _exposedValues; }
+        }
 
-	    private ExposedValueManager() { }
+        private ExposedValueManager() {}
 
         public void RegisterValue(
             string customName,
             string category,
             Func<object> value) {
-            
             var valueSource = new ExposedValue() {
                 Callback = value,
                 Category = category
@@ -37,10 +34,10 @@ namespace DevelopmentConsole.Extensions.ValueExposerModule {
         public Func<object> GetSourceCallback(string sourceName) {
             ExposedValue exposedValue;
             _exposedValues.TryGetValue(sourceName, out exposedValue);
-	        if (exposedValue == null || exposedValue.Callback == null) {
-		        return null;
-	        }
-	        var callback = exposedValue.Callback;
+            if (exposedValue == null || exposedValue.Callback == null) {
+                return null;
+            }
+            var callback = exposedValue.Callback;
             return callback;
         }
 
@@ -53,15 +50,15 @@ namespace DevelopmentConsole.Extensions.ValueExposerModule {
             return value;
         }
 
-	    public ExposedValue GetExposedValue(string valueName) {
-			ExposedValue exposedValue;
-			_exposedValues.TryGetValue(valueName, out exposedValue);
-			return exposedValue;
-		}
+        public ExposedValue GetExposedValue(string valueName) {
+            ExposedValue exposedValue;
+            _exposedValues.TryGetValue(valueName, out exposedValue);
+            return exposedValue;
+        }
 
-		public List<string> GetValueNames() {
-			var names = _exposedValues.Keys.ToList();
-			return names;
-		}
-	}
+        public List<string> GetValueNames() {
+            var names = _exposedValues.Keys.ToList();
+            return names;
+        }
+    }
 }

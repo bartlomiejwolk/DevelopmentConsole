@@ -2,17 +2,15 @@
 using UnityEngine;
 
 namespace DevelopmentConsole.Core {
-
     public class PredefinedCommands : MonoBehaviour {
-
         protected virtual void Start() {
             CommandHandlerManager.Instance.RegisterCommandHandlers(
-				typeof(PredefinedCommands), this);
+                typeof(PredefinedCommands), this);
         }
 
-	    [CommandHandler]
-	    private void TimeScale(float scale) {
-		    Time.timeScale = scale;
-	    }
+        [CommandHandler]
+        private void TimeScale(float scale) {
+            Time.timeScale = scale;
+        }
     }
 }
