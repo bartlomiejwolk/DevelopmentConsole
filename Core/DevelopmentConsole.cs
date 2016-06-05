@@ -109,7 +109,11 @@ namespace DevelopmentConsoleTool {
 		    _canvas.gameObject.SetActive(false);
 	    }
 
-	    private void DisplayAutoCompletionPanel(string typedChars) {
+		// todo refactor
+	    private void HandleDisplayCommandAutoCompletePanel(string typedChars) {
+		    if (TypedCommand != null) {
+			    return;
+		    }
 			var names = CommandHandlerManager.Instance.GetCommandNames();
 			var matches = FuzzySearch.MatchResultSet(names, typedChars);
 			List<string> options;
@@ -220,7 +224,7 @@ namespace DevelopmentConsoleTool {
 	    }
 
 	    private void OnLeftCtrlSpacePressed() {
-		    DisplayAutoCompletionPanel(string.Empty);
+		    HandleDisplayCommandAutoCompletePanel(string.Empty);
 	    }
 
 	    #endregion
@@ -247,7 +251,7 @@ namespace DevelopmentConsoleTool {
 	        var input = eventArgs.Value;
 	        UpdateTypedCommand(input);
 	        _argumentParser.ParseArguments(input);
-	        DisplayAutoCompletionPanel(input);
+	        HandleDisplayCommandAutoCompletePanel(input);
         }
 
 	    protected virtual void CodeCompletion_OnOptionSelected(

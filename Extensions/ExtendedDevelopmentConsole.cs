@@ -10,6 +10,7 @@ namespace DevelopmentConsoleTool {
 		protected override void LineManager_OnLineValueChanged(
 			object sender, LineValueChangedEventArgs eventArgs) {
 
+			// todo autocomplete for the command is also called. Only autocomplete for the arg. should be called here.
 			base.LineManager_OnLineValueChanged(sender, eventArgs);
 			DisplayValueExposerAutoCompletionPanel();
 		}
