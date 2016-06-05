@@ -15,7 +15,6 @@ namespace DevelopmentConsoleTool {
 		}
 
 		private void DisplayValueExposerAutoCompletionPanel() {
-			// todo in PredefinedCommands create enum with command names.
 			if (TypedCommand != "exposevalue"
 				&& TypedCommand != "hideexposedvalue") {
 
