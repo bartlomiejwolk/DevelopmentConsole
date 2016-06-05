@@ -1,6 +1,8 @@
 ﻿using DevelopmentConsole.Extensions.ValueExposerModule.Core;
+using DevelopmentConsole.Extensions.ValueExposerModule.Extensions.ValueVisualizerModule;
 using UnityEngine;
 using UnityEngine.Assertions;
+#pragma warning disable 649
 
 namespace DevelopmentConsole.Extensions.ValueExposerModule.Extensions {
     public class ExtendedValueExposer : ValueExposer {
