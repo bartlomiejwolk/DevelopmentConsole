@@ -48,6 +48,7 @@ namespace DevelopmentConsoleTool {
 				fullCmd = option;
 			}
 			LineManager.SetCommandString(fullCmd);
+			LineManager.AddSpace();
 			LineManager.SetFocus();
 		}
 	}

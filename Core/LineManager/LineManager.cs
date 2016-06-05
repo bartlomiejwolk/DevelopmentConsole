@@ -203,5 +203,10 @@ namespace DevelopmentConsoleTool {
         }
 
 	    #endregion
-    }
+
+	    public void AddSpace() {
+		    var current = CurrentLine.GetCommandString();
+			CurrentLine.SetCommandString(current + " ");
+		}
+	}
 }

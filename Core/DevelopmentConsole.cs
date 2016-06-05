@@ -239,6 +239,7 @@ namespace DevelopmentConsoleTool {
 
             var option = selectedOptionEventArgs.Option;
             LineManager.SetCommandString(option);
+		    LineManager.AddSpace();
             LineManager.SetFocus();
         }
 
