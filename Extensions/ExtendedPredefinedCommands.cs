@@ -1,5 +1,6 @@
 ﻿using DevelopmentConsole.Core;
 using DevelopmentConsole.Core.CommandHandlerSystem;
+using DevelopmentConsole.Extensions.ValueExposerModule.Core;
 
 namespace DevelopmentConsole.Extensions {
     public class ExtendedPredefinedCommands : PredefinedCommands {
@@ -11,7 +12,7 @@ namespace DevelopmentConsole.Extensions {
 
         [CommandHandler]
         private void ExposeValue(string valueName) {
-            var instance = Extensions.ValueExposerModule.ValueExposer.Instance;
+            var instance = ValueExposer.Instance;
             if (instance != null) {
                 instance.ShowValue(valueName);
             }
@@ -19,7 +20,7 @@ namespace DevelopmentConsole.Extensions {
 
         [CommandHandler]
         private void HideExposedValue(string valueName) {
-            var instance = Extensions.ValueExposerModule.ValueExposer.Instance;
+            var instance = ValueExposer.Instance;
             if (instance != null) {
                 instance.HideValue(valueName);
             }

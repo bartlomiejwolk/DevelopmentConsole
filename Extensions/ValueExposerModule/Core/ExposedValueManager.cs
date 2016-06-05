@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 
-namespace DevelopmentConsole.Extensions.ValueExposerModule {
+namespace DevelopmentConsole.Extensions.ValueExposerModule.Core {
     public class ExposedValueManager {
         private static readonly ExposedValueManager _instance
             = new ExposedValueManager();

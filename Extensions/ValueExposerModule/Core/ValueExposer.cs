@@ -5,7 +5,7 @@ using UnityEngine.Assertions;
 
 #pragma warning disable 649
 
-namespace DevelopmentConsole.Extensions.ValueExposerModule {
+namespace DevelopmentConsole.Extensions.ValueExposerModule.Core {
     public class ValueExposer : MonoBehaviour {
         #region INSPECTOR FIELDS
 

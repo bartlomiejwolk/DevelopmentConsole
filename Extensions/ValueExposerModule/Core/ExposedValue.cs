@@ -2,7 +2,7 @@ using System;
 using UnityEngine;
 using UnityEngine.UI;
 
-namespace DevelopmentConsole.Extensions.ValueExposerModule {
+namespace DevelopmentConsole.Extensions.ValueExposerModule.Core {
     public class ExposedValue {
         private bool _updateEnabled;
 

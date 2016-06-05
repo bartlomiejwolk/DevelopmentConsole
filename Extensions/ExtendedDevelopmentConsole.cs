@@ -2,7 +2,7 @@
 using System.Linq;
 using DevelopmentConsole.Core.CodeCompletionModule;
 using DevelopmentConsole.Core.LineManagerModule;
-using DevelopmentConsole.Extensions.ValueExposerModule;
+using DevelopmentConsole.Extensions.ValueExposerModule.Core;
 
 namespace DevelopmentConsole.Extensions {
     public class ExtendedDevelopmentConsole : Core.DevelopmentConsole {
