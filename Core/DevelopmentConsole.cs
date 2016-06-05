@@ -129,6 +129,7 @@ namespace DevelopmentConsole.Core {
 		    CodeCompletion.DisplayOptions(options, textCo);
 	    }
 
+		// todo rename to HandleUpdateTypedCommand
 	    private void UpdateTypedCommand(string input) {
 		    var cmdNames = CommandHandlerManager.Instance.GetCommandNames();
 		    foreach (var cmdName in cmdNames) {
