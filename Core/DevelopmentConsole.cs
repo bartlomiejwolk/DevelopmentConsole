@@ -98,11 +98,7 @@ namespace DevelopmentConsoleTool {
 		    _arrowDownKeyPressed = OnArrowDownPressed;
 	    }
 
-	    private void OnConsoleWindowOpened(object sender, EventArgs eventArgs) {
-			LineManager.SetFocus();
-		}
-
-		private void OpenConsoleWindow() {
+	    private void OpenConsoleWindow() {
 		    _canvas.gameObject.SetActive(true);
 			InvokeConsoleWindowOpenedEvent();
 	    }
@@ -223,7 +219,11 @@ namespace DevelopmentConsoleTool {
 
 	    #region EVENT HANDLERS
 
-        protected virtual void LineManager_OnLineValueChanged(
+	    private void OnConsoleWindowOpened(object sender, EventArgs eventArgs) {
+		    LineManager.SetFocus();
+	    }
+
+	    protected virtual void LineManager_OnLineValueChanged(
             object sender,
             LineValueChangedEventArgs eventArgs) {
 
