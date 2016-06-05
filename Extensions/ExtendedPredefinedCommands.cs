@@ -10,7 +10,6 @@ namespace DevelopmentConsoleTool {
 				typeof(ExtendedPredefinedCommands), this);
 		}
 
-		// todo create ICommandHandlerInfo with AutoCompleteNames property. Pass it as arg. to CommandHandler attr. ValueExposer could implement this interface.
 		[CommandHandler]
 		private void ExposeValue(string valueName) {
 			var instance = ValueExposerExtension.ValueExposer.Instance;

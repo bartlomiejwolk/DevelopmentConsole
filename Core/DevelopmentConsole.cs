@@ -34,11 +34,13 @@ namespace DevelopmentConsoleTool {
 	    [SerializeField]
 	    private KeyCode _toggleConsoleWindowKey = KeyCode.BackQuote;
 
-	    #endregion
+		#endregion
 
-	    #region DELEGATES
+		public event EventHandler ConsoleWindowOpened;
 
-	    private Action _toggleConsoleWindowKeyPressed;
+		#region DELEGATES
+
+		private Action _toggleConsoleWindowKeyPressed;
 	    private Action _returnKeyPressed;
 	    private Action _arrowUpKeyPressed;
 	    private Action _arrowDownKeyPressed;
@@ -88,6 +90,7 @@ namespace DevelopmentConsoleTool {
 	    private void SubscribeEventHandlers() {
 		    LineManager.LineValueChanged += LineManager_OnLineValueChanged;
 		    CodeCompletion.OptionSelected += CodeCompletion_OnOptionSelected;
+			ConsoleWindowOpened += OnConsoleWindowOpened;
 
 		    _toggleConsoleWindowKeyPressed = OnToggleConsoleWindowKeyPressed;
 		    _returnKeyPressed = OnReturnKeyPressed;
@@ -95,10 +98,13 @@ namespace DevelopmentConsoleTool {
 		    _arrowDownKeyPressed = OnArrowDownPressed;
 	    }
 
-	    private void OpenConsoleWindow() {
+	    private void OnConsoleWindowOpened(object sender, EventArgs eventArgs) {
+			LineManager.SetFocus();
+		}
+
+		private void OpenConsoleWindow() {
 		    _canvas.gameObject.SetActive(true);
-			// todo fire ConsoleWindowOpened event and SetFocus() in the handler
-		    LineManager.SetFocus();
+			InvokeConsoleWindowOpenedEvent();
 	    }
 
 	    private void CloseConsoleWindow() {
@@ -202,6 +208,15 @@ namespace DevelopmentConsoleTool {
 			    return;
 		    }
 		    LineManager.SetCommandString(previousInput);
+	    }
+
+	    #endregion
+
+	    #region EVENT INVOCATORS
+
+	    protected virtual void InvokeConsoleWindowOpenedEvent() {
+		    var handler = ConsoleWindowOpened;
+		    if (handler != null) handler(this, EventArgs.Empty);
 	    }
 
 	    #endregion
