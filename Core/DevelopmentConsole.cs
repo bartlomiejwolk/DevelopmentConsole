@@ -20,13 +20,13 @@ namespace DevelopmentConsoleTool {
 	    #region INSPECTOR
 
 	    [SerializeField]
-        private bool _dontDestroyOnLoad = true;
-
-	    [SerializeField]
 	    protected LineManager LineManager;
 
 	    [SerializeField]
 	    protected CodeCompletion CodeCompletion;
+
+	    [SerializeField]
+        private bool _dontDestroyOnLoad = true;
 
 	    [SerializeField]
 	    private Canvas _canvas;
@@ -45,22 +45,21 @@ namespace DevelopmentConsoleTool {
 
 	    #endregion
 
+	    protected string TypedCommand;
+	    protected readonly FuzzySearch FuzzySearch = new FuzzySearch();
 	    private readonly CommandHistory _commandHistory = new CommandHistory();
-        protected readonly FuzzySearch FuzzySearch = new FuzzySearch();
-		private readonly CommandLineArgumentParser _argumentParser
+	    private readonly CommandLineArgumentParser _argumentParser
 			= new CommandLineArgumentParser();
-
-		protected string TypedCommand;
-
-        private bool IsConsoleWindowOpen {
-            get { return _canvas.gameObject.activeSelf; }
-        }
 
 	    protected List<string> Arguments {
 		    get { return _argumentParser.Arguments; }
 	    }
 
-        #region UNITY MESSAGES
+	    private bool IsConsoleWindowOpen {
+            get { return _canvas.gameObject.activeSelf; }
+        }
+
+	    #region UNITY MESSAGES
 
         private void Awake() {
             Assert.IsNotNull(LineManager);
@@ -69,6 +68,7 @@ namespace DevelopmentConsoleTool {
             
             SubscribeEventHandlers();
 
+			// set ignored chars
 	        var keyChar = (char)_toggleConsoleWindowKey;
             LineManager.IgnoredChars = keyChar.ToString();
         }
@@ -97,6 +97,7 @@ namespace DevelopmentConsoleTool {
 
 	    private void OpenConsoleWindow() {
 		    _canvas.gameObject.SetActive(true);
+			// todo fire ConsoleWindowOpened event and SetFocus() in the handler
 		    LineManager.SetFocus();
 	    }
 
@@ -215,6 +216,7 @@ namespace DevelopmentConsoleTool {
 	        var input = eventArgs.Value;
 	        UpdateTypedCommand(input);
 	        _argumentParser.ParseArguments(input);
+			// todo rename to DisplayAutoCompletionPanel
 	        DisplayCodeAutoCompletionPanel(input);
         }
 
