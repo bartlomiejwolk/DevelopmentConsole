@@ -7,7 +7,8 @@ using UnityEngine.Assertions;
 
 namespace DevelopmentConsoleTool.ValueExposerExtension {
     public class ValueExposer : MonoBehaviour {
-	    #region INSPECTOR FIELDS
+	    
+		#region INSPECTOR FIELDS
 
 	    [SerializeField]
         private GameObject _valuePrefab;
@@ -64,6 +65,9 @@ namespace DevelopmentConsoleTool.ValueExposerExtension {
 
 	    public void HideValue(string valueName) {
 		    var value = _exposedValueManager.GetExposedValue(valueName);
+		    if (value == null) {
+			    return;
+		    }
 		    value.UpdateEnabled = false;
 	    }
 
