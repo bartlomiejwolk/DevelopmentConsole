@@ -97,7 +97,10 @@ namespace DevelopmentConsoleTool.ValueExposerExtension {
 			string valueName,
 			GameObject go) {
 
-		    var args = new ValueInstantiatedEventArgs(valueName, go);
+		    var args = new ValueInstantiatedEventArgs() {
+			    ValueName = valueName,
+				Go = go
+		    };
 		    var handler = ValueInstantiated;
 		    if (handler != null) handler(this, args);
 	    }

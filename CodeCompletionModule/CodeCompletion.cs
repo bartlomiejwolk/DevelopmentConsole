@@ -198,7 +198,9 @@ namespace DevelopmentConsoleTool.CodeCompletionModule {
             if (_options.Count == 0) {
                 return;
             }
-            var args = new SelectedOptionEventArgs(CurrentOptionLabel.text);
+            var args = new SelectedOptionEventArgs() {
+	            Option = CurrentOptionLabel.text
+			};
             InvokeOptionSelectedEvent(args);
 
             ClearResults();

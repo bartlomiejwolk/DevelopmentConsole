@@ -77,7 +77,9 @@ namespace DevelopmentConsoleTool {
 		    var cmdLineGo = Instantiate(_commandLineTemplate);
 		    cmdLineGo.transform.SetParent(_container, false);
 
-		    var args = new LineInstantiatedEventArgs(cmdLineGo.gameObject);
+		    var args = new LineInstantiatedEventArgs() {
+			    InstantiatedGo = cmdLineGo.gameObject
+			};
 		    InvokeLineInstantiatedEvent(args);
 	    }
 
@@ -194,7 +196,9 @@ namespace DevelopmentConsoleTool {
 
 	    private void InputField_OnValueChanged(string text) {
             var commandString = StripPrompt(text);
-            var args = new LineValueChangedEventArgs(commandString);
+            var args = new LineValueChangedEventArgs() {
+	            Value = commandString
+			};
             InvokeLineValueChangedEvent(args);
         }
 

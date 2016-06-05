@@ -2,12 +2,9 @@ using System;
 using UnityEngine;
 
 namespace DevelopmentConsoleTool {
-    public class LineInstantiatedEventArgs : EventArgs {
 
-        public GameObject InstantiatedGo { get; private set; }
+	public class LineInstantiatedEventArgs : EventArgs {
 
-        public LineInstantiatedEventArgs(GameObject instantiatedGo) {
-            InstantiatedGo = instantiatedGo;
-        }
+        public GameObject InstantiatedGo { get; set; }
     }
 }
