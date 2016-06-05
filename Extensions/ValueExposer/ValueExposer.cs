@@ -78,21 +78,21 @@ namespace DevelopmentConsoleTool.ValueExposerExtension {
 	    }
 
 	    private void UpdateValues() {
-		    var values = _exposedValueManager.ExposedValues;
-		    foreach (var value in values) {
-			    if (value.Value.UpdateEnabled) {
-				    UpdateValue(value);
+		    var exposedValues = _exposedValueManager.ExposedValues;
+		    foreach (var exposedValue in exposedValues.Values) {
+			    if (exposedValue.UpdateEnabled) {
+				    UpdateValue(exposedValue);
 			    }
 		    }
 	    }
 
-	    private void UpdateValue(KeyValuePair<string, ExposedValue> exposedValue) {
-		    var textCo = exposedValue.Value.TextComponent;
+	    private void UpdateValue(ExposedValue exposedValue) {
+		    var textCo = exposedValue.TextComponent;
 		    if (textCo == null) {
 			    return;
 		    }
-		    var valueString = exposedValue.Value.ValueString;
-		    textCo.text = valueString;
+		    var text = exposedValue.ValueString;
+		    textCo.text = text;
 	    }
 
 	    #region EVENT INVOCATORS
