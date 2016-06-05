@@ -44,6 +44,7 @@ namespace DevelopmentConsoleTool {
 	    private Action _returnKeyPressed;
 	    private Action _arrowUpKeyPressed;
 	    private Action _arrowDownKeyPressed;
+	    private Action _leftCtrlSpaceKeysPressed;
 
 	    #endregion
 
@@ -96,6 +97,7 @@ namespace DevelopmentConsoleTool {
 		    _returnKeyPressed = OnReturnKeyPressed;
 		    _arrowUpKeyPressed = OnArrowUpPressed;
 		    _arrowDownKeyPressed = OnArrowDownPressed;
+		    _leftCtrlSpaceKeysPressed = OnLeftCtrlSpacePressed;
 	    }
 
 	    private void OpenConsoleWindow() {
@@ -110,12 +112,14 @@ namespace DevelopmentConsoleTool {
 	    private void DisplayAutoCompletionPanel(string typedChars) {
 			var names = CommandHandlerManager.Instance.GetCommandNames();
 			var matches = FuzzySearch.MatchResultSet(names, typedChars);
+			List<string> options;
 			if (matches == null) {
-				CodeCompletion.ClearResults();
-				return;
-		    }
-		    LineManager.CurrentLine.ForceLabelUpdate();
-		    var options = matches.Select(match => match.TextValue).ToList();
+				options = names;
+			}
+			else {
+				options = matches.Select(match => match.TextValue).ToList();
+			}
+			LineManager.CurrentLine.ForceLabelUpdate();
 		    var textCo = LineManager.CurrentLine.textComponent;
 		    CodeCompletion.DisplayOptions(options, textCo);
 	    }
@@ -141,6 +145,7 @@ namespace DevelopmentConsoleTool {
             CheckForReturnKey();
             CheckForArrowUpKey();
             CheckForArrowDownKey();
+			CheckForLeftCtrlSpaceKeys();
         }
 
         private void CheckForToggleConsoleWindowKey() {
@@ -166,6 +171,14 @@ namespace DevelopmentConsoleTool {
                 _arrowDownKeyPressed();
             }
         }
+
+	    private void CheckForLeftCtrlSpaceKeys() {
+		    if (Input.GetKey(KeyCode.LeftControl)
+		        && Input.GetKeyDown(KeyCode.Space)) {
+
+			    _leftCtrlSpaceKeysPressed();
+		    }
+	    }
 
         #endregion
 
@@ -204,6 +217,10 @@ namespace DevelopmentConsoleTool {
 			    return;
 		    }
 		    LineManager.SetCommandString(previousInput);
+	    }
+
+	    private void OnLeftCtrlSpacePressed() {
+		    DisplayAutoCompletionPanel(string.Empty);
 	    }
 
 	    #endregion

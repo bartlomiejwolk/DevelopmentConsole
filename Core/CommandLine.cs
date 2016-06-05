@@ -101,6 +101,10 @@ namespace DevelopmentConsoleTool {
 		    if (_ignoredChars.Contains(addedChar.ToString())) {
 			    return '\0';
 		    }
+			// ignore input when modifier key is pressed
+		    if (Input.GetKey(KeyCode.LeftControl)) {
+			    return '\0';
+		    }
 		    return addedChar;
 	    }
 
