@@ -9,6 +9,7 @@ namespace DevelopmentConsole.Extensions.ValueExposerModule.Core {
     public class ValueExposer : MonoBehaviour {
         #region INSPECTOR FIELDS
 
+        // todo rename to ExposedValueTemplate
         [SerializeField]
         private GameObject _valuePrefab;
 
