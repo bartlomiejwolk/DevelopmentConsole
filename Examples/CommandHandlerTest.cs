@@ -14,12 +14,6 @@ public class CommandHandlerTest : MonoBehaviour {
     }
 
     [CommandHandler]
-    private void SetTimescale(float timescale) {
-        Time.timeScale = timescale;
-        Debug.Log("Timescale set to " + Time.timeScale);
-    }
-
-    [CommandHandler]
     private void Add(int a, int b) {
         Debug.Log(a + b);
     }
