@@ -20,6 +20,7 @@ namespace DevelopmentConsole.Extensions.ValueExposerModule.Core {
 
         private ExposedValueManager() {}
 
+        // todo create overload for int, float and bool
         public void RegisterValue(
             string customName,
             string category,
