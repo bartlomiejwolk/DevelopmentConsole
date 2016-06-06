@@ -12,8 +12,10 @@ namespace DevelopmentConsole.Extensions.ValueExposerModule.Extensions.ValueVisua
         [SerializeField]
         private Image _dotSprite;
 
-        private readonly List<RectTransform> _dots = new List<RectTransform>();
+        [SerializeField]
+        private RectTransform _dotInstantiatePoint;
 
+        private readonly List<RectTransform> _dots = new List<RectTransform>();
         private event EventHandler<DotInstantiatedEventArgs> DotInstantiated;
 
         private void Awake() {
@@ -43,7 +45,8 @@ namespace DevelopmentConsole.Extensions.ValueExposerModule.Extensions.ValueVisua
 
         private void InstantiateDot() {
             var dotGo = Instantiate(_dotSprite);
-            dotGo.transform.SetParent(transform);
+            dotGo.transform.SetParent(_dotInstantiatePoint);
+            dotGo.rectTransform.anchoredPosition = _dotInstantiatePoint.anchoredPosition;
 
             var args = new DotInstantiatedEventArgs() {
                 RectTransform = dotGo.rectTransform
