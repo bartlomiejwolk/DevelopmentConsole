@@ -9,8 +9,9 @@ namespace DevelopmentConsole.Core {
         }
 
         [CommandHandler]
-        private void TimeScale(float scale) {
+        private void SetTimeScale(float scale) {
             Time.timeScale = scale;
+            Debug.Log("Timescale set to " + Time.timeScale);
         }
     }
 }
