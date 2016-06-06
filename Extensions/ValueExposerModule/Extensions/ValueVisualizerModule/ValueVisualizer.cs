@@ -15,6 +15,8 @@ namespace DevelopmentConsole.Extensions.ValueExposerModule.Extensions.ValueVisua
 
         public event EventHandler<GraphDrawerInstantiatedEventArgs> GraphDrawerInstantiated;
 
+        #region UNITY MESSAGES
+
         private void Awake() {
             Assert.IsNotNull(_graphDrawerTemplate);
             GraphDrawerInstantiated += OnGraphDrawerInstantiated;
@@ -29,9 +31,7 @@ namespace DevelopmentConsole.Extensions.ValueExposerModule.Extensions.ValueVisua
             }
         }
 
-        private void OnGraphDrawerInstantiated(
-            object sender, 
-            GraphDrawerInstantiatedEventArgs args) {}
+        #endregion
 
         public void VisualizeValue(
             string valueName,
@@ -53,12 +53,24 @@ namespace DevelopmentConsole.Extensions.ValueExposerModule.Extensions.ValueVisua
             return go;
         }
 
+        #region EVENT INVOCATORS
+
         protected virtual void InvokeGraphDrawerInstantiatedEvent(
             GraphDrawerInstantiatedEventArgs e) {
 
             var handler = GraphDrawerInstantiated;
             if (handler != null) handler(this, e);
         }
+
+        #endregion
+
+        #region EVENT HANDLERS
+
+        private void OnGraphDrawerInstantiated(
+            object sender, 
+            GraphDrawerInstantiatedEventArgs args) {}
+
+        #endregion
     }
 
     // todo extract to file
