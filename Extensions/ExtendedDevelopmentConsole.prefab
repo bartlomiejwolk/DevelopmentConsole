@@ -169,7 +169,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: efec8e2be740b3e409bbb03e7c0f3de0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _prompt: 3e20
+  _prompt: '> '
   _commandLineTemplate: {fileID: 11440530, guid: 6934743e8024ae6449b01a19a067f683,
     type: 2}
   _container: {fileID: 22498482}
@@ -276,9 +276,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fe84a689576d63348a9c0f2a9bef37ad, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _dontDestroyOnLoad: 1
   LineManager: {fileID: 11425264}
   CodeCompletion: {fileID: 11499590}
+  _dontDestroyOnLoad: 1
   _canvas: {fileID: 22338762}
   _toggleConsoleWindowKey: 96
 --- !u!114 &11488988
