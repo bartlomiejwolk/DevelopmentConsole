@@ -72,8 +72,4 @@ namespace DevelopmentConsole.Extensions.ValueExposerModule.Extensions.ValueVisua
 
         #endregion
     }
-
-    // todo extract to file
-    public class GraphDrawerInstantiatedEventArgs : EventArgs {
-    }
 }
