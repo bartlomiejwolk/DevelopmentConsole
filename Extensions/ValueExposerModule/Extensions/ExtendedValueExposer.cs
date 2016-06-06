@@ -22,6 +22,7 @@ namespace DevelopmentConsole.Extensions.ValueExposerModule.Extensions {
             base.ShowValue(valueName);
             var valueDelegate = ExposedValueManager.Instance.GetSourceCallback(
                 valueName);
+            // todo don't pass container. Get reference to the GO's transform instead and position it here.
             _valueVisualizer.VisualizeValue(valueName, valueDelegate, Container);
         }
     }

@@ -11,13 +11,17 @@ namespace DevelopmentConsole.Extensions.ValueExposerModule.Extensions.ValueVisua
         [SerializeField]
         private GraphDrawer _graphDrawerTemplate;
 
-        private GraphManager _graphManager = new GraphManager();
+        private readonly GraphManager _graphManager = new GraphManager();
 
         public event EventHandler<GraphDrawerInstantiatedEventArgs> GraphDrawerInstantiated;
 
         private void Awake() {
             Assert.IsNotNull(_graphDrawerTemplate);
             GraphDrawerInstantiated += OnGraphDrawerInstantiated;
+        }
+
+        private void Update() {
+            
         }
 
         private void OnGraphDrawerInstantiated(
