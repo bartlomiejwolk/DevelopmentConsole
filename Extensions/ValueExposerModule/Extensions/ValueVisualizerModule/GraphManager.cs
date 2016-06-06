@@ -6,9 +6,13 @@ namespace DevelopmentConsole.Extensions.ValueExposerModule.Extensions.ValueVisua
     
     public class GraphManager {
         
-        private readonly List<ValueGraph> _valueGraphs = new List<ValueGraph>(); 
+        private readonly List<ValueGraph> _valueGraphs = new List<ValueGraph>();
 
-        public void AddGraph(string valueName, Func<object> valueDelegate,
+        public List<ValueGraph> ValueGraphs {
+            get { return _valueGraphs; }
+        }
+
+        public ValueGraph AddGraph(string valueName, Func<object> valueDelegate,
             GameObject go) {
 
             var valueGraph = new ValueGraph() {
@@ -17,6 +21,7 @@ namespace DevelopmentConsole.Extensions.ValueExposerModule.Extensions.ValueVisua
                 Go = go
             };
             _valueGraphs.Add(valueGraph);
+            return valueGraph;
         }
     }
 
@@ -24,5 +29,22 @@ namespace DevelopmentConsole.Extensions.ValueExposerModule.Extensions.ValueVisua
         public string ValueName { get; set; }
         public Func<object> ValueDelegate { get; set; } 
         public GameObject Go { get; set; }
+        public bool Enabled { get; set; }
+
+        public GraphDrawer GraphDrawer {
+            get {
+                if (_graphDrawer == null && Go != null) {
+                    _graphDrawer = Go.GetComponent<GraphDrawer>();
+                }
+                return _graphDrawer;
+            }
+        }
+
+        private GraphDrawer _graphDrawer;
+
+        public void DrawValuePoint() {
+            var value = ValueDelegate();
+            GraphDrawer.DrawValuePoint(value);
+        }
     }
 }

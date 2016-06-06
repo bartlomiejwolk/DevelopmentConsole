@@ -21,16 +21,17 @@ namespace DevelopmentConsole.Extensions.ValueExposerModule.Extensions.ValueVisua
         }
 
         private void Update() {
-            
+            foreach (var valueGraph in _graphManager.ValueGraphs) {
+                if (!valueGraph.Enabled) {
+                    continue;
+                }
+                valueGraph.DrawValuePoint();
+            }
         }
 
         private void OnGraphDrawerInstantiated(
             object sender, 
-            GraphDrawerInstantiatedEventArgs args) {
-
-            var go = args.GraphDrawerGo;
-            // add go to GraphManager
-        }
+            GraphDrawerInstantiatedEventArgs args) {}
 
         public void VisualizeValue(
             string valueName,
@@ -38,16 +39,17 @@ namespace DevelopmentConsole.Extensions.ValueExposerModule.Extensions.ValueVisua
             Transform container) {
 
             var go = InstantiateGraphDrawer(container);
-            _graphManager.AddGraph(valueName, valueDelegate, go);
+            var valueGraph = _graphManager.AddGraph(valueName, valueDelegate, go);
+            valueGraph.Enabled = true;
         }
 
         private GameObject InstantiateGraphDrawer(Transform container) {
             var go = Instantiate(_graphDrawerTemplate.gameObject);
             go.transform.SetParent(container);
-            var args = new GraphDrawerInstantiatedEventArgs() {
-                GraphDrawerGo = go
-            };
+            
+            var args = new GraphDrawerInstantiatedEventArgs();
             InvokeGraphDrawerInstantiatedEvent(args);
+            
             return go;
         }
 
@@ -59,7 +61,7 @@ namespace DevelopmentConsole.Extensions.ValueExposerModule.Extensions.ValueVisua
         }
     }
 
+    // todo extract to file
     public class GraphDrawerInstantiatedEventArgs : EventArgs {
-        public GameObject GraphDrawerGo { get; set; }
     }
 }
