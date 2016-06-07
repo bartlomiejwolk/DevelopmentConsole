@@ -1,6 +1,5 @@
 ﻿using System;
 using UnityEngine;
-using System.Collections;
 using UnityEngine.Assertions;
 #pragma warning disable 649
 
@@ -43,7 +42,7 @@ namespace DevelopmentConsole.Extensions.ValueExposerModule.Extensions.ValueVisua
             Func<object> valueDelegate,
             Vector3 position) {
 
-            var go = InstantiateGraphDrawer(position);
+            var go = InstantiateGraphPlotter(position);
 
             var valueGraph = new GraphInfo() {
                 ValueName = valueName,
@@ -58,7 +57,7 @@ namespace DevelopmentConsole.Extensions.ValueExposerModule.Extensions.ValueVisua
             throw new NotImplementedException();
         }
 
-        private GameObject InstantiateGraphDrawer(Vector3 position) {
+        private GameObject InstantiateGraphPlotter(Vector3 position) {
             var go = Instantiate(_graphPlotterTemplate);
             go.transform.SetParent(_container.transform);
             go.transform.position = position;
