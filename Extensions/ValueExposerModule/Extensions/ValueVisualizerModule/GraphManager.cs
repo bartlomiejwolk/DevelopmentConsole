@@ -12,16 +12,8 @@ namespace DevelopmentConsole.Extensions.ValueExposerModule.Extensions.ValueVisua
             get { return _valueGraphs; }
         }
 
-        public GraphInfo AddGraph(string valueName, Func<object> valueDelegate,
-            GameObject go) {
-
-            var valueGraph = new GraphInfo() {
-                ValueName = valueName,
-                ValueDelegate = valueDelegate,
-                Go = go
-            };
-            _valueGraphs.Add(valueGraph);
-            return valueGraph;
+        public void AddGraph(GraphInfo info) {
+            _valueGraphs.Add(info);
         }
     }
 }

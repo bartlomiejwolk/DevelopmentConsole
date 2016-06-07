@@ -44,7 +44,13 @@ namespace DevelopmentConsole.Extensions.ValueExposerModule.Extensions.ValueVisua
             Vector3 position) {
 
             var go = InstantiateGraphDrawer(position);
-            var valueGraph = _graphManager.AddGraph(valueName, valueDelegate, go);
+
+            var valueGraph = new GraphInfo() {
+                ValueName = valueName,
+                ValueDelegate = valueDelegate,
+                Go = go
+            };
+            _graphManager.AddGraph(valueGraph);
             valueGraph.Enabled = true;
         }
 
