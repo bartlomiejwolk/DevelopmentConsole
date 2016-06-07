@@ -48,6 +48,10 @@ namespace DevelopmentConsole.Extensions.ValueExposerModule.Extensions.ValueVisua
             valueGraph.Enabled = true;
         }
 
+        public void StopVisualizingValue(string valueName) {
+            throw new NotImplementedException();
+        }
+
         private GameObject InstantiateGraphDrawer(Vector3 position) {
             var go = Instantiate(_graphPlotterTemplate);
             go.transform.SetParent(_container.transform);
