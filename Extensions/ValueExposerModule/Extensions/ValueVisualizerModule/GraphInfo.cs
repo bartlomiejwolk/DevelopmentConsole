@@ -18,10 +18,5 @@ namespace DevelopmentConsole.Extensions.ValueExposerModule.Extensions.ValueVisua
         }
 
         private GraphPlotter _graphPlotter;
-
-        public void DrawValuePoint() {
-            var value = ValueDelegate();
-            GraphPlotter.DrawValuePoint(value);
-        }
     }
 }

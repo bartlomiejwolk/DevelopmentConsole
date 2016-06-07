@@ -31,7 +31,8 @@ namespace DevelopmentConsole.Extensions.ValueExposerModule.Extensions.ValueVisua
                 if (!valueGraph.Enabled) {
                     continue;
                 }
-                valueGraph.DrawValuePoint();
+                var value = valueGraph.ValueDelegate();
+                valueGraph.GraphPlotter.DrawValuePoint(value);
             }
         }
 
