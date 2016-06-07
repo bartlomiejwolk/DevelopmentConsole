@@ -9,7 +9,7 @@ namespace DevelopmentConsole.Extensions.ValueExposerModule.Extensions.ValueVisua
     public class ValueVisualizer : MonoBehaviour {
 
         [SerializeField]
-        private GraphPlotter _graphPlotterTemplate;
+        private GameObject _graphPlotterTemplate;
 
         [SerializeField]
         private GameObject _container;
@@ -49,7 +49,7 @@ namespace DevelopmentConsole.Extensions.ValueExposerModule.Extensions.ValueVisua
         }
 
         private GameObject InstantiateGraphDrawer(Vector3 position) {
-            var go = Instantiate(_graphPlotterTemplate.gameObject);
+            var go = Instantiate(_graphPlotterTemplate);
             go.transform.SetParent(_container.transform);
             go.transform.position = position;
             
