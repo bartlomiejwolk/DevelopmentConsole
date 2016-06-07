@@ -10,16 +10,11 @@ namespace DevelopmentConsole.Extensions.ValueExposerModule.Extensions.ValueVisua
         [SerializeField]
         private GameObject _dotTemplate;
 
-        [SerializeField]
-        private RectTransform _dotInstantiatePoint;
-
         private readonly List<RectTransform> _dots = new List<RectTransform>();
         private event EventHandler<DotInstantiatedEventArgs> DotInstantiated;
 
         private void Awake() {
             Assert.IsNotNull(_dotTemplate);
-            Assert.IsNotNull(_dotInstantiatePoint);
-
             DotInstantiated += OnDotInstantiated;
         }
 
@@ -60,9 +55,8 @@ namespace DevelopmentConsole.Extensions.ValueExposerModule.Extensions.ValueVisua
 
         private void InstantiateDot() {
             var dotGo = Instantiate(_dotTemplate);
-            dotGo.transform.SetParent(_dotInstantiatePoint);
+            dotGo.transform.SetParent(transform);
             var rectTrans = dotGo.GetComponent<RectTransform>();
-            rectTrans.anchoredPosition = _dotInstantiatePoint.anchoredPosition;
 
             var args = new DotInstantiatedEventArgs() {
                 RectTransform = rectTrans
