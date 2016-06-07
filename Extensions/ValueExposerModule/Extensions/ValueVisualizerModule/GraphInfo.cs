@@ -8,20 +8,20 @@ namespace DevelopmentConsole.Extensions.ValueExposerModule.Extensions.ValueVisua
         public GameObject Go { get; set; }
         public bool Enabled { get; set; }
 
-        public GraphDrawer GraphDrawer {
+        public GraphPlotter GraphPlotter {
             get {
-                if (_graphDrawer == null && Go != null) {
-                    _graphDrawer = Go.GetComponent<GraphDrawer>();
+                if (_graphPlotter == null && Go != null) {
+                    _graphPlotter = Go.GetComponent<GraphPlotter>();
                 }
-                return _graphDrawer;
+                return _graphPlotter;
             }
         }
 
-        private GraphDrawer _graphDrawer;
+        private GraphPlotter _graphPlotter;
 
         public void DrawValuePoint() {
             var value = ValueDelegate();
-            GraphDrawer.DrawValuePoint(value);
+            GraphPlotter.DrawValuePoint(value);
         }
     }
 }

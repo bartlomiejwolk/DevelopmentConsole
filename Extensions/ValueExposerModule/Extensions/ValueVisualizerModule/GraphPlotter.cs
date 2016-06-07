@@ -7,7 +7,7 @@ using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
 namespace DevelopmentConsole.Extensions.ValueExposerModule.Extensions.ValueVisualizerModule {
-    public class GraphDrawer : MonoBehaviour {
+    public class GraphPlotter : MonoBehaviour {
 
         [SerializeField]
         private Image _dotSprite;

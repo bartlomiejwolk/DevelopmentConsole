@@ -9,7 +9,7 @@ namespace DevelopmentConsole.Extensions.ValueExposerModule.Extensions.ValueVisua
     public class ValueVisualizer : MonoBehaviour {
 
         [SerializeField]
-        private GraphDrawer _graphDrawerTemplate;
+        private GraphPlotter _graphPlotterTemplate;
 
         [SerializeField]
         private GameObject _container;
@@ -21,7 +21,7 @@ namespace DevelopmentConsole.Extensions.ValueExposerModule.Extensions.ValueVisua
         #region UNITY MESSAGES
 
         private void Awake() {
-            Assert.IsNotNull(_graphDrawerTemplate);
+            Assert.IsNotNull(_graphPlotterTemplate);
             Assert.IsNotNull(_container);
 
             GraphDrawerInstantiated += OnGraphDrawerInstantiated;
@@ -49,7 +49,7 @@ namespace DevelopmentConsole.Extensions.ValueExposerModule.Extensions.ValueVisua
         }
 
         private GameObject InstantiateGraphDrawer(Vector3 position) {
-            var go = Instantiate(_graphDrawerTemplate.gameObject);
+            var go = Instantiate(_graphPlotterTemplate.gameObject);
             go.transform.SetParent(_container.transform);
             go.transform.position = position;
             
