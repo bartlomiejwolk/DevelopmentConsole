@@ -10,7 +10,7 @@ namespace DevelopmentConsole.Extensions.ValueExposerModule.Extensions.ValueVisua
 
         public GraphPlotter GraphPlotter {
             get {
-                if (_graphPlotter == null && Go != null) {
+                if (_graphPlotter == null) {
                     _graphPlotter = Go.GetComponent<GraphPlotter>();
                 }
                 return _graphPlotter;
