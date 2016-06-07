@@ -11,6 +11,9 @@ namespace DevelopmentConsole.Extensions.ValueExposerModule.Extensions.ValueVisua
         [SerializeField]
         private GraphDrawer _graphDrawerTemplate;
 
+        [SerializeField]
+        private GameObject _container;
+
         private readonly GraphManager _graphManager = new GraphManager();
 
         public event EventHandler<GraphDrawerInstantiatedEventArgs> GraphDrawerInstantiated;
@@ -19,6 +22,8 @@ namespace DevelopmentConsole.Extensions.ValueExposerModule.Extensions.ValueVisua
 
         private void Awake() {
             Assert.IsNotNull(_graphDrawerTemplate);
+            Assert.IsNotNull(_container);
+
             GraphDrawerInstantiated += OnGraphDrawerInstantiated;
         }
 
@@ -36,16 +41,17 @@ namespace DevelopmentConsole.Extensions.ValueExposerModule.Extensions.ValueVisua
         public void VisualizeValue(
             string valueName,
             Func<object> valueDelegate,
-            Transform container) {
+            Vector3 position) {
 
-            var go = InstantiateGraphDrawer(container);
+            var go = InstantiateGraphDrawer(position);
             var valueGraph = _graphManager.AddGraph(valueName, valueDelegate, go);
             valueGraph.Enabled = true;
         }
 
-        private GameObject InstantiateGraphDrawer(Transform container) {
+        private GameObject InstantiateGraphDrawer(Vector3 position) {
             var go = Instantiate(_graphDrawerTemplate.gameObject);
-            go.transform.SetParent(container);
+            go.transform.SetParent(_container.transform);
+            go.transform.position = position;
             
             var args = new GraphDrawerInstantiatedEventArgs();
             InvokeGraphDrawerInstantiatedEvent(args);
