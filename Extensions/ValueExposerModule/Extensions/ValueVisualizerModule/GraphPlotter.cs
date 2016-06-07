@@ -21,6 +21,8 @@ namespace DevelopmentConsole.Extensions.ValueExposerModule.Extensions.ValueVisua
         private void OnDotInstantiated(object sender, DotInstantiatedEventArgs eventArgs) {
             _dots.Add(eventArgs.RectTransform);
 
+            // apply horizontal offset
+
             // apply vertical offset
             var vertOffset = CalculateVerticalOffset();
             var rectTrans = eventArgs.RectTransform;
@@ -55,7 +57,7 @@ namespace DevelopmentConsole.Extensions.ValueExposerModule.Extensions.ValueVisua
 
         private void InstantiateDot() {
             var dotGo = Instantiate(_dotTemplate);
-            dotGo.transform.SetParent(transform);
+            dotGo.transform.SetParent(transform, false);
             var rectTrans = dotGo.GetComponent<RectTransform>();
 
             var args = new DotInstantiatedEventArgs() {
