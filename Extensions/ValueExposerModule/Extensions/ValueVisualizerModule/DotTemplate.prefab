@@ -11,7 +11,7 @@ GameObject:
   - 222: {fileID: 22282848}
   - 114: {fileID: 11451528}
   m_Layer: 0
-  m_Name: DotSprite
+  m_Name: DotTemplate
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

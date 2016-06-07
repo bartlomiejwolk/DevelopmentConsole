@@ -73,6 +73,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d5cef99dd802a5d48968c4dbcc207ccb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _graphPlotterTemplate: {fileID: 184628, guid: f9a2982e2c12f5146b2111f7821d35db,
+    type: 2}
+  _container: {fileID: 124284}
 --- !u!114 &11448232
 MonoBehaviour:
   m_ObjectHideFlags: 1

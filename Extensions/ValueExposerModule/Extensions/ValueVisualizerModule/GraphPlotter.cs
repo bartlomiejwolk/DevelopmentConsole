@@ -1,16 +1,14 @@
 ﻿using System;
 using UnityEngine;
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine.Assertions;
-using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
 namespace DevelopmentConsole.Extensions.ValueExposerModule.Extensions.ValueVisualizerModule {
     public class GraphPlotter : MonoBehaviour {
 
         [SerializeField]
-        private Image _dotSprite;
+        private GameObject _dotTemplate;
 
         [SerializeField]
         private RectTransform _dotInstantiatePoint;
@@ -19,19 +17,36 @@ namespace DevelopmentConsole.Extensions.ValueExposerModule.Extensions.ValueVisua
         private event EventHandler<DotInstantiatedEventArgs> DotInstantiated;
 
         private void Awake() {
-            Assert.IsNotNull(_dotSprite);
+            Assert.IsNotNull(_dotTemplate);
+            Assert.IsNotNull(_dotInstantiatePoint);
 
             DotInstantiated += OnDotInstantiated;
         }
 
         private void OnDotInstantiated(object sender, DotInstantiatedEventArgs eventArgs) {
             _dots.Add(eventArgs.RectTransform);
+
+            // apply vertical offset
+            var vertOffset = CalculateVerticalOffset();
+            var rectTrans = eventArgs.RectTransform;
+            var x = rectTrans.anchoredPosition.x;
+            var y = rectTrans.anchoredPosition.y + vertOffset;
+            rectTrans.anchoredPosition = new Vector2(x, y);
+
+            RemoveOldDots();
+        }
+
+        private void RemoveOldDots() {
         }
 
         public void DrawValuePoint(object value) {
             var number = (float) value;
-            InstantiateDot();
             OffsetDotsLeft();
+            InstantiateDot();
+        }
+
+        private float CalculateVerticalOffset() {
+            return 5;
         }
 
         private void OffsetDotsLeft() {
@@ -44,12 +59,13 @@ namespace DevelopmentConsole.Extensions.ValueExposerModule.Extensions.ValueVisua
         }
 
         private void InstantiateDot() {
-            var dotGo = Instantiate(_dotSprite);
+            var dotGo = Instantiate(_dotTemplate);
             dotGo.transform.SetParent(_dotInstantiatePoint);
-            dotGo.rectTransform.anchoredPosition = _dotInstantiatePoint.anchoredPosition;
+            var rectTrans = dotGo.GetComponent<RectTransform>();
+            rectTrans.anchoredPosition = _dotInstantiatePoint.anchoredPosition;
 
             var args = new DotInstantiatedEventArgs() {
-                RectTransform = dotGo.rectTransform
+                RectTransform = rectTrans
             };
             InvokeDotInstantiatedEvent(args);
         }
