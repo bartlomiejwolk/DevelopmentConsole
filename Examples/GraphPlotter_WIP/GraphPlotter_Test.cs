@@ -12,7 +12,7 @@ public class GraphPlotter_Test : MonoBehaviour {
 	void Start () {
         Assert.IsNotNull(_valueVisualizer);
 
-        _valueVisualizer.VisualizeValue("Random value", () => RandomValueGenerator(1, 10), Vector3.zero);
+        _valueVisualizer.RegisterValue("Random value", () => RandomValueGenerator(1, 10), Vector3.zero);
 	}
 	
 	void Update () {

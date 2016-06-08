@@ -39,7 +39,7 @@ namespace DevelopmentConsole.Extensions.ValueExposerModule.Extensions.ValueVisua
 
         #endregion
 
-        public void VisualizeValue(
+        public void RegisterValue(
             string valueName,
             Func<object> valueDelegate,
             Vector3 position) {
@@ -53,11 +53,11 @@ namespace DevelopmentConsole.Extensions.ValueExposerModule.Extensions.ValueVisua
                 Go = go
             };
             _graphManager.AddGraph(valueGraph);
-            valueGraph.Enabled = true;
         }
 
         public void VisualizeValue(string valueName) {
             throw new NotImplementedException();
+            //valueGraph.Enabled = true;
         }
 
         public void StopVisualizingValue(string valueName) {

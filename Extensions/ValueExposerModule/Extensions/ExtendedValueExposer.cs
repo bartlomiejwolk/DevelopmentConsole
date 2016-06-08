@@ -23,7 +23,7 @@ namespace DevelopmentConsole.Extensions.ValueExposerModule.Extensions {
             var valueDelegate = ExposedValueManager.Instance.GetSourceCallback(
                 valueName);
 
-            _valueVisualizer.VisualizeValue(valueName, valueDelegate, transform.position);
+            _valueVisualizer.RegisterValue(valueName, valueDelegate, transform.position);
         }
     }
 }
