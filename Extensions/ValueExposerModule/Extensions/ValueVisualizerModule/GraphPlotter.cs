@@ -2,7 +2,8 @@
 using UnityEngine;
 using System.Collections.Generic;
 using UnityEngine.Assertions;
-using UnityEngine.UI;
+
+#pragma warning disable 649
 
 namespace DevelopmentConsole.Extensions.ValueExposerModule.Extensions.ValueVisualizerModule {
     public class GraphPlotter : MonoBehaviour {
@@ -20,17 +21,19 @@ namespace DevelopmentConsole.Extensions.ValueExposerModule.Extensions.ValueVisua
 
         private void OnDotInstantiated(object sender, DotInstantiatedEventArgs eventArgs) {
             _dots.Add(eventArgs.RectTransform);
+            ApplyOffsets(eventArgs.RectTransform);
+            RemoveOldDots();
+        }
 
+        private void ApplyOffsets(RectTransform rectTransform) {
             // apply horizontal offset
 
             // apply vertical offset
             var vertOffset = CalculateVerticalOffset();
-            var rectTrans = eventArgs.RectTransform;
+            var rectTrans = rectTransform;
             var x = rectTrans.anchoredPosition.x;
             var y = rectTrans.anchoredPosition.y + vertOffset;
             rectTrans.anchoredPosition = new Vector2(x, y);
-
-            RemoveOldDots();
         }
 
         private void RemoveOldDots() {
@@ -61,8 +64,9 @@ namespace DevelopmentConsole.Extensions.ValueExposerModule.Extensions.ValueVisua
         private void InstantiateDot() {
             var dotGo = Instantiate(_dotTemplate);
             dotGo.transform.SetParent(transform, false);
+            
+            // fire event
             var rectTrans = dotGo.GetComponent<RectTransform>();
-
             var args = new DotInstantiatedEventArgs() {
                 RectTransform = rectTrans
             };
