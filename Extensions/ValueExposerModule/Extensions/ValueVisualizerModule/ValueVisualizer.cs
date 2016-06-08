@@ -13,6 +13,7 @@ namespace DevelopmentConsole.Extensions.ValueExposerModule.Extensions.ValueVisua
         [SerializeField]
         private GameObject _container;
 
+        // todo remove. Replace with list.
         private readonly GraphManager _graphManager = new GraphManager();
 
         public event EventHandler<GraphDrawerInstantiatedEventArgs> GraphDrawerInstantiated;
@@ -43,7 +44,7 @@ namespace DevelopmentConsole.Extensions.ValueExposerModule.Extensions.ValueVisua
             Func<object> valueDelegate,
             Vector3 position) {
 
-            // todo check if plotter does not exist already
+            // todo check if plotter does not exist already. If it does, override existing GraphInfo (remove it first from the _graphManager).
             var go = InstantiateGraphPlotter(position);
 
             var valueGraph = new GraphInfo() {
