@@ -36,10 +36,13 @@ namespace DevelopmentConsole.Extensions.ValueExposerModule.Extensions.ValueVisua
         private void RemoveOldDots() {
         }
 
-        public void DrawValuePoint(object value) {
-            var number = (float) value;
+        public void DrawValuePoint(float value) {
             OffsetDotsLeft();
             InstantiateDot();
+        }
+
+        public void DrawBoolPoint(bool value) {
+            throw new NotImplementedException();
         }
 
         private float CalculateVerticalOffset() {

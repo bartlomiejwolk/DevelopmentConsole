@@ -32,8 +32,9 @@ namespace DevelopmentConsole.Extensions.ValueExposerModule.Extensions.ValueVisua
                 if (!valueGraph.Enabled) {
                     continue;
                 }
+                // todo there should be separate delegates. One for each return type.
                 var value = valueGraph.ValueDelegate();
-                valueGraph.GraphPlotter.DrawValuePoint(value);
+                valueGraph.GraphPlotter.DrawValuePoint((float)value);
             }
         }
 
