@@ -34,7 +34,7 @@ namespace DevelopmentConsole.Extensions.ValueExposerModule.Extensions.ValueVisua
                 }
                 // todo there should be separate delegates. One for each return type.
                 var value = valueGraph.ValueDelegate();
-                valueGraph.GraphPlotter.DrawValuePoint((float)value);
+                valueGraph.GraphPlotter.DrawFloatValuePoint((float)value);
             }
         }
 

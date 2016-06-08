@@ -36,7 +36,7 @@ namespace DevelopmentConsole.Extensions.ValueExposerModule.Extensions.ValueVisua
         private void RemoveOldDots() {
         }
 
-        public void DrawValuePoint(float value) {
+        public void DrawFloatValuePoint(float value) {
             OffsetDotsLeft();
             InstantiateDot();
         }
