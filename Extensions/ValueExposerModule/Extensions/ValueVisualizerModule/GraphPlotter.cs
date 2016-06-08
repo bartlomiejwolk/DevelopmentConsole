@@ -38,13 +38,14 @@ namespace DevelopmentConsole.Extensions.ValueExposerModule.Extensions.ValueVisua
             RemoveOldDots();
         }
 
+        // applies horizontal and vertical offset
         private void ApplyOffsets(RectTransform rectTransform) {
-            // apply horizontal and vertical offset
             var vertOffset = CalculateVerticalOffset();
-            var rectTrans = rectTransform;
-            var x = rectTrans.anchoredPosition.x - DotWidth/2;
-            var y = rectTrans.anchoredPosition.y + vertOffset;
-            rectTrans.anchoredPosition = new Vector2(x, y);
+            // position dot inside the parent
+            var x = rectTransform.anchoredPosition.x - DotWidth/2;
+            // offset corresponding to the value being represented on the graph
+            var y = rectTransform.anchoredPosition.y + vertOffset;
+            rectTransform.anchoredPosition = new Vector2(x, y);
         }
 
         private void RemoveOldDots() {
