@@ -25,5 +25,15 @@ namespace DevelopmentConsole.Extensions.ValueExposerModule.Extensions.ValueVisua
             }
             return null;
         }
+
+        public void EnableGraph(string valueName) {
+            foreach (var valueGraph in _valueGraphs)
+            {
+                if (valueGraph.ValueName == valueName)
+                {
+                    valueGraph.Enabled = true;
+                }
+            }
+        }
     }
 }

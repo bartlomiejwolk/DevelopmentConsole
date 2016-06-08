@@ -56,6 +56,16 @@ namespace DevelopmentConsole.Extensions.ValueExposerModule.Extensions.ValueVisua
             _graphManager.AddGraph(valueGraph);
         }
 
+        public void RegisterValue(
+            string valueName,
+            Func<object> valueDelegate,
+            Vector3 position,
+            bool enable) {
+
+            RegisterValue(valueName, valueDelegate, position);
+            _graphManager.EnableGraph(valueName);
+        }
+
         public void VisualizeValue(string valueName) {
             var graphInfo = _graphManager.GetGraphByName(valueName);
             if (graphInfo != null) {
