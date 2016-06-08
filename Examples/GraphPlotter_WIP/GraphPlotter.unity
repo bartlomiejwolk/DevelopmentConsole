@@ -85,6 +85,12 @@ NavMeshSettings:
     cellSize: 0.16666667
     manualCellSize: 0
   m_NavMeshData: {fileID: 0}
+--- !u!114 &946307328 stripped
+MonoBehaviour:
+  m_PrefabParentObject: {fileID: 11433646, guid: 8b57b5511456ebd4aa6a3c4be102e3d1,
+    type: 2}
+  m_PrefabInternal: {fileID: 2079495474}
+  m_Script: {fileID: 11500000, guid: d5cef99dd802a5d48968c4dbcc207ccb, type: 3}
 --- !u!1 &1270385551
 GameObject:
   m_ObjectHideFlags: 0
@@ -433,7 +439,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 85de38711a73c1846b6484cf527c7c66, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _valueVisualizer: {fileID: 0}
+  _valueVisualizer: {fileID: 946307328}
 --- !u!4 &2100768321
 Transform:
   m_ObjectHideFlags: 0
