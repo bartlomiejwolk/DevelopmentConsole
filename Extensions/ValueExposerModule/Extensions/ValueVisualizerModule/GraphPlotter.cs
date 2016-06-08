@@ -12,9 +12,12 @@ namespace DevelopmentConsole.Extensions.ValueExposerModule.Extensions.ValueVisua
         [SerializeField]
         private GameObject _dotTemplate;
 
+        // todo these should be GameObjects
         private readonly List<RectTransform> _dots = new List<RectTransform>();
         private event EventHandler<DotInstantiatedEventArgs> DotInstantiated;
-        private readonly List<float> _values = new List<float>(); 
+        // todo merge with _dots in one object
+        private readonly List<float> _values = new List<float>();
+        private int _maxDots;
 
         private RectTransform DotTransform {
             get {
@@ -25,6 +28,28 @@ namespace DevelopmentConsole.Extensions.ValueExposerModule.Extensions.ValueVisua
 
         private float DotWidth {
             get { return DotTransform.rect.width; }
+        }
+
+        private RectTransform _rectTransform;
+        private RectTransform RectTransform {
+            get {
+                if (_rectTransform != null) {
+                    return _rectTransform;
+                }
+                var rectTrans = GetComponent<RectTransform>();
+                return rectTrans;
+            }
+        }
+
+        public int MaxDots {
+            get {
+                if (_maxDots > 0) {
+                    return _maxDots;
+                }
+                var containerWidth = RectTransform.rect.width;
+                var maxDots = Mathf.FloorToInt(containerWidth/DotWidth);
+                return maxDots;
+            }
         }
 
         private void Awake() {
@@ -51,7 +76,12 @@ namespace DevelopmentConsole.Extensions.ValueExposerModule.Extensions.ValueVisua
         }
 
         private void HandleRemovingDots() {
-
+            if (_values.Count > MaxDots) {
+                var dot = _dots[0];
+                Destroy(dot.gameObject);
+                _dots.RemoveAt(0);
+                _values.RemoveAt(0);
+            }
         }
 
         public void DrawFloatValuePoint(float value) {
@@ -104,6 +134,7 @@ namespace DevelopmentConsole.Extensions.ValueExposerModule.Extensions.ValueVisua
             dotGo.transform.SetParent(transform, false);
             
             // fire event
+            // todo use RectTransform property
             var rectTrans = dotGo.GetComponent<RectTransform>();
             var args = new DotInstantiatedEventArgs() {
                 RectTransform = rectTrans
