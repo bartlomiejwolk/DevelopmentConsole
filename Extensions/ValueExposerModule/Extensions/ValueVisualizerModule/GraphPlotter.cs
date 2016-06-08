@@ -39,12 +39,10 @@ namespace DevelopmentConsole.Extensions.ValueExposerModule.Extensions.ValueVisua
         }
 
         private void ApplyOffsets(RectTransform rectTransform) {
-            // apply horizontal offset
-
-            // apply vertical offset
+            // apply horizontal and vertical offset
             var vertOffset = CalculateVerticalOffset();
             var rectTrans = rectTransform;
-            var x = rectTrans.anchoredPosition.x;
+            var x = rectTrans.anchoredPosition.x - DotWidth/2;
             var y = rectTrans.anchoredPosition.y + vertOffset;
             rectTrans.anchoredPosition = new Vector2(x, y);
         }
