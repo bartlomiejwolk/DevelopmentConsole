@@ -1,6 +1,7 @@
 ﻿using System;
 using UnityEngine;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine.Assertions;
 
 #pragma warning disable 649
@@ -13,6 +14,7 @@ namespace DevelopmentConsole.Extensions.ValueExposerModule.Extensions.ValueVisua
 
         private readonly List<RectTransform> _dots = new List<RectTransform>();
         private event EventHandler<DotInstantiatedEventArgs> DotInstantiated;
+        private readonly List<float> _values = new List<float>(); 
 
         private RectTransform DotTransform {
             get {
@@ -52,6 +54,7 @@ namespace DevelopmentConsole.Extensions.ValueExposerModule.Extensions.ValueVisua
         }
 
         public void DrawFloatValuePoint(float value) {
+            _values.Add(value);
             OffsetDotsLeft();
             InstantiateDot();
         }
@@ -61,7 +64,30 @@ namespace DevelopmentConsole.Extensions.ValueExposerModule.Extensions.ValueVisua
         }
 
         private float CalculateVerticalOffset() {
-            return 0;
+            // container height
+            var rectTransform = GetComponent<RectTransform>();
+            var containerHeight = rectTransform.rect.height;
+
+            // value position offset as percentage of the container height
+            var value = _values.Last();
+            var maxValue = _values.Max();
+            var minValue = _values.Min();
+            var normalizedMax = maxValue - minValue;
+            var normalizedValue = value - minValue;
+            var valuePercentage = normalizedValue / normalizedMax;
+
+            // todo create Epsilon const
+            // value is min. value
+            if (Math.Abs(value - minValue) < 0.001) {
+                return 0;
+            }
+            // value is max. value
+            if (Math.Abs(value - maxValue) < 0.001) {
+                return containerHeight;
+            }
+            // value is between max. and min.
+            var offset = containerHeight*valuePercentage;
+            return offset;
         }
 
         private void OffsetDotsLeft() {
