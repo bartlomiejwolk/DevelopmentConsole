@@ -43,6 +43,7 @@ namespace DevelopmentConsole.Extensions.ValueExposerModule.Extensions.ValueVisua
             Func<object> valueDelegate,
             Vector3 position) {
 
+            // todo check if plotter does not exist already
             var go = InstantiateGraphPlotter(position);
 
             var valueGraph = new GraphInfo() {
@@ -52,6 +53,10 @@ namespace DevelopmentConsole.Extensions.ValueExposerModule.Extensions.ValueVisua
             };
             _graphManager.AddGraph(valueGraph);
             valueGraph.Enabled = true;
+        }
+
+        public void VisualizeValue(string valueName) {
+            throw new NotImplementedException();
         }
 
         public void StopVisualizingValue(string valueName) {
