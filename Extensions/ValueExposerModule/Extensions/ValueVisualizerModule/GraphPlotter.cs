@@ -37,7 +37,7 @@ namespace DevelopmentConsole.Extensions.ValueExposerModule.Extensions.ValueVisua
             
             _dots.Add(eventArgs.RectTransform);
             ApplyOffsets(eventArgs.RectTransform);
-            RemoveOldDots();
+            HandleRemovingDots();
         }
 
         // applies horizontal and vertical offset
@@ -50,7 +50,8 @@ namespace DevelopmentConsole.Extensions.ValueExposerModule.Extensions.ValueVisua
             rectTransform.anchoredPosition = new Vector2(x, y);
         }
 
-        private void RemoveOldDots() {
+        private void HandleRemovingDots() {
+
         }
 
         public void DrawFloatValuePoint(float value) {
