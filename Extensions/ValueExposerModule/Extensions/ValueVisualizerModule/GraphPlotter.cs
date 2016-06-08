@@ -108,17 +108,21 @@ namespace DevelopmentConsole.Extensions.ValueExposerModule.Extensions.ValueVisua
             var valuePercentage = normalizedValue / normalizedMax;
 
             // todo create Epsilon const
+            var dotHeightOffset = DotWidth/2;
+            float resultOffset;
             // value is min. value
             if (Math.Abs(value - minValue) < 0.001) {
-                return 0;
+                resultOffset = 0 + dotHeightOffset;
+                return resultOffset;
             }
             // value is max. value
             if (Math.Abs(value - maxValue) < 0.001) {
-                return containerHeight;
+                resultOffset = containerHeight - dotHeightOffset;
+                return resultOffset;
             }
             // value is between max. and min.
-            var offset = containerHeight*valuePercentage;
-            return offset;
+            resultOffset = containerHeight*valuePercentage;
+            return resultOffset;
         }
 
         private void OffsetDotsLeft() {
