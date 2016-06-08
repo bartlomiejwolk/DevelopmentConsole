@@ -14,12 +14,25 @@ namespace DevelopmentConsole.Extensions.ValueExposerModule.Extensions.ValueVisua
         private readonly List<RectTransform> _dots = new List<RectTransform>();
         private event EventHandler<DotInstantiatedEventArgs> DotInstantiated;
 
+        private RectTransform DotTransform {
+            get {
+                var rectTransform = _dotTemplate.GetComponent<RectTransform>();
+                return rectTransform;
+            }
+        }
+
+        private float DotWidth {
+            get { return DotTransform.rect.width; }
+        }
+
         private void Awake() {
             Assert.IsNotNull(_dotTemplate);
             DotInstantiated += OnDotInstantiated;
         }
 
-        private void OnDotInstantiated(object sender, DotInstantiatedEventArgs eventArgs) {
+        private void OnDotInstantiated(object sender,
+            DotInstantiatedEventArgs eventArgs) {
+            
             _dots.Add(eventArgs.RectTransform);
             ApplyOffsets(eventArgs.RectTransform);
             RemoveOldDots();
@@ -49,13 +62,12 @@ namespace DevelopmentConsole.Extensions.ValueExposerModule.Extensions.ValueVisua
         }
 
         private float CalculateVerticalOffset() {
-            return 5;
+            return 0;
         }
 
         private void OffsetDotsLeft() {
             foreach (var dot in _dots) {
-                // todo get dot size from dot rect
-                var x = dot.anchoredPosition.x - 4;
+                var x = dot.anchoredPosition.x - DotWidth;
                 var y = dot.anchoredPosition.y;
                 dot.anchoredPosition = new Vector2(x, y);
             }
