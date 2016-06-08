@@ -57,8 +57,10 @@ namespace DevelopmentConsole.Extensions.ValueExposerModule.Extensions.ValueVisua
         }
 
         public void VisualizeValue(string valueName) {
-            throw new NotImplementedException();
-            //valueGraph.Enabled = true;
+            var graphInfo = _graphManager.GetGraphByName(valueName);
+            if (graphInfo != null) {
+                graphInfo.Enabled = true;
+            }
         }
 
         public void StopVisualizingValue(string valueName) {

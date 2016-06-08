@@ -6,6 +6,7 @@ namespace DevelopmentConsole.Extensions.ValueExposerModule.Extensions.ValueVisua
     
     public class GraphManager {
         
+        // todo use dictionary instead <valueName, GraphInfo>. Remove value name from GraphInfo
         private readonly List<GraphInfo> _valueGraphs = new List<GraphInfo>();
 
         public List<GraphInfo> ValueGraphs {
@@ -14,6 +15,15 @@ namespace DevelopmentConsole.Extensions.ValueExposerModule.Extensions.ValueVisua
 
         public void AddGraph(GraphInfo info) {
             _valueGraphs.Add(info);
+        }
+
+        public GraphInfo GetGraphByName(string valueName) {
+            foreach (var valueGraph in _valueGraphs) {
+                if (valueGraph.ValueName == valueName) {
+                    return valueGraph;
+                }
+            }
+            return null;
         }
     }
 }
