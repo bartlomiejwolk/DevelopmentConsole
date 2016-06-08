@@ -61,12 +61,12 @@ namespace DevelopmentConsole.Extensions.ValueExposerModule.Extensions.ValueVisua
             DotInstantiatedEventArgs eventArgs) {
             
             _dots.Add(eventArgs.RectTransform);
-            ApplyOffsets(eventArgs.RectTransform);
+            ApplyDotOffsets(eventArgs.RectTransform);
             HandleRemovingDots();
         }
 
         // applies horizontal and vertical offset
-        private void ApplyOffsets(RectTransform rectTransform) {
+        private void ApplyDotOffsets(RectTransform rectTransform) {
             var vertOffset = CalculateVerticalOffset();
             // position dot inside the parent
             var x = rectTransform.anchoredPosition.x - DotWidth/2;
