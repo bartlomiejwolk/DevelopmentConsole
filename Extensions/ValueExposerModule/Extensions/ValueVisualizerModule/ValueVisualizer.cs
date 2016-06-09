@@ -69,6 +69,7 @@ namespace DevelopmentConsole.Extensions.ValueExposerModule.Extensions.ValueVisua
             _graphManager.EnableGraph(valueName);
         }
 
+        // todo rename to ShowValue
         public void VisualizeValue(string valueName) {
             var graphInfo = _graphManager.GetGraphByName(valueName);
             if (graphInfo != null) {
