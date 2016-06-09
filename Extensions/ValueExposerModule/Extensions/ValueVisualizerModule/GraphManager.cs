@@ -9,6 +9,7 @@ namespace DevelopmentConsole.Extensions.ValueExposerModule.Extensions.ValueVisua
         // todo use dictionary instead <valueName, GraphInfo>. Remove value name from GraphInfo
         private readonly List<GraphInfo> _valueGraphs = new List<GraphInfo>();
 
+        // todo rename to GraphInfos
         public List<GraphInfo> ValueGraphs {
             get { return _valueGraphs; }
         }

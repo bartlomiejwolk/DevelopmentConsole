@@ -7,6 +7,7 @@ namespace DevelopmentConsole.Extensions.ValueExposerModule.Extensions.ValueVisua
         public Func<object> ValueDelegate { get; set; } 
         public GameObject Go { get; set; }
         public bool Enabled { get; set; }
+        public Vector3 Position { get; set; }
 
         public GraphPlotter GraphPlotter {
             get {

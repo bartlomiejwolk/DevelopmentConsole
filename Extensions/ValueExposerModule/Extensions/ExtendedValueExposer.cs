@@ -9,29 +9,33 @@ namespace DevelopmentConsole.Extensions.ValueExposerModule.Extensions {
         #region INSPCTOR FIELDS
 
         [SerializeField]
-        private ValueVisualizer _valueVisualizer;
+        private ValueVisualizer _valueVisualizerPrefab;
 
         [SerializeField]
         private Canvas _canvas;
+
+        private ValueVisualizer _valueVisualizer;
 
         #endregion
 
         protected override void Awake() {
             base.Awake();
-            Assert.IsNotNull(_valueVisualizer);
+            Assert.IsNotNull(_valueVisualizerPrefab);
             Assert.IsNotNull(_canvas);
+            
+            _valueVisualizer = Instantiate(_valueVisualizerPrefab);
+            _valueVisualizer.transform.SetParent(_canvas.transform, false);
         }
 
         private void Start() {
-            var visualizer = Instantiate(_valueVisualizer);
-            visualizer.transform.SetParent(_canvas.transform, false);
+            
         }
 
         public override void ShowValue(string valueName) {
             base.ShowValue(valueName);
             var valueDelegate = ExposedValueManager.Instance.GetSourceCallback(
                 valueName);
-            _valueVisualizer.RegisterValue(valueName, valueDelegate, transform.position);
+            _valueVisualizer.RegisterValue(valueName, valueDelegate, transform.position, true);
         }
     }
 }
