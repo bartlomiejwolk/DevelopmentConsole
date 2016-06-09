@@ -57,6 +57,7 @@ namespace DevelopmentConsole.Extensions.ValueExposerModule.Core {
 
         #endregion
 
+        // todo register value delegate here instead of the ExposedValueManager class
         public virtual void ShowValue(string valueName) {
             // get value by name
             var value = ExposedValueManager.GetExposedValue(valueName);
