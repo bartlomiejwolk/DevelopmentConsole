@@ -21,6 +21,12 @@ public class GraphPlotter_Test : MonoBehaviour {
 
     private float RandomValueGenerator(int min, int max) {
         var randomValue = Random.Range(min, max);
+
+        var highValueProbability = Random.Range(1, 40);
+        if (highValueProbability == 1) {
+            randomValue = 100;
+        }
+
         return randomValue;
     }
 }
