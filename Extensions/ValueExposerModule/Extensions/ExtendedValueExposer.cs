@@ -35,7 +35,8 @@ namespace DevelopmentConsole.Extensions.ValueExposerModule.Extensions {
             base.ShowValue(valueName);
             var valueDelegate = ExposedValueManager.Instance.GetSourceCallback(
                 valueName);
-            _valueVisualizer.RegisterValue(valueName, valueDelegate, transform.position, true);
+            var valuePos = ExposedValueManager.Instance.GetValuePosition(valueName);
+            _valueVisualizer.RegisterValue(valueName, valueDelegate, valuePos, true);
         }
     }
 }

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using UnityEngine;
 
 namespace DevelopmentConsole.Extensions.ValueExposerModule.Core {
     public class ExposedValueManager {
@@ -25,6 +26,7 @@ namespace DevelopmentConsole.Extensions.ValueExposerModule.Core {
             string customName,
             string category,
             Func<object> value) {
+
             var valueSource = new ExposedValue() {
                 Callback = value,
                 Category = category
@@ -61,6 +63,16 @@ namespace DevelopmentConsole.Extensions.ValueExposerModule.Core {
         public List<string> GetValueNames() {
             var names = _exposedValues.Keys.ToList();
             return names;
+        }
+
+        public Vector3 GetValuePosition(string valueName) {
+            ExposedValue exposedValue;
+            _exposedValues.TryGetValue(valueName, out exposedValue);
+            var pos = Vector3.zero;
+            if (exposedValue != null) {
+                pos = exposedValue.Position;
+            }
+            return pos;
         }
     }
 }

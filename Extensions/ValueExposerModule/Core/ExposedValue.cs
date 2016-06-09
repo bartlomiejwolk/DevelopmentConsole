@@ -37,5 +37,12 @@ namespace DevelopmentConsole.Extensions.ValueExposerModule.Core {
                 return result;
             }
         }
+
+        public Vector3 Position {
+            get {
+                var pos = Go.transform.position;
+                return pos;
+            }
+        }
     }
 }

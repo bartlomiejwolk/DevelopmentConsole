@@ -57,6 +57,7 @@ namespace DevelopmentConsole.Extensions.ValueExposerModule.Core {
 
         #endregion
 
+        // todo create RegisterValue()
         // todo register value delegate here instead of the ExposedValueManager class
         public virtual void ShowValue(string valueName) {
             // get value by name
@@ -124,6 +125,7 @@ namespace DevelopmentConsole.Extensions.ValueExposerModule.Core {
         private void OnValueInstantiated(
             object sender,
             ValueInstantiatedEventArgs eventArgs) {
+
             var exposedValue = ExposedValueManager.GetExposedValue(
                 eventArgs.ValueName);
             exposedValue.Go = eventArgs.Go;
