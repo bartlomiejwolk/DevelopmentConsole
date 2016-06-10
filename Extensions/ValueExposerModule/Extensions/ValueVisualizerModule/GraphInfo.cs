@@ -19,5 +19,18 @@ namespace DevelopmentConsole.Extensions.ValueExposerModule.Extensions.ValueVisua
         }
 
         private GraphPlotter _graphPlotter;
+
+        private RectTransform _rectTransform;
+        public RectTransform RectTransform {
+            get {
+                if (_rectTransform != null) {
+                    return _rectTransform;
+                }
+                var rectTransform = Go.GetComponent<RectTransform>();
+                return rectTransform;
+            }
+        }
+
+        public Vector2 Size { get; set; }
     }
 }

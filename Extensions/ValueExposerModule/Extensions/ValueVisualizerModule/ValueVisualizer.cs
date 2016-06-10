@@ -47,16 +47,7 @@ namespace DevelopmentConsole.Extensions.ValueExposerModule.Extensions.ValueVisua
             Func<object> valueDelegate,
             Vector3 position) {
 
-            // todo check if plotter does not exist already. If it does, override existing GraphInfo (remove it first from the _graphManager).
-            //var go = InstantiateGraphPlotter(position);
-
-            var valueGraph = new GraphInfo() {
-                ValueName = valueName,
-                ValueDelegate = valueDelegate,
-                Position = position
-                //Go = go
-            };
-            _graphManager.AddGraph(valueGraph);
+            RegisterValue(valueName, valueDelegate, position, Vector2.zero, false);
         }
 
         public void RegisterValue(
@@ -65,8 +56,7 @@ namespace DevelopmentConsole.Extensions.ValueExposerModule.Extensions.ValueVisua
             Vector3 position,
             bool enable) {
 
-            var size = new Vector2(80, 20);
-            RegisterValue(valueName, valueDelegate, position, size, enable);
+            RegisterValue(valueName, valueDelegate, position, Vector2.zero, enable);
         }
 
         public void RegisterValue(
@@ -76,8 +66,19 @@ namespace DevelopmentConsole.Extensions.ValueExposerModule.Extensions.ValueVisua
             Vector2 size,
             bool enable) {
 
-            RegisterValue(valueName, valueDelegate, position);
-            _graphManager.EnableGraph(valueName);
+            // todo check if plotter does not exist already. If it does, override existing GraphInfo (remove it first from the _graphManager).
+            //var go = InstantiateGraphPlotter(position);
+
+            var valueGraph = new GraphInfo()
+            {
+                ValueName = valueName,
+                ValueDelegate = valueDelegate,
+                Position = position,
+                Size = size,
+                //Go = go
+            };
+            _graphManager.AddGraph(valueGraph);
+            valueGraph.Enabled = enable;
         }
 
         // todo rename to ShowValue
@@ -126,6 +127,8 @@ namespace DevelopmentConsole.Extensions.ValueExposerModule.Extensions.ValueVisua
 
             var graphInfo = _graphManager.ValueGraphs.Last();
             graphInfo.Go = args.Go;
+            // adjust size
+            graphInfo.RectTransform.sizeDelta = graphInfo.Size;
         }
 
         #endregion
