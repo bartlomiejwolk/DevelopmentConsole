@@ -1,4 +1,5 @@
-﻿using DevelopmentConsole.Extensions.ValueExposerModule.Core;
+﻿using System.Linq;
+using DevelopmentConsole.Extensions.ValueExposerModule.Core;
 using DevelopmentConsole.Extensions.ValueExposerModule.Extensions.ValueVisualizerModule;
 using UnityEngine;
 using UnityEngine.Assertions;
@@ -24,18 +25,15 @@ namespace DevelopmentConsole.Extensions.ValueExposerModule.Extensions {
             Assert.IsNotNull(_canvas);
             
             _valueVisualizer = Instantiate(_valueVisualizerPrefab);
-            _valueVisualizer.transform.SetParent(_canvas.transform, false);
         }
 
-        private void Start() {
-            
-        }
 
         public override void ShowValue(string valueName) {
             base.ShowValue(valueName);
+            // draw graph
             var valueDelegate = ExposedValueManager.Instance.GetSourceCallback(
                 valueName);
-            var valuePos = ExposedValueManager.Instance.GetValuePosition(valueName);
+            var valuePos = ExposedValueManager.Instance.GetBottomRightCornerPosition(valueName);
             _valueVisualizer.RegisterValue(valueName, valueDelegate, valuePos, true);
         }
     }

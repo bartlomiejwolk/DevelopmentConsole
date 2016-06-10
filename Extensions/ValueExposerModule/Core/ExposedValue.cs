@@ -38,10 +38,22 @@ namespace DevelopmentConsole.Extensions.ValueExposerModule.Core {
             }
         }
 
+        // todo rename to PivotPosition
         public Vector3 Position {
             get {
                 var pos = Go.transform.position;
                 return pos;
+            }
+        }
+
+        public Vector3 BottomRightCornerPosition {
+            get {
+                Canvas.ForceUpdateCanvases();
+                var corners = new Vector3[4];
+                // todo create RectTransform property
+                var rectTransform = Go.GetComponent<RectTransform>();
+                rectTransform.GetWorldCorners(corners);
+                return corners[3];
             }
         }
     }
