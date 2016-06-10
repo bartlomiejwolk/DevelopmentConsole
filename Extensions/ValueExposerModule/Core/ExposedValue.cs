@@ -56,5 +56,15 @@ namespace DevelopmentConsole.Extensions.ValueExposerModule.Core {
                 return corners[3];
             }
         }
+
+        public Vector2 Size {
+            get {
+                // todo create RectTransform property
+                var rectTransform = Go.GetComponent<RectTransform>();
+                var rect = rectTransform.rect;
+                var size = new Vector2(rect.width, rect.height);
+                return size;
+            }
+        }
     }
 }

@@ -65,6 +65,17 @@ namespace DevelopmentConsole.Extensions.ValueExposerModule.Extensions.ValueVisua
             Vector3 position,
             bool enable) {
 
+            var size = new Vector2(80, 20);
+            RegisterValue(valueName, valueDelegate, position, size, enable);
+        }
+
+        public void RegisterValue(
+            string valueName,
+            Func<object> valueDelegate,
+            Vector3 position,
+            Vector2 size,
+            bool enable) {
+
             RegisterValue(valueName, valueDelegate, position);
             _graphManager.EnableGraph(valueName);
         }

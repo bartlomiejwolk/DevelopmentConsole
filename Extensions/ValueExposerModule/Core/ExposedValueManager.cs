@@ -86,5 +86,16 @@ namespace DevelopmentConsole.Extensions.ValueExposerModule.Core {
             }
             return pos;
         }
+
+        public Vector2 GetValueSize(string valueName) {
+            ExposedValue exposedValue;
+            _exposedValues.TryGetValue(valueName, out exposedValue);
+            var size = Vector2.zero;
+            if (exposedValue != null)
+            {
+                size = exposedValue.Size;
+            }
+            return size;
+        }
     }
 }

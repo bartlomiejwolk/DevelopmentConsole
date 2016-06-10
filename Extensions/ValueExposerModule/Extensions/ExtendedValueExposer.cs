@@ -33,8 +33,9 @@ namespace DevelopmentConsole.Extensions.ValueExposerModule.Extensions {
             // draw graph
             var valueDelegate = ExposedValueManager.Instance.GetSourceCallback(
                 valueName);
-            var valuePos = ExposedValueManager.Instance.GetBottomRightCornerPosition(valueName);
-            _valueVisualizer.RegisterValue(valueName, valueDelegate, valuePos, true);
+            var graphPos = ExposedValueManager.Instance.GetBottomRightCornerPosition(valueName);
+            var graphSize = ExposedValueManager.Instance.GetValueSize(valueName);
+            _valueVisualizer.RegisterValue(valueName, valueDelegate, graphPos, graphSize, true);
         }
     }
 }
