@@ -73,6 +73,7 @@ namespace DevelopmentConsole.Extensions.ValueExposerModule.Extensions.ValueVisua
             // offset corresponding to the value being represented on the graph
             var y = rectTransform.anchoredPosition.y + vertOffset;
             rectTransform.anchoredPosition = new Vector2(x, y);
+            //Debug.Log(rectTransform.anchoredPosition);
         }
 
         private void HandleRemovingDots() {
@@ -88,6 +89,7 @@ namespace DevelopmentConsole.Extensions.ValueExposerModule.Extensions.ValueVisua
             _values.Add(value);
             OffsetDotsLeft();
             InstantiateDot();
+            // todo move stuff from OnDotInstantiated here. Remove the event
         }
 
         public void DrawBoolPoint(bool value) {
@@ -107,21 +109,36 @@ namespace DevelopmentConsole.Extensions.ValueExposerModule.Extensions.ValueVisua
             var normalizedValue = value - minValue;
             var valuePercentage = normalizedValue / normalizedMax;
 
+            // calculate offset
             // todo create Epsilon const
-            var dotHeightOffset = DotWidth/2;
+            var halfDotHeight = DotWidth/2;
             float resultOffset;
             // value is min. value
             if (Math.Abs(value - minValue) < 0.001) {
-                resultOffset = 0 + dotHeightOffset;
+                resultOffset = 0;
+                // offset to stay within the parent rect
+                resultOffset += halfDotHeight;
                 return resultOffset;
             }
             // value is max. value
             if (Math.Abs(value - maxValue) < 0.001) {
-                resultOffset = containerHeight - dotHeightOffset;
+                resultOffset = containerHeight;
+                // offset to stay within the parent rect
+                resultOffset -= halfDotHeight;
                 return resultOffset;
             }
             // value is between max. and min.
             resultOffset = containerHeight*valuePercentage;
+            
+            // offset to stay within the parent rect
+            var maxVertOffset = containerHeight - halfDotHeight;
+            if (resultOffset > maxVertOffset) {
+                resultOffset = maxVertOffset;
+            }
+            else if (resultOffset < halfDotHeight) {
+                resultOffset = halfDotHeight;
+            }
+
             return resultOffset;
         }
 
