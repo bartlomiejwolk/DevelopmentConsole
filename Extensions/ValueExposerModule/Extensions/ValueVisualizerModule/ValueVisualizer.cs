@@ -2,12 +2,11 @@
 using System.Linq;
 using UnityEngine;
 using UnityEngine.Assertions;
+
 #pragma warning disable 649
 
 namespace DevelopmentConsole.Extensions.ValueExposerModule.Extensions.ValueVisualizerModule {
-
     public class ValueVisualizer : MonoBehaviour {
-
         [SerializeField]
         private GameObject _graphPlotterTemplate;
 
@@ -35,7 +34,7 @@ namespace DevelopmentConsole.Extensions.ValueExposerModule.Extensions.ValueVisua
                 // todo there should be separate delegates. One for each return type.
                 var value = valueGraph.ValueDelegate();
                 HandleInstantiateGraphPlotter(valueGraph, valueGraph.Position);
-                valueGraph.GraphPlotter.DrawFloatValuePoint((float)value);
+                valueGraph.GraphPlotter.DrawFloatValuePoint((float) value);
             }
         }
 
@@ -44,7 +43,6 @@ namespace DevelopmentConsole.Extensions.ValueExposerModule.Extensions.ValueVisua
         public GraphInfo RegisterValue(
             string valueName,
             Func<object> valueDelegate) {
-
             var valueGraph = new GraphInfo() {
                 ValueName = valueName,
                 ValueDelegate = valueDelegate,
@@ -73,7 +71,7 @@ namespace DevelopmentConsole.Extensions.ValueExposerModule.Extensions.ValueVisua
             var go = Instantiate(_graphPlotterTemplate);
             go.transform.SetParent(_container.transform);
             go.transform.position = position;
-            
+
             var args = new GraphDrawerInstantiatedEventArgs() {
                 ValueName = valueGraph.ValueName,
                 Go = go
@@ -85,7 +83,6 @@ namespace DevelopmentConsole.Extensions.ValueExposerModule.Extensions.ValueVisua
 
         protected virtual void InvokeGraphDrawerInstantiatedEvent(
             GraphDrawerInstantiatedEventArgs e) {
-
             var handler = GraphDrawerInstantiated;
             if (handler != null) handler(this, e);
         }
@@ -97,7 +94,6 @@ namespace DevelopmentConsole.Extensions.ValueExposerModule.Extensions.ValueVisua
         private void OnGraphDrawerInstantiated(
             object sender,
             GraphDrawerInstantiatedEventArgs args) {
-
             var graphInfo = _graphManager.GetGraphByName(args.ValueName);
             graphInfo.Go = args.Go;
             // adjust size

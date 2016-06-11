@@ -8,7 +8,6 @@ using UnityEngine.Assertions;
 
 namespace DevelopmentConsole.Extensions.ValueExposerModule.Extensions.ValueVisualizerModule {
     public class GraphPlotter : MonoBehaviour {
-
         [SerializeField]
         private GameObject _dotTemplate;
 
@@ -30,6 +29,7 @@ namespace DevelopmentConsole.Extensions.ValueExposerModule.Extensions.ValueVisua
         }
 
         private RectTransform _rectTransform;
+
         private RectTransform RectTransform {
             get {
                 if (_rectTransform == null) {
@@ -57,7 +57,6 @@ namespace DevelopmentConsole.Extensions.ValueExposerModule.Extensions.ValueVisua
 
         private void OnDotInstantiated(object sender,
             DotInstantiatedEventArgs eventArgs) {
-            
             _dots.Add(eventArgs.RectTransform);
             ApplyDotOffsets(eventArgs.RectTransform);
             HandleRemovingDots();
@@ -104,7 +103,7 @@ namespace DevelopmentConsole.Extensions.ValueExposerModule.Extensions.ValueVisua
             var minValue = _values.Min();
             var normalizedMax = maxValue - minValue;
             var normalizedValue = value - minValue;
-            var valuePercentage = normalizedValue / normalizedMax;
+            var valuePercentage = normalizedValue/normalizedMax;
 
             // calculate offset
             var halfDotHeight = DotWidth/2;
@@ -125,7 +124,7 @@ namespace DevelopmentConsole.Extensions.ValueExposerModule.Extensions.ValueVisua
             }
             // value is between max. and min.
             resultOffset = containerHeight*valuePercentage;
-            
+
             // offset to stay within the parent rect
             var maxVertOffset = containerHeight - halfDotHeight;
             if (resultOffset > maxVertOffset) {
@@ -149,7 +148,7 @@ namespace DevelopmentConsole.Extensions.ValueExposerModule.Extensions.ValueVisua
         private void InstantiateDot() {
             var dotGo = Instantiate(_dotTemplate);
             dotGo.transform.SetParent(transform, false);
-            
+
             // fire event
             var rectTrans = dotGo.GetComponent<RectTransform>();
             var args = new DotInstantiatedEventArgs() {
@@ -160,7 +159,6 @@ namespace DevelopmentConsole.Extensions.ValueExposerModule.Extensions.ValueVisua
 
         protected virtual void InvokeDotInstantiatedEvent(
             DotInstantiatedEventArgs args) {
-
             var handler = DotInstantiated;
             if (handler != null) handler(this, args);
         }

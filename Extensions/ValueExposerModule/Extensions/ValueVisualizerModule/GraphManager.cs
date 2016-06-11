@@ -4,9 +4,7 @@ using System.Linq;
 using UnityEngine;
 
 namespace DevelopmentConsole.Extensions.ValueExposerModule.Extensions.ValueVisualizerModule {
-    
     public class GraphManager {
-        
         private readonly Dictionary<string, GraphInfo> _valueGraphs = new Dictionary<string, GraphInfo>();
 
         public List<GraphInfo> GraphInfos {

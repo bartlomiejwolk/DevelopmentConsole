@@ -122,7 +122,6 @@ namespace DevelopmentConsole.Extensions.ValueExposerModule.Core {
         private void OnValueInstantiated(
             object sender,
             ValueInstantiatedEventArgs eventArgs) {
-
             var exposedValue = ExposedValueManager.GetExposedValue(
                 eventArgs.ValueName);
             exposedValue.Go = eventArgs.Go;

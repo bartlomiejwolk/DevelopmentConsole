@@ -26,7 +26,6 @@ namespace DevelopmentConsole.Extensions.ValueExposerModule.Core {
             string customName,
             string category,
             Func<object> value) {
-
             var valueSource = new ExposedValue() {
                 Callback = value,
                 Category = category
@@ -89,8 +88,7 @@ namespace DevelopmentConsole.Extensions.ValueExposerModule.Core {
             ExposedValue exposedValue;
             _exposedValues.TryGetValue(valueName, out exposedValue);
             var size = Vector2.zero;
-            if (exposedValue != null)
-            {
+            if (exposedValue != null) {
                 size = exposedValue.Size;
             }
             return size;

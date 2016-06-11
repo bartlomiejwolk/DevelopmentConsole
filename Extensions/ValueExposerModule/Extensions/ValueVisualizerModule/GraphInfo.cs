@@ -4,7 +4,7 @@ using UnityEngine;
 namespace DevelopmentConsole.Extensions.ValueExposerModule.Extensions.ValueVisualizerModule {
     public class GraphInfo : IGraphInfo {
         public string ValueName { get; set; }
-        public Func<object> ValueDelegate { get; set; } 
+        public Func<object> ValueDelegate { get; set; }
         public GameObject Go { get; set; }
         public bool Enabled { get; private set; }
         public Vector3 Position { get; private set; }
@@ -22,6 +22,7 @@ namespace DevelopmentConsole.Extensions.ValueExposerModule.Extensions.ValueVisua
 
         // todo assign value
         private RectTransform _rectTransform;
+
         public RectTransform RectTransform {
             get {
                 if (_rectTransform != null) {
