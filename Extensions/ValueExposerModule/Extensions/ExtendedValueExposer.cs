@@ -19,22 +19,30 @@ namespace DevelopmentConsole.Extensions.ValueExposerModule.Extensions {
 
         #endregion
 
+        private ExposedValueManager _exposedValueManager;
+
         protected override void Awake() {
             base.Awake();
             Assert.IsNotNull(_valueVisualizerPrefab);
             Assert.IsNotNull(_canvas);
-            
+
+            _exposedValueManager = ExposedValueManager.Instance;
             _valueVisualizer = Instantiate(_valueVisualizerPrefab);
         }
 
 
         public override void ShowValue(string valueName) {
             base.ShowValue(valueName);
-            // draw graph
-            var valueDelegate = ExposedValueManager.Instance.GetSourceCallback(
+            DrawGraph(valueName);
+        }
+
+        private void DrawGraph(string valueName) {
+            var valueDelegate = _exposedValueManager.GetSourceCallback(
                 valueName);
-            var graphPos = ExposedValueManager.Instance.GetBottomRightCornerPosition(valueName);
-            var graphSize = ExposedValueManager.Instance.GetValueSize(valueName);
+            var graphPos = _exposedValueManager.GetBottomRightCornerPosition(
+                valueName);
+            var graphSize = _exposedValueManager.GetValueSize(valueName);
+
             _valueVisualizer.RegisterValue(valueName, valueDelegate)
                 .SetPosition(graphPos)
                 .SetSize(graphSize)
