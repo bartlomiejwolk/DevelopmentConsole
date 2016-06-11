@@ -19,6 +19,16 @@ namespace DevelopmentConsole.Extensions.ValueExposerModule.Core {
         public Func<object> Callback { get; set; }
         public string Category { get; set; }
         public GameObject Go { get; set; }
+        private RectTransform _rectTransform;
+
+        public RectTransform RectTransform {
+            get {
+                if (_rectTransform == null) {
+                    _rectTransform = Go.GetComponent<RectTransform>();
+                }
+                return _rectTransform;
+            }
+        }
 
         public Text TextComponent {
             get {
@@ -49,18 +59,14 @@ namespace DevelopmentConsole.Extensions.ValueExposerModule.Core {
             get {
                 Canvas.ForceUpdateCanvases();
                 var corners = new Vector3[4];
-                // todo create RectTransform property
-                var rectTransform = Go.GetComponent<RectTransform>();
-                rectTransform.GetWorldCorners(corners);
+                _rectTransform.GetWorldCorners(corners);
                 return corners[3];
             }
         }
 
         public Vector2 Size {
             get {
-                // todo create RectTransform property
-                var rectTransform = Go.GetComponent<RectTransform>();
-                var rect = rectTransform.rect;
+                var rect = _rectTransform.rect;
                 var size = new Vector2(rect.width, rect.height);
                 return size;
             }
