@@ -20,7 +20,6 @@ public class ValueExposer_Test : MonoBehaviour {
 
         _valueExposer.ShowValue("deltaTime");
         _valueExposer.ShowValue("other");
-
     }
 
     void Update () {

@@ -7,11 +7,9 @@ namespace DevelopmentConsole.Extensions.ValueExposerModule.Extensions.ValueVisua
     
     public class GraphManager {
         
-        // todo use hash instead of string
         private readonly Dictionary<string, GraphInfo> _valueGraphs = new Dictionary<string, GraphInfo>();
 
-        // todo rename to GraphInfos
-        public List<GraphInfo> ValueGraphs {
+        public List<GraphInfo> GraphInfos {
             get {
                 var graphs = _valueGraphs.Values.ToList();
                 return graphs;

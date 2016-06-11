@@ -28,7 +28,7 @@ namespace DevelopmentConsole.Extensions.ValueExposerModule.Extensions.ValueVisua
         }
 
         private void Update() {
-            foreach (var valueGraph in _graphManager.ValueGraphs) {
+            foreach (var valueGraph in _graphManager.GraphInfos) {
                 if (!valueGraph.Enabled) {
                     continue;
                 }
