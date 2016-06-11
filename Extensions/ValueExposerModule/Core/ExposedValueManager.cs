@@ -64,8 +64,7 @@ namespace DevelopmentConsole.Extensions.ValueExposerModule.Core {
             return names;
         }
 
-        // todo rename to GetPivotPosition
-        public Vector3 GetValuePosition(string valueName) {
+        public Vector3 GetPivotPosition(string valueName) {
             ExposedValue exposedValue;
             _exposedValues.TryGetValue(valueName, out exposedValue);
             var pos = Vector3.zero;
