@@ -1,39 +1,56 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 namespace DevelopmentConsole.Extensions.ValueExposerModule.Extensions.ValueVisualizerModule {
     
     public class GraphManager {
         
-        // todo use dictionary instead <valueName, GraphInfo>. Remove value name from GraphInfo
-        private readonly List<GraphInfo> _valueGraphs = new List<GraphInfo>();
+        // todo use hash instead of string
+        private readonly Dictionary<string, GraphInfo> _valueGraphs = new Dictionary<string, GraphInfo>();
 
         // todo rename to GraphInfos
         public List<GraphInfo> ValueGraphs {
-            get { return _valueGraphs; }
+            get {
+                var graphs = _valueGraphs.Values.ToList();
+                return graphs;
+            }
         }
 
         public void AddGraph(GraphInfo info) {
-            _valueGraphs.Add(info);
+            var name = info.ValueName;
+            GraphInfo val;
+            _valueGraphs.TryGetValue(name, out val);
+            if (val != null) {
+                _valueGraphs[name] = info;
+            }
+            else {
+                _valueGraphs.Add(name, info);
+            }
         }
 
         public GraphInfo GetGraphByName(string valueName) {
-            foreach (var valueGraph in _valueGraphs) {
-                if (valueGraph.ValueName == valueName) {
-                    return valueGraph;
-                }
-            }
-            return null;
+            GraphInfo val;
+            _valueGraphs.TryGetValue(valueName, out val);
+            return val;
         }
 
         public void EnableGraph(string valueName) {
-            foreach (var valueGraph in _valueGraphs)
-            {
-                if (valueGraph.ValueName == valueName)
-                {
-                    valueGraph.Enabled = true;
-                }
+            GraphInfo val;
+            _valueGraphs.TryGetValue(valueName, out val);
+            if (val != null) {
+                val.Enabled = true;
+            }
+        }
+
+        public static void AddOrUpdate(Dictionary<int, int> dic, int key, int newValue) {
+            int val;
+            if (dic.TryGetValue(key, out val)) {
+                dic[key] = val + newValue;
+            }
+            else {
+                dic.Add(key, newValue);
             }
         }
     }
