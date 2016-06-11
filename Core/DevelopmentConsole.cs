@@ -129,8 +129,7 @@ namespace DevelopmentConsole.Core {
             CodeCompletion.DisplayOptions(options, textCo);
         }
 
-        // todo rename to HandleUpdateTypedCommand
-        private void UpdateTypedCommand(string input) {
+        private void HandleUpdateTypedCommand(string input) {
             var cmdNames = CommandHandlerManager.Instance.GetCommandNames();
             foreach (var cmdName in cmdNames) {
                 if (input.StartsWith(cmdName + " ")) {
@@ -249,7 +248,7 @@ namespace DevelopmentConsole.Core {
             object sender,
             LineValueChangedEventArgs eventArgs) {
             var input = eventArgs.Value;
-            UpdateTypedCommand(input);
+            HandleUpdateTypedCommand(input);
             _argumentParser.ParseArguments(input);
             HandleDisplayCommandAutoCompletePanel(input);
         }
