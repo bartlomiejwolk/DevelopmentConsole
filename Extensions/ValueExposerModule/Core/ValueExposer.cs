@@ -9,9 +9,8 @@ namespace DevelopmentConsole.Extensions.ValueExposerModule.Core {
     public class ValueExposer : MonoBehaviour {
         #region INSPECTOR FIELDS
 
-        // todo rename to ExposedValueTemplate
         [SerializeField]
-        private GameObject _valuePrefab;
+        private GameObject _exposedValueTemplate;
 
         [SerializeField]
         private Transform _container;
@@ -45,7 +44,7 @@ namespace DevelopmentConsole.Extensions.ValueExposerModule.Core {
             _instance = this;
             ExposedValueManager = ExposedValueManager.Instance;
 
-            Assert.IsNotNull(_valuePrefab);
+            Assert.IsNotNull(_exposedValueTemplate);
             Assert.IsNotNull(_container);
 
             ValueInstantiated += OnValueInstantiated;
@@ -82,7 +81,7 @@ namespace DevelopmentConsole.Extensions.ValueExposerModule.Core {
         }
 
         private void InstantiateValuePrefab(string valueName) {
-            var valueGo = Instantiate(_valuePrefab);
+            var valueGo = Instantiate(_exposedValueTemplate);
             valueGo.transform.SetParent(_container, false);
             InvokeValueInstantiatedEvent(valueName, valueGo);
         }
