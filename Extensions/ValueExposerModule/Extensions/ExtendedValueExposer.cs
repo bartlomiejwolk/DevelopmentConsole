@@ -35,7 +35,10 @@ namespace DevelopmentConsole.Extensions.ValueExposerModule.Extensions {
                 valueName);
             var graphPos = ExposedValueManager.Instance.GetBottomRightCornerPosition(valueName);
             var graphSize = ExposedValueManager.Instance.GetValueSize(valueName);
-            _valueVisualizer.RegisterValue(valueName, valueDelegate, graphPos, graphSize, true);
+            _valueVisualizer.RegisterValue(valueName, valueDelegate)
+                .SetPosition(graphPos)
+                .SetSize(graphSize)
+                .Enable(true);
         }
     }
 }

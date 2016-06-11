@@ -2,12 +2,13 @@
 using UnityEngine;
 
 namespace DevelopmentConsole.Extensions.ValueExposerModule.Extensions.ValueVisualizerModule {
-    public class GraphInfo {
+    public class GraphInfo : IGraphInfo {
         public string ValueName { get; set; }
         public Func<object> ValueDelegate { get; set; } 
         public GameObject Go { get; set; }
-        public bool Enabled { get; set; }
-        public Vector3 Position { get; set; }
+        public bool Enabled { get; private set; }
+        // todo replace with private field. Create accessor method instead.
+        public Vector3 Position { get; private set; }
 
         public GraphPlotter GraphPlotter {
             get {
@@ -20,6 +21,7 @@ namespace DevelopmentConsole.Extensions.ValueExposerModule.Extensions.ValueVisua
 
         private GraphPlotter _graphPlotter;
 
+        // todo assign value
         private RectTransform _rectTransform;
         public RectTransform RectTransform {
             get {
@@ -31,6 +33,27 @@ namespace DevelopmentConsole.Extensions.ValueExposerModule.Extensions.ValueVisua
             }
         }
 
-        public Vector2 Size { get; set; }
+        public Vector2 Size { get; private set; }
+
+        public IGraphInfo SetPosition(Vector3 position) {
+            Position = position;
+            return this;
+        }
+
+        public IGraphInfo SetSize(Vector2 size) {
+            Size = size;
+            return this;
+        }
+
+        public IGraphInfo Enable(bool state) {
+            Enabled = state;
+            return this;
+        }
+    }
+
+    public interface IGraphInfo {
+        IGraphInfo SetPosition(Vector3 position);
+        IGraphInfo SetSize(Vector2 size);
+        IGraphInfo Enable(bool state);
     }
 }

@@ -38,7 +38,7 @@ namespace DevelopmentConsole.Extensions.ValueExposerModule.Extensions.ValueVisua
             GraphInfo val;
             _valueGraphs.TryGetValue(valueName, out val);
             if (val != null) {
-                val.Enabled = true;
+                val.Enable(true);
             }
         }
 

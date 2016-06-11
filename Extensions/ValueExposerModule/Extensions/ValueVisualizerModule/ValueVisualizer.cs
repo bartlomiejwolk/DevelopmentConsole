@@ -41,12 +41,13 @@ namespace DevelopmentConsole.Extensions.ValueExposerModule.Extensions.ValueVisua
 
         #endregion
 
+        // todo remove redundant overloads
         public void RegisterValue(
             string valueName,
             Func<object> valueDelegate,
             Vector3 position) {
 
-            RegisterValue(valueName, valueDelegate, position, Vector2.zero, false);
+            RegisterValue(valueName, valueDelegate);
         }
 
         public void RegisterValue(
@@ -55,36 +56,31 @@ namespace DevelopmentConsole.Extensions.ValueExposerModule.Extensions.ValueVisua
             Vector3 position,
             bool enable) {
 
-            RegisterValue(valueName, valueDelegate, position, Vector2.zero, enable);
+            RegisterValue(valueName, valueDelegate);
         }
 
-        public void RegisterValue(
+        public GraphInfo RegisterValue(
             string valueName,
-            Func<object> valueDelegate,
-            // todo initialize position and size elsewhere. Create Init(valueName, params obj)
-            Vector3 position,
-            Vector2 size,
-            // todo remove enable
-            bool enable) {
+            Func<object> valueDelegate) {
 
             var valueGraph = new GraphInfo() {
                 ValueName = valueName,
                 ValueDelegate = valueDelegate,
-                Position = position,
-                Size = size,
             };
             _graphManager.AddGraph(valueGraph);
-            valueGraph.Enabled = enable;
+
+            return valueGraph;
         }
 
-        // todo rename to ShowValue
+        // todo rename to EnableDrawing
         public void VisualizeValue(string valueName) {
             var graphInfo = _graphManager.GetGraphByName(valueName);
             if (graphInfo != null) {
-                graphInfo.Enabled = true;
+                graphInfo.Enable(true);
             }
         }
 
+        // todo rename to DisableDrawing
         public void StopVisualizingValue(string valueName) {
             throw new NotImplementedException();
         }
