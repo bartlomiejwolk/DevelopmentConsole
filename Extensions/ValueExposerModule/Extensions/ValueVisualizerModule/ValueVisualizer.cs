@@ -41,24 +41,6 @@ namespace DevelopmentConsole.Extensions.ValueExposerModule.Extensions.ValueVisua
 
         #endregion
 
-        // todo remove redundant overloads
-        public void RegisterValue(
-            string valueName,
-            Func<object> valueDelegate,
-            Vector3 position) {
-
-            RegisterValue(valueName, valueDelegate);
-        }
-
-        public void RegisterValue(
-            string valueName,
-            Func<object> valueDelegate,
-            Vector3 position,
-            bool enable) {
-
-            RegisterValue(valueName, valueDelegate);
-        }
-
         public GraphInfo RegisterValue(
             string valueName,
             Func<object> valueDelegate) {
