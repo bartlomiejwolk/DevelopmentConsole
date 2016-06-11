@@ -59,14 +59,14 @@ namespace DevelopmentConsole.Extensions.ValueExposerModule.Core {
             get {
                 Canvas.ForceUpdateCanvases();
                 var corners = new Vector3[4];
-                _rectTransform.GetWorldCorners(corners);
+                RectTransform.GetWorldCorners(corners);
                 return corners[3];
             }
         }
 
         public Vector2 Size {
             get {
-                var rect = _rectTransform.rect;
+                var rect = RectTransform.rect;
                 var size = new Vector2(rect.width, rect.height);
                 return size;
             }

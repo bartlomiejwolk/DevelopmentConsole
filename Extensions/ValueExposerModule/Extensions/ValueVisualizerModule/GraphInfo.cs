@@ -7,7 +7,6 @@ namespace DevelopmentConsole.Extensions.ValueExposerModule.Extensions.ValueVisua
         public Func<object> ValueDelegate { get; set; } 
         public GameObject Go { get; set; }
         public bool Enabled { get; private set; }
-        // todo replace with private field. Create accessor method instead.
         public Vector3 Position { get; private set; }
 
         public GraphPlotter GraphPlotter {

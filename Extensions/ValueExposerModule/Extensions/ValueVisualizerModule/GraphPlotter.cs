@@ -12,7 +12,6 @@ namespace DevelopmentConsole.Extensions.ValueExposerModule.Extensions.ValueVisua
         [SerializeField]
         private GameObject _dotTemplate;
 
-        // todo these should be GameObjects
         private readonly List<RectTransform> _dots = new List<RectTransform>();
         private event EventHandler<DotInstantiatedEventArgs> DotInstantiated;
         // todo merge with _dots in one object
@@ -89,7 +88,6 @@ namespace DevelopmentConsole.Extensions.ValueExposerModule.Extensions.ValueVisua
             _values.Add(value);
             OffsetDotsLeft();
             InstantiateDot();
-            // todo move stuff from OnDotInstantiated here. Remove the event
         }
 
         public void DrawBoolPoint(bool value) {
@@ -114,14 +112,14 @@ namespace DevelopmentConsole.Extensions.ValueExposerModule.Extensions.ValueVisua
             var halfDotHeight = DotWidth/2;
             float resultOffset;
             // value is min. value
-            if (Math.Abs(value - minValue) < 0.001) {
+            if (Math.Abs(value - minValue) < float.Epsilon) {
                 resultOffset = 0;
                 // offset to stay within the parent rect
                 resultOffset += halfDotHeight;
                 return resultOffset;
             }
             // value is max. value
-            if (Math.Abs(value - maxValue) < 0.001) {
+            if (Math.Abs(value - maxValue) < float.Epsilon) {
                 resultOffset = containerHeight;
                 // offset to stay within the parent rect
                 resultOffset -= halfDotHeight;

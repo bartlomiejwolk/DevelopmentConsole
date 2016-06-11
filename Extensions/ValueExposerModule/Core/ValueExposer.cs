@@ -35,7 +35,6 @@ namespace DevelopmentConsole.Extensions.ValueExposerModule.Core {
             get { return _container; }
         }
 
-        // todo remove. Use ExposedValueManager.Instance instead
         protected ExposedValueManager ExposedValueManager { get; private set; }
 
         #region UNITY MESSAGES
@@ -56,8 +55,7 @@ namespace DevelopmentConsole.Extensions.ValueExposerModule.Core {
 
         #endregion
 
-        // todo create RegisterValue()
-        // todo register value delegate here instead of the ExposedValueManager class
+        // todo create RegisterValue(), register value delegate here instead of the ExposedValueManager class
         public virtual void ShowValue(string valueName) {
             // get value by name
             var value = ExposedValueManager.GetExposedValue(valueName);
