@@ -38,8 +38,7 @@ namespace DevelopmentConsole.Extensions.ValueExposerModule.Core {
             }
         }
 
-        // todo rename to PivotPosition
-        public Vector3 Position {
+        public Vector3 PivotPosition {
             get {
                 var pos = Go.transform.position;
                 return pos;

@@ -71,7 +71,7 @@ namespace DevelopmentConsole.Extensions.ValueExposerModule.Core {
             _exposedValues.TryGetValue(valueName, out exposedValue);
             var pos = Vector3.zero;
             if (exposedValue != null) {
-                pos = exposedValue.Position;
+                pos = exposedValue.PivotPosition;
             }
             return pos;
         }
