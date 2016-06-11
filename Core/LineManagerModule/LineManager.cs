@@ -8,34 +8,31 @@ using UnityEngine.Assertions;
 #pragma warning disable 649
 
 namespace DevelopmentConsole.Core.LineManagerModule {
-
     /// <summary>
     /// Class responsible for handling command lines displayed on the screen.
     /// </summary>
     public class LineManager : MonoBehaviour {
-
         public event EventHandler<LineInstantiatedEventArgs> LineInstantiated;
         public event EventHandler<LineValueChangedEventArgs> LineValueChanged;
 
-	    [SerializeField]
-		private string _prompt = "> ";
+        [SerializeField]
+        private string _prompt = "> ";
 
         [SerializeField]
         private CommandLine _commandLineTemplate;
 
-	    [SerializeField]
-	    private Transform _container;
+        [SerializeField]
+        private Transform _container;
 
         private readonly List<CommandLine> _lines = new List<CommandLine>();
 
-	    public string IgnoredChars { get; set; }
+        public string IgnoredChars { get; set; }
 
-	    public CommandLine CurrentLine {
+        public CommandLine CurrentLine {
             get { return _lines.LastOrDefault(); }
         }
 
-        public CommandLine PenultimateLine
-        {
+        public CommandLine PenultimateLine {
             get {
                 if (_lines.Count > 1) {
                     var penultimate = _lines[_lines.Count - 2];
@@ -46,8 +43,7 @@ namespace DevelopmentConsole.Core.LineManagerModule {
         }
 
         public string CommandString {
-            get
-            {
+            get {
                 var cmd = CurrentLine.GetCommandString();
                 return cmd;
             }
@@ -57,50 +53,50 @@ namespace DevelopmentConsole.Core.LineManagerModule {
 
         private void Awake() {
             Assert.IsNotNull(_commandLineTemplate);
-			Assert.IsNotNull(_container);
+            Assert.IsNotNull(_container);
 
             LineInstantiated = OnLineInstantiated;
             SubscribeToValueChangedEvent();
         }
 
         private void Start() {
-			InstantiateLine();
+            InstantiateLine();
         }
 
-	    private void OnDestroy() {
-		    UnsubscribeFromValueChangedEvent();
-	    }
+        private void OnDestroy() {
+            UnsubscribeFromValueChangedEvent();
+        }
 
         #endregion
 
-	    public void InstantiateLine() {
-		    var cmdLineGo = Instantiate(_commandLineTemplate);
-		    cmdLineGo.transform.SetParent(_container, false);
+        public void InstantiateLine() {
+            var cmdLineGo = Instantiate(_commandLineTemplate);
+            cmdLineGo.transform.SetParent(_container, false);
 
-		    var args = new LineInstantiatedEventArgs() {
-			    InstantiatedGo = cmdLineGo.gameObject
-			};
-		    InvokeLineInstantiatedEvent(args);
-	    }
+            var args = new LineInstantiatedEventArgs() {
+                InstantiatedGo = cmdLineGo.gameObject
+            };
+            InvokeLineInstantiatedEvent(args);
+        }
 
-	    public void SetFocus() {
-		    if (CurrentLine == null) {
-			    return;
-		    }
-		    CurrentLine.GetFocus();
-		    CurrentLine.MoveCaretToEnd();
-	    }
+        public void SetFocus() {
+            if (CurrentLine == null) {
+                return;
+            }
+            CurrentLine.GetFocus();
+            CurrentLine.MoveCaretToEnd();
+        }
 
-	    public void SetCommandString(string text) {
-		    CurrentLine.SetCommandString(text);
-	    }
+        public void SetCommandString(string text) {
+            CurrentLine.SetCommandString(text);
+        }
 
-	    private void RepositionLines() {
+        private void RepositionLines() {
             // calculate offset relative to global (0; 0)
             var correctPos = CurrentLine.Height/2;
             var pos = CurrentLine.transform.position.y;
             var offset = pos - correctPos;
-            
+
             // line is fully within the canvas
             if (offset >= 0) {
                 return;
@@ -111,61 +107,60 @@ namespace DevelopmentConsole.Core.LineManagerModule {
             _container.position = new Vector3(_container.position.x, verticalPos, _container.position.z);
         }
 
-	    private void HandleLinePositioning() {
-			if (CurrentLine == null)
-			{
-				return;
-			}
-			// first line is instantiated at correct position
-	        if (_lines.Count == 1) {
-		        return;
-	        }
-			var currentLine = CurrentLine.GetComponent<RectTransform>();
-			var targetPos = CalculateLinePosition();
+        private void HandleLinePositioning() {
+            if (CurrentLine == null) {
+                return;
+            }
+            // first line is instantiated at correct position
+            if (_lines.Count == 1) {
+                return;
+            }
+            var currentLine = CurrentLine.GetComponent<RectTransform>();
+            var targetPos = CalculateLinePosition();
             currentLine.anchoredPosition = targetPos;
         }
 
-		// calculates final position for instantiated line
+        // calculates final position for instantiated line
         private Vector2 CalculateLinePosition() {
-			var vertOffset = (PenultimateLine.Height / 2)
-				+ (CurrentLine.Height / 2);
-			var penultimateVertPos = PenultimateLine.RectTransform.anchoredPosition.y;
-			var endVertPos = penultimateVertPos - vertOffset;
-	        var penultimateHorPos = PenultimateLine.RectTransform.anchoredPosition.x;
-			var newPos = new Vector2(penultimateHorPos, endVertPos);
+            var vertOffset = (PenultimateLine.Height/2)
+                             + (CurrentLine.Height/2);
+            var penultimateVertPos = PenultimateLine.RectTransform.anchoredPosition.y;
+            var endVertPos = penultimateVertPos - vertOffset;
+            var penultimateHorPos = PenultimateLine.RectTransform.anchoredPosition.x;
+            var newPos = new Vector2(penultimateHorPos, endVertPos);
             return newPos;
         }
 
-	    private string StripPrompt(string text) {
-		    if (text.Length <= _prompt.Length) {
-			    return string.Empty;
-		    }
-		    var commandString = text.Substring(_prompt.Length);
-		    return commandString;
-	    }
+        private string StripPrompt(string text) {
+            if (text.Length <= _prompt.Length) {
+                return string.Empty;
+            }
+            var commandString = text.Substring(_prompt.Length);
+            return commandString;
+        }
 
-	    private void SubscribeToValueChangedEvent() {
-		    if (CurrentLine == null) {
-			    return;
-		    }
-		    CurrentLine.onValueChanged.AddListener(InputField_OnValueChanged);
-	    }
+        private void SubscribeToValueChangedEvent() {
+            if (CurrentLine == null) {
+                return;
+            }
+            CurrentLine.onValueChanged.AddListener(InputField_OnValueChanged);
+        }
 
-	    private void SetPenultimateLineToReadOnly() {
-		    if (PenultimateLine == null) {
-			    return;
-		    }
-		    PenultimateLine.SetReadOnly();
-	    }
+        private void SetPenultimateLineToReadOnly() {
+            if (PenultimateLine == null) {
+                return;
+            }
+            PenultimateLine.SetReadOnly();
+        }
 
-	    private void UnsubscribeFromValueChangedEvent() {
-		    if (PenultimateLine == null) {
-			    return;
-		    }
-		    PenultimateLine.onValueChanged.RemoveAllListeners();
-	    }
+        private void UnsubscribeFromValueChangedEvent() {
+            if (PenultimateLine == null) {
+                return;
+            }
+            PenultimateLine.onValueChanged.RemoveAllListeners();
+        }
 
-	    #region EVENT INVOCATORS
+        #region EVENT INVOCATORS
 
         protected virtual void InvokeLineInstantiatedEvent(LineInstantiatedEventArgs args) {
             var handler = LineInstantiated;
@@ -185,8 +180,8 @@ namespace DevelopmentConsole.Core.LineManagerModule {
             var go = eventArgs.InstantiatedGo;
             var cmdLine = go.GetComponent<CommandLine>();
 
-	        _lines.Add(cmdLine);
-	        cmdLine.Init(_prompt, IgnoredChars);
+            _lines.Add(cmdLine);
+            cmdLine.Init(_prompt, IgnoredChars);
             HandleLinePositioning();
             SetPenultimateLineToReadOnly();
             RepositionLines();
@@ -194,19 +189,19 @@ namespace DevelopmentConsole.Core.LineManagerModule {
             SubscribeToValueChangedEvent();
         }
 
-	    private void InputField_OnValueChanged(string text) {
+        private void InputField_OnValueChanged(string text) {
             var commandString = StripPrompt(text);
             var args = new LineValueChangedEventArgs() {
-	            Value = commandString
-			};
+                Value = commandString
+            };
             InvokeLineValueChangedEvent(args);
         }
 
-	    #endregion
+        #endregion
 
-	    public void AddSpace() {
-		    var current = CurrentLine.GetCommandString();
-			CurrentLine.SetCommandString(current + " ");
-		}
-	}
+        public void AddSpace() {
+            var current = CurrentLine.GetCommandString();
+            CurrentLine.SetCommandString(current + " ");
+        }
+    }
 }

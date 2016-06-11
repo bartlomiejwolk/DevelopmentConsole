@@ -1,9 +1,7 @@
 ﻿using System.Collections.Generic;
 
 namespace DevelopmentConsole.Core {
-
     public class CommandHistory {
-
         private readonly List<string> _history = new List<string>();
         private int _commandNumber;
 
@@ -12,8 +10,10 @@ namespace DevelopmentConsole.Core {
         }
 
         private bool HasNextCommand {
-            get { return _history.Count > 0 &&
-                _commandNumber < _history.Count - 1; }
+            get {
+                return _history.Count > 0 &&
+                       _commandNumber < _history.Count - 1;
+            }
         }
 
         public void AddCommand(string cmd) {
