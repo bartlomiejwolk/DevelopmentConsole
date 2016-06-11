@@ -32,11 +32,10 @@ namespace DevelopmentConsole.Extensions.ValueExposerModule.Extensions.ValueVisua
         private RectTransform _rectTransform;
         private RectTransform RectTransform {
             get {
-                if (_rectTransform != null) {
-                    return _rectTransform;
+                if (_rectTransform == null) {
+                    _rectTransform = GetComponent<RectTransform>();
                 }
-                var rectTrans = GetComponent<RectTransform>();
-                return rectTrans;
+                return _rectTransform;
             }
         }
 
@@ -108,7 +107,6 @@ namespace DevelopmentConsole.Extensions.ValueExposerModule.Extensions.ValueVisua
             var valuePercentage = normalizedValue / normalizedMax;
 
             // calculate offset
-            // todo create Epsilon const
             var halfDotHeight = DotWidth/2;
             float resultOffset;
             // value is min. value
@@ -153,7 +151,6 @@ namespace DevelopmentConsole.Extensions.ValueExposerModule.Extensions.ValueVisua
             dotGo.transform.SetParent(transform, false);
             
             // fire event
-            // todo use RectTransform property
             var rectTrans = dotGo.GetComponent<RectTransform>();
             var args = new DotInstantiatedEventArgs() {
                 RectTransform = rectTrans
