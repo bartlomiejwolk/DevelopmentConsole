@@ -4,10 +4,8 @@ using System.Linq;
 using System.Reflection;
 
 namespace DevelopmentConsole.Core.CommandHandlerSystem {
-
     public sealed class CommandHandlerManager {
-
-        private static readonly CommandHandlerManager _instance 
+        private static readonly CommandHandlerManager _instance
             = new CommandHandlerManager();
 
         private readonly HashSet<Type> _handlerTypes = new HashSet<Type>();
@@ -34,7 +32,7 @@ namespace DevelopmentConsole.Core.CommandHandlerSystem {
         public List<string> GetCommandNames() {
             var keyList = new List<string>(_commandHandlers.Keys);
             return keyList;
-        } 
+        }
 
         private static List<string> SplitCommandString(string commandString) {
             var arguments = commandString.Split(null).ToList();
@@ -72,7 +70,7 @@ namespace DevelopmentConsole.Core.CommandHandlerSystem {
 
             foreach (var method in methods) {
                 var customAttributes = method.GetCustomAttributes(
-                    typeof (CommandHandlerAttribute), true);
+                    typeof(CommandHandlerAttribute), true);
                 if (customAttributes.Length <= 0) {
                     continue;
                 }
@@ -90,7 +88,6 @@ namespace DevelopmentConsole.Core.CommandHandlerSystem {
         private IEnumerable<MethodInfo> GetMethodsFromType(
             Type type,
             object obj) {
-
             MethodInfo[] methods;
             if (obj != null) {
                 methods = type.GetMethods(
@@ -115,7 +112,6 @@ namespace DevelopmentConsole.Core.CommandHandlerSystem {
             MethodInfo method,
             string commandName,
             string description) {
-
             if (string.IsNullOrEmpty(commandName)) {
                 commandName = method.Name;
             }

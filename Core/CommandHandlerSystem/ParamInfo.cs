@@ -2,9 +2,7 @@
 using System.Reflection;
 
 namespace DevelopmentConsole.Core.CommandHandlerSystem {
-    
     public struct ParamInfo {
-
         public Type Type;
         public object DefaultValue;
         public string Name;
@@ -16,7 +14,7 @@ namespace DevelopmentConsole.Core.CommandHandlerSystem {
             DefaultValue = paramInfo.DefaultValue;
             Name = paramInfo.Name;
             IsOptional = paramInfo.IsOptional;
-            var paramAttributes = paramInfo.GetCustomAttributes(typeof (ParamArrayAttribute), false);
+            var paramAttributes = paramInfo.GetCustomAttributes(typeof(ParamArrayAttribute), false);
             IsParamArray = paramAttributes.Length > 0;
         }
     }

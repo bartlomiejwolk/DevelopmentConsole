@@ -3,90 +3,91 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Assertions;
 using UnityEngine.UI;
+
 #pragma warning disable 649
 
 namespace DevelopmentConsole.Core.CodeCompletionModule {
-    
     public class CodeCompletion : MonoBehaviour {
-	    #region INSPECTOR
+        #region INSPECTOR
 
-	    [SerializeField]
+        [SerializeField]
         private GameObject _optionTemplate;
 
-	    [SerializeField]
-	    private Transform _container;
+        [SerializeField]
+        private Transform _container;
 
-	    [SerializeField]
-	    private readonly Color _highlightedColor = Color.red;
+        [SerializeField]
+        private readonly Color _highlightedColor = Color.red;
 
-	    #endregion
+        #endregion
 
-	    #region DELEGATES
+        #region DELEGATES
 
-	    public event EventHandler<SelectedOptionEventArgs> OptionSelected;
-	    private Action<GameObject, string> _optionCreated;
-	    private Action _tabKeyPressed;
-	    private Action _returnKeyPressed;
+        public event EventHandler<SelectedOptionEventArgs> OptionSelected;
+        private Action<GameObject, string> _optionCreated;
+        private Action _tabKeyPressed;
+        private Action _returnKeyPressed;
 
-	    #endregion
+        #endregion
 
-	    private readonly List<GameObject> _options = new List<GameObject>();
+        private readonly List<GameObject> _options = new List<GameObject>();
         private int _activeOptionIndex;
         private Color _inactiveOptionColor = Color.white;
-	    private readonly PositionCalculator _positionCalculator
-			= new PositionCalculator();
-	    private Text _target;
 
-	    #region PROPERTIES
+        private readonly PositionCalculator _positionCalculator
+            = new PositionCalculator();
 
-	    public float ContainerHeight {
-		    get {
-				Canvas.ForceUpdateCanvases();
-			    var rt = _container.GetComponent<RectTransform>();
-			    var height = rt.rect.height;
-			    return height;
-		    }    
-	    }
+        private Text _target;
 
-	    public bool IsOpen {
-		    get { return _options.Count > 0; }
-	    }
+        #region PROPERTIES
 
-	    private GameObject ActiveOption {
-		    get {
-			    if (_options.Count == 0)
-			    {
-				    return null;
-			    }
-			    return _options[_activeOptionIndex];
-		    }
-	    }
+        public float ContainerHeight {
+            get {
+                Canvas.ForceUpdateCanvases();
+                var rt = _container.GetComponent<RectTransform>();
+                var height = rt.rect.height;
+                return height;
+            }
+        }
 
-	    private Text CurrentOptionLabel {
-		    get {
-			    if (ActiveOption == null) {
-				    return null;
-			    }
-			    var textCo = ActiveOption.GetComponentInChildren<Text>();
-			    return textCo;
-		    }
-	    }
+        public bool IsOpen {
+            get { return _options.Count > 0; }
+        }
 
-	    private int PreviousOptionIndex {
-		    get {
-			    int result;
-			    if (_activeOptionIndex > 0) {
-				    result = _activeOptionIndex - 1;
-				    return result;
-			    }
-			    result = _options.Count - 1;
-			    return result;
-		    }
-	    }
+        private GameObject ActiveOption {
+            get {
+                if (_options.Count == 0) {
+                    return null;
+                }
+                return _options[_activeOptionIndex];
+            }
+        }
 
-	    #endregion
+        private Text CurrentOptionLabel {
+            get {
+                if (ActiveOption == null) {
+                    return null;
+                }
+                var textCo = ActiveOption.GetComponentInChildren<Text>();
+                return textCo;
+            }
+        }
 
-	    #region UNITY MESSAGES
+        private int PreviousOptionIndex {
+            get {
+                int result;
+                if (_activeOptionIndex > 0) {
+                    result = _activeOptionIndex - 1;
+                    return result;
+                }
+                result = _options.Count - 1;
+                return result;
+            }
+        }
+
+        #endregion
+
+        #region UNITY MESSAGES
 
         private void Awake() {
             Assert.IsNotNull(_optionTemplate);
@@ -107,75 +108,75 @@ namespace DevelopmentConsole.Core.CodeCompletionModule {
 
         #endregion
 
-	    public void DisplayOptions(List<string> options, Text target) {
-		    _target = target;
-		    ClearResults();
-		    if (options == null) {
-			    return;
-		    }
-		    foreach (var option in options) {
-			    CreateOption(option);
-		    }
-		    PositionOnScreen();
-	    }
+        public void DisplayOptions(List<string> options, Text target) {
+            _target = target;
+            ClearResults();
+            if (options == null) {
+                return;
+            }
+            foreach (var option in options) {
+                CreateOption(option);
+            }
+            PositionOnScreen();
+        }
 
-	    public void ClearResults() {
-		    foreach (var child in _container) {
-			    var childTransform = (Transform) child;
-			    Destroy(childTransform.gameObject);
-		    }
-		    _activeOptionIndex = 0;
-		    _options.Clear();
-	    }
+        public void ClearResults() {
+            foreach (var child in _container) {
+                var childTransform = (Transform) child;
+                Destroy(childTransform.gameObject);
+            }
+            _activeOptionIndex = 0;
+            _options.Clear();
+        }
 
-	    private void CreateOption(string option) {
-		    var optionGo = Instantiate(_optionTemplate);
-		    optionGo.transform.SetParent(_container);
-		    optionGo.SetActive(true);
+        private void CreateOption(string option) {
+            var optionGo = Instantiate(_optionTemplate);
+            optionGo.transform.SetParent(_container);
+            optionGo.SetActive(true);
 
-		    _optionCreated(optionGo, option);
-	    }
+            _optionCreated(optionGo, option);
+        }
 
-	    private void PositionOnScreen() {
-		    var position = _positionCalculator.CalculatePosition(
-			    _target,
-			    ContainerHeight);
-		    _container.transform.position = position;
-	    }
+        private void PositionOnScreen() {
+            var position = _positionCalculator.CalculatePosition(
+                _target,
+                ContainerHeight);
+            _container.transform.position = position;
+        }
 
-	    private void HandleInput() {
-		    if (Input.GetKeyDown(KeyCode.Tab)) {
-			    _tabKeyPressed();
-		    }
-		    if (Input.GetKeyDown(KeyCode.Return)) {
-			    _returnKeyPressed();
-		    }
-	    }
+        private void HandleInput() {
+            if (Input.GetKeyDown(KeyCode.Tab)) {
+                _tabKeyPressed();
+            }
+            if (Input.GetKeyDown(KeyCode.Return)) {
+                _returnKeyPressed();
+            }
+        }
 
-	    private void CacheOptionBgColor() {
+        private void CacheOptionBgColor() {
             var imageCo = _optionTemplate.GetComponent<Image>();
             _inactiveOptionColor = imageCo.color;
         }
 
-	    private void HighlightOption(int index) {
-		    if (_options.Count == 0) {
-			    return;
-		    }
-		    var option = _options[index];
-		    var imageCo = option.GetComponent<Image>();
-		    imageCo.color = _highlightedColor;
-	    }
+        private void HighlightOption(int index) {
+            if (_options.Count == 0) {
+                return;
+            }
+            var option = _options[index];
+            var imageCo = option.GetComponent<Image>();
+            imageCo.color = _highlightedColor;
+        }
 
-	    private void UnhighlightOption(int index) {
-		    if (_options.Count <= 1) {
-			    return;
-		    }
-		    var option = _options[index];
-		    var imageCo = option.GetComponent<Image>();
-		    imageCo.color = _inactiveOptionColor;
-	    }
+        private void UnhighlightOption(int index) {
+            if (_options.Count <= 1) {
+                return;
+            }
+            var option = _options[index];
+            var imageCo = option.GetComponent<Image>();
+            imageCo.color = _inactiveOptionColor;
+        }
 
-	    #region INPUT HANDLERS
+        #region INPUT HANDLERS
 
         private void OnTabKeyPressed() {
             if (_activeOptionIndex < _options.Count - 1) {
@@ -193,24 +194,24 @@ namespace DevelopmentConsole.Core.CodeCompletionModule {
                 return;
             }
             var args = new SelectedOptionEventArgs() {
-	            Option = CurrentOptionLabel.text
-			};
+                Option = CurrentOptionLabel.text
+            };
             InvokeOptionSelectedEvent(args);
             ClearResults();
         }
 
         #endregion
 
-	    #region EVENT INVOCATORS
+        #region EVENT INVOCATORS
 
-	    protected virtual void InvokeOptionSelectedEvent(SelectedOptionEventArgs e) {
-		    var handler = OptionSelected;
-		    if (handler != null) handler(this, e);
-	    }
+        protected virtual void InvokeOptionSelectedEvent(SelectedOptionEventArgs e) {
+            var handler = OptionSelected;
+            if (handler != null) handler(this, e);
+        }
 
-	    #endregion
+        #endregion
 
-	    #region EVENT HANDLERS
+        #region EVENT HANDLERS
 
         private void OnOptionCreated(GameObject option, string text) {
             _options.Add(option);

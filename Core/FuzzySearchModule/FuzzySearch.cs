@@ -1,9 +1,7 @@
 ﻿using System.Collections.Generic;
 
 namespace DevelopmentConsole.Core.FuzzySearchModule {
-
-	public class FuzzySearch {
-
+    public class FuzzySearch {
         public List<Match> MatchResultSet(List<string> resultSet, string query) {
             if (query == string.Empty) {
                 return null;
