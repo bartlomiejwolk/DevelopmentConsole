@@ -16,10 +16,14 @@ public class ValueExposer_Test : MonoBehaviour {
 
 	void Start () {
 	    ExposedValueManager.Instance.RegisterValue("deltaTime", "cat 1", () => Time.timeSinceLevelLoad % 0.5f);
+        ExposedValueManager.Instance.RegisterValue("other", "cat 1", () => Time.timeSinceLevelLoad % 0.9f);
+
         _valueExposer.ShowValue("deltaTime");
-	}
-	
-	void Update () {
+        _valueExposer.ShowValue("other");
+
+    }
+
+    void Update () {
 	
 	}
 }

@@ -103,6 +103,7 @@ namespace DevelopmentConsole.Extensions.ValueExposerModule.Extensions.ValueVisua
             go.transform.position = position;
             
             var args = new GraphDrawerInstantiatedEventArgs() {
+                ValueName = valueGraph.ValueName,
                 Go = go
             };
             InvokeGraphDrawerInstantiatedEvent(args);
@@ -125,7 +126,7 @@ namespace DevelopmentConsole.Extensions.ValueExposerModule.Extensions.ValueVisua
             object sender,
             GraphDrawerInstantiatedEventArgs args) {
 
-            var graphInfo = _graphManager.ValueGraphs.Last();
+            var graphInfo = _graphManager.GetGraphByName(args.ValueName);
             graphInfo.Go = args.Go;
             // adjust size
             graphInfo.RectTransform.sizeDelta = graphInfo.Size;
