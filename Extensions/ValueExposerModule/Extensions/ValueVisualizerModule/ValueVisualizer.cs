@@ -72,16 +72,14 @@ namespace DevelopmentConsole.Extensions.ValueExposerModule.Extensions.ValueVisua
             return valueGraph;
         }
 
-        // todo rename to EnableDrawing
-        public void VisualizeValue(string valueName) {
+        public void EnableDrawing(string valueName) {
             var graphInfo = _graphManager.GetGraphByName(valueName);
             if (graphInfo != null) {
                 graphInfo.Enable(true);
             }
         }
 
-        // todo rename to DisableDrawing
-        public void StopVisualizingValue(string valueName) {
+        public void DisableDrawing(string valueName) {
             throw new NotImplementedException();
         }
 
