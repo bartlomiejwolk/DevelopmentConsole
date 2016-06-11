@@ -37,7 +37,7 @@ namespace DevelopmentConsole.Extensions.ValueExposerModule.Extensions {
         }
 
         private void DrawGraph(string valueName) {
-            var valueDelegate = _exposedValueManager.GetSourceCallback(
+            var valueDelegate = _exposedValueManager.GetValueDelegate(
                 valueName);
             var graphPos = _exposedValueManager.GetBottomRightCornerPosition(
                 valueName);

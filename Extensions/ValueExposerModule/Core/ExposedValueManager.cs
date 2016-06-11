@@ -34,8 +34,7 @@ namespace DevelopmentConsole.Extensions.ValueExposerModule.Core {
             _exposedValues.Add(customName, valueSource);
         }
 
-        // todo rename to GetValueDelegate
-        public Func<object> GetSourceCallback(string sourceName) {
+        public Func<object> GetValueDelegate(string sourceName) {
             ExposedValue exposedValue;
             _exposedValues.TryGetValue(sourceName, out exposedValue);
             if (exposedValue == null || exposedValue.Callback == null) {
@@ -46,7 +45,7 @@ namespace DevelopmentConsole.Extensions.ValueExposerModule.Core {
         }
 
         public object GetSourceValue(string sourceName) {
-            var callback = GetSourceCallback(sourceName);
+            var callback = GetValueDelegate(sourceName);
             object value = null;
             if (callback != null) {
                 value = callback();
