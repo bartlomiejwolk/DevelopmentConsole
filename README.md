@@ -29,6 +29,8 @@ Licensed under MIT license. See LICENSE file in the project root folder.
 5. Run the game and open console wity the back quote button (tilde)
 6. Type command name (same as the registered method name but lowercase) and press Enter to execute.
 
+You can also open *DevelopmentConsole/Examples/Test.unity* scene, press play and open command line console (with tilde key) to check how it works. Check the video for example commands.
+
 ## Help
 
 Just create an issue and I'll do my best to help.
