@@ -15,7 +15,6 @@ Licensed under MIT license. See LICENSE file in the project root folder.
 
 ## Resources
 
-* [Blog post]()
 * [FPS graph (video)](https://goo.gl/photos/MjjTNWkosQeZHL217)
 * [Command line (video)](https://youtu.be/-Jqn67aOXt0)
 
