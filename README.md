@@ -10,8 +10,8 @@ Licensed under MIT license. See LICENSE file in the project root folder.
 
 ## Features
 
-* Fast
-* Allows to execute any method
+* Visualize any value on a graph
+* Execute any method with command line
 
 ## Resources
 
