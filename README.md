@@ -1,6 +1,6 @@
 # DevelopmentConsole
 
-WIP
+WIP (likely never to be finished)
 
 *DevelopmentConsole* extension for Unity. It's a run-time console (Quake like) that allows you execute predefined commands inside the game. You can execute any method or property that has specified a `[CommandHandler]` attribute.
 
