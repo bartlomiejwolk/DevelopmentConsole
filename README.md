@@ -16,6 +16,7 @@ Licensed under MIT license. See LICENSE file in the project root folder.
 ## Resources
 
 * [Blog post]()
+* [Video](https://goo.gl/photos/MjjTNWkosQeZHL217)
 
 ## Quick Start
 
