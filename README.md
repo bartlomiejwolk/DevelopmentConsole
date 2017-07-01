@@ -21,7 +21,7 @@ Licensed under MIT license. See LICENSE file in the project root folder.
 ## Quick Start
 
 1. Clone or download (with the *Download* button) the repository into the *Assets* folder.
-2. Select game object in the hierarchy window and add the *DevelopmentConsole* component.
+2. Drag *DevelopmentConsole* prefab from *DevelopmentConsole/Core/* onto the scene.
 4. Register any void method in your code by attaching a `[CommandHandler]` attribute to it. To make
   the method registered, you must also call `CommandHandlerManager.RegisterCommandHandlers(typeof(<className>), this);`
   in the same class (for eg. in _Awake()_)
